@@ -7,6 +7,7 @@
 - Adiciona confirmação acessível, bloqueio durante o reset e anúncio de resultado.
 - Publica matriz de evidências, limites conhecidos e instruções de atualização.
 - Preserva os dados do IndexedDB durante a atualização da aplicação.
+- Revisa a copy nos três idiomas sem alterar a versão, corrigindo títulos de rota, traduções literais, terminologia e mensagens de recuperação.
 
 ## 0.23.0 — Fase 23
 

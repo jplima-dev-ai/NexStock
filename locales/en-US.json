@@ -43,7 +43,7 @@
     "introTitle": "Let's prepare NexStock for your business",
     "introDescription": "You will choose a profile, name the workspace, and review everything before saving data in this browser.",
     "profileTitle": "Choose your inventory profile",
-    "profileDescription": "Every profile uses the same core. Specialized fields, modules, and rules are what change.",
+    "profileDescription": "All profiles share the same core. Fields, modules, and rules adapt to each type of inventory.",
     "profileLegend": "Available profiles",
     "customizableModules": "Modules selected by you",
     "modulesSummary": "Modules: {modules}.",
@@ -156,7 +156,7 @@
   "tour": {
     "promise": "Understand NexStock's value without entering any data.",
     "overviewTitle": "A complete reading, not just a count",
-    "overviewMessage": "NexStock turns inventory data into priorities, explanations, and safe simulations. The examples below represent what an already configured operation can reveal.",
+    "overviewMessage": "NexStock turns inventory data into priorities, explanations, and safe simulations. These examples show what it reveals after inventory setup.",
     "stepsTitle": "What you can do", "stepLabel": "Step {current} of {total}",
     "start": "Try it with demo data", "back": "Back to welcome",
     "steps": {
@@ -170,7 +170,7 @@
   },
   "settingsCore": {
     "resetTitle": "Restore demo data",
-    "resetDescription": "Removes only the active workspace data and recreates the profile seed. Other workspaces and the complete database are not deleted.",
+    "resetDescription": "Removes only the active workspace data and recreates the profile's initial data. Other workspaces and the complete database are preserved.",
     "resetAction": "Restore workspace",
     "confirmTitle": "Restore this workspace data?",
     "confirmMessage": "Products, movements, and history in this workspace will be replaced with the initial demo data. This action cannot be undone.",
@@ -196,7 +196,7 @@
     "loadError": "Products could not be loaded.", "saveError": "Review the fields. The product was not saved.", "notFound": "Product not found in this workspace.", "saved": "Product saved successfully.", "archived": "Product archived successfully."
   },
   "dashboardCore": {
-    "loading": "Analyzing your inventory…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to track inventory health.", "emptyTitle": "Your dashboard is ready for data", "emptyMessage": "Create the first product so NexPulse can explain the inventory situation.", "loadError": "The dashboard could not be calculated right now.",
+    "loading": "Analyzing your inventory…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to track inventory health.", "emptyTitle": "Your dashboard is ready for data", "emptyMessage": "Create the first product so NexPulse can explain the inventory situation.", "loadError": "The dashboard could not be updated. Try again.",
     "contextTitle": "Overview of {workspace}", "contextMessage": "The situation is explained in text and ordered by urgency, without depending on charts.",
     "pulse": {
       "title": "NexPulse", "question": "How is my inventory?", "out": "There are {count} out-of-stock products. Replenishment is the main priority.", "critical": "There are {count} products at a critical level. Plan replenishment before new withdrawals.", "attention": "There are {count} products needing attention. Inventory is operating, but should be monitored.", "stopped": "Minimum stock is protected, but {count} products have been idle for at least 30 days.", "healthy": "All active products are above minimum and no priorities were detected.", "score": "Supporting score: {score} out of 100.", "forecastPending": "There are not enough withdrawals to calculate a forecast; its weight was redistributed across available dimensions.", "forecastActive": "The forecast dimension uses {calculated} of {total} products with measurable consumption.",
@@ -225,7 +225,7 @@
     "past": "Past", "pastDescription": "Reconstructed exclusively from recorded movements.", "present": "Present", "presentDescription": "Current state stored in the product.", "future": "Future", "futureDescription": "Estimate, not certainty.", "events": "Recorded events", "maximum": "Historical maximum", "minimum": "Historical minimum", "quantity": "Current quantity", "minimumStock": "Minimum stock", "status": "Current status", "futureAvailable": "Estimate: if the recent rate continues, coverage may last approximately {days} days.", "futureUnavailable": "Estimate unavailable: there are not enough recent withdrawals to calculate coverage."
   },
   "insightCore": {
-    "loading": "Calculating insights…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to generate inventory insights.", "emptyTitle": "There are no products to analyze yet", "emptyMessage": "Create a product to start inventory memory and forecasts.", "loadError": "Insights could not be calculated right now.",
+    "loading": "Calculating insights…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to generate inventory insights.", "emptyTitle": "There are no products to analyze yet", "emptyMessage": "Create a product to start inventory memory and forecasts.", "loadError": "Insights could not be updated. Try again.",
     "estimateTitle": "Estimates, not certainties", "estimateMessage": "Forecasts use only withdrawals recorded in the last 30 days. Confidence and limitations accompany every result.", "forecastTitle": "Coverage forecast", "estimateNotice": "Estimate based on the recent withdrawal rate.", "forecastAvailable": "If the recent rate continues, the current quantity may last approximately {days} days.", "forecastUnavailable": "There are no withdrawals in the last 30 days to calculate a forecast.",
     "confidence": { "low": "Low confidence: there are fewer than five relevant events.", "medium": "Medium confidence: useful data exists, but volume or history is still limited.", "high": "High confidence: there are at least fifteen events over fourteen days or more. This remains an estimate." },
     "explain": { "title": "How did we calculate this?", "dataTitle": "Data used", "window": "Analysis window", "currentQuantity": "Current quantity", "totalOut": "Total withdrawals", "events": "Withdrawal events", "history": "History period", "calculationTitle": "Calculation", "averageFormula": "Daily average: {total} units divided by 30 days, result {average}.", "daysFormula": "Coverage: {quantity} units divided by the daily average of {average}, approximate result {days} days.", "unavailableFormula": "With no withdrawals in the period, the daily average is zero and coverage division cannot be calculated.", "limitationsTitle": "Limitations" },
@@ -261,10 +261,10 @@
     "onboarding": { "title": "Initial setup", "description": "Assisted creation of the local workspace." },
     "dashboard": { "title": "Dashboard", "description": "Inventory status, priorities, and next steps." },
     "products": { "title": "Products", "description": "Product listing, search, and management." },
-    "productNew": { "title": "New product", "description": "Accessible registration of a new product." },
+    "productNew": { "title": "New product", "description": "Add a product with clear field validation." },
     "productEdit": { "title": "Edit product", "description": "Edit product information." },
     "productDetail": { "title": "Product details", "description": "Identity, inventory, history, and insights." },
-    "movements": { "title": "Movements", "description": "Inventory entries, withdrawals, and adjustments." },
+    "movements": { "title": "Stock movements", "description": "Record inventory received, removed, or adjusted." },
     "radar": { "title": "Radar", "description": "Priorities that need attention." },
     "insights": { "title": "Insights", "description": "Reproducible explanations about your inventory." },
     "timeMachine": { "title": "Time Machine", "description": "Past, present, and future estimates." },
@@ -272,7 +272,7 @@
     "kits": { "title": "Kits", "description": "Kit composition and availability." },
     "about": { "title": "About", "description": "NexStock identity, purpose, and information." },
     "settings": { "title": "Settings", "description": "Local workspace preferences." },
-    "profiles": { "title": "Profiles", "description": "Adapt NexStock to the type of business." },
+    "profiles": { "title": "Custom fields", "description": "Create and manage information specific to your inventory." },
     "security": { "title": "Security center", "description": "Verifiable facts about protection and integrity." },
     "shieldTest": { "title": "NexShield test", "description": "Isolated validation of integrity rules." }
   }

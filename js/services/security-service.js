@@ -17,12 +17,13 @@ export function runShieldTests() {
 }
 
 export function getSecurityFacts({ appVersion, online = true, provider = "IndexedDBProvider", database = "nexstock-db" } = {}) {
+  const remoteDatabase = /supabase|postgres/iu.test(`${provider} ${database}`);
   return Object.freeze({
     provider,
     mode: "local-first",
     database,
-    integrity: "NexShield domain validation and IndexedDB unique constraints",
-    history: "AuditLog and logical archiving",
+    integrity: remoteDatabase ? "nexshield-postgresql" : "nexshield-indexeddb",
+    history: "audit-log-archive",
     version: String(appVersion ?? "unknown"),
     connection: online ? "online" : "offline",
   });

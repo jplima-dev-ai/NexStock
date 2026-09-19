@@ -118,6 +118,7 @@
   },
   "nav": {
     "welcome": "Bienvenida",
+    "tour": "Visita guiada",
     "dashboard": "Panel",
     "products": "Productos",
     "movements": "Movimientos",
@@ -144,12 +145,39 @@
     "substituteTitle": "Smart Substitute", "substituteFound": "Tal vez tengas una alternativa: {product}.", "substituteUnknown": "No se registró ninguna alternativa explícita."
   },
   "commandPalette": { "open": "Abrir comandos", "title": "Paleta de comandos", "description": "Busca productos o ejecuta una acción sin quitar las manos del teclado.", "search": "Buscar comandos y productos", "help": "Usa las flechas para navegar, Enter para ejecutar y Escape para cerrar.", "close": "Cerrar comandos", "empty": "Ningún comando o producto coincide con la búsqueda.", "resultCount": "Resultados disponibles: {count}.", "actions": { "newProduct": "Producto nuevo", "search": "Buscar productos", "entry": "Registrar entrada", "output": "Registrar salida", "critical": "Ver productos críticos", "scenario": "Abrir Scenario Lab", "timeMachine": "Abrir Time Machine", "language": "Cambiar idioma", "theme": "Alternar tema" } },
-  "securityCenter": { "honestTitle": "Seguridad basada en hechos", "honestMessage": "Este centro describe controles implementados y no promete seguridad absoluta.", "openTests": "Abrir modo de prueba de NexShield", "facts": { "provider": "Proveedor de datos", "mode": "Modo de operación", "database": "Base de datos", "integrity": "Integridad", "history": "Historial", "version": "Versión", "connection": "Conexión" }, "values": { "local-first": "Prioridad local", "online": "Conectado", "offline": "Sin conexión" } },
+  "securityCenter": { "honestTitle": "Seguridad basada en hechos", "honestMessage": "Este centro describe controles implementados y no promete seguridad absoluta.", "openTests": "Abrir modo de prueba de NexShield", "facts": { "provider": "Proveedor de datos", "mode": "Modo de operación", "database": "Base de datos", "integrity": "Integridad", "history": "Historial", "version": "Versión", "connection": "Conexión" }, "values": { "local-first": "Prioridad local", "online": "Conectado", "offline": "Sin conexión", "nexshield-indexeddb": "Validación de dominio NexShield y restricciones únicas de IndexedDB", "nexshield-postgresql": "Validación de dominio NexShield y restricciones de PostgreSQL", "audit-log-archive": "Registro de auditoría y archivado lógico" } },
   "shieldTest": { "run": "Ejecutar pruebas aisladas", "warningTitle": "Entorno desechable", "warningMessage": "Las pruebas usan valores locales en memoria y no cambian el espacio real.", "passedTitle": "Todas las pruebas pasaron", "passedMessage": "Las cinco protecciones rechazaron o neutralizaron las entradas adversas previstas.", "failedTitle": "Una protección falló", "failedMessage": "Revisa los resultados antes de continuar.", "isolated": "Ejecución aislada confirmada: no se escribieron datos reales.", "tests": { "negativeStock": { "passed": "Stock negativo: bloqueado.", "failed": "Stock negativo: aceptado indebidamente." }, "duplicateNexCode": { "passed": "NexCode duplicado: detectado.", "failed": "NexCode duplicado: no detectado." }, "duplicateSerial": { "passed": "Serial duplicado: detectado.", "failed": "Serial duplicado: no detectado." }, "html": { "passed": "HTML no confiable: tratado como texto.", "failed": "HTML no confiable: interpretación insegura." }, "dangerousUrl": { "passed": "URL peligrosa: bloqueada.", "failed": "URL peligrosa: aceptada." } } },
   "welcome": {
     "intro": "Empieza con una visión clara de lo que tienes, lo que cambió y lo que necesita tu atención.",
     "configure": "Configurar mi inventario",
+    "tour": "Conocer en seis pasos",
     "about": "Conocer NexStock"
+  },
+  "tour": {
+    "promise": "Comprende el valor de NexStock sin registrar ningún dato.",
+    "overviewTitle": "Una lectura completa, no solo un conteo",
+    "overviewMessage": "NexStock transforma los datos del inventario en prioridades, explicaciones y simulaciones seguras. Los ejemplos siguientes representan lo que puede revelar una operación ya configurada.",
+    "stepsTitle": "Lo que puedes hacer", "stepLabel": "Paso {current} de {total}",
+    "start": "Probar con datos de demostración", "back": "Volver a la bienvenida",
+    "steps": {
+      "pulse": { "title": "NexPulse", "description": "Resume la salud del inventario en lenguaje directo y organiza las prioridades por urgencia.", "example": "Ejemplo: dos productos críticos y una reposición prioritaria." },
+      "products": { "title": "Productos y NexCode", "description": "Reúne registro, búsqueda, filtros, archivado y códigos secuenciales sin perder el historial.", "example": "Ejemplo: Quantum SSD, código NX-SSD-0002, cinco unidades." },
+      "insight": { "title": "Insights explicables", "description": "Estima cobertura y confianza mostrando datos, cálculos y limitaciones, sin inventar previsiones.", "example": "Ejemplo: cobertura estimada de quince días, con confianza media." },
+      "scenario": { "title": "Scenario Lab", "description": "Simula entradas, salidas y cambios en el mínimo sin alterar el inventario real.", "example": "Ejemplo: una salida de tres unidades cambiaría el estado a crítico." },
+      "profiles": { "title": "Perfiles adaptables", "description": "El mismo núcleo atiende tecnología, cosméticos, moda, alimentos y operaciones personalizadas.", "example": "Ejemplo: números de serie en tecnología y caducidad en alimentos." },
+      "shield": { "title": "NexShield y PWA", "description": "Protege reglas de dominio, mantiene auditoría y permite uso local, instalable y resistente a la conexión.", "example": "Ejemplo: se bloquean el inventario negativo, los códigos duplicados y las URL peligrosas." }
+    }
+  },
+  "settingsCore": {
+    "resetTitle": "Restaurar datos de demostración",
+    "resetDescription": "Elimina solo los datos del espacio de trabajo activo y recrea los datos iniciales del perfil. No borra otros espacios ni la base completa.",
+    "resetAction": "Restaurar espacio de trabajo",
+    "confirmTitle": "¿Restaurar los datos de este espacio?",
+    "confirmMessage": "Los productos, movimientos y el historial de este espacio se reemplazarán con los datos iniciales de demostración. Esta acción no se puede deshacer.",
+    "confirmAction": "Confirmar restauración", "cancel": "Cancelar",
+    "workspaceRequired": "Crea un espacio de trabajo antes de usar la restauración.",
+    "resetSuccess": "Espacio de trabajo restaurado correctamente.",
+    "resetError": "No se pudo completar la restauración. Recarga la página y confirma el estado antes de intentarlo de nuevo."
   },
   "institutional": {
     "onboardingStatus": "La configuración guiada crea un espacio de trabajo local y accesible, paso a paso.",
@@ -229,6 +257,7 @@
   },
   "routes": {
     "welcome": { "title": "Bienvenida", "description": "Elección guiada y presentación de NexStock." },
+    "tour": { "title": "Visita guiada", "description": "Seis pasos para comprender el valor de NexStock antes de configurarlo." },
     "onboarding": { "title": "Configuración inicial", "description": "Creación asistida del espacio de trabajo local." },
     "dashboard": { "title": "Panel", "description": "Situación, prioridades y próximos pasos del inventario." },
     "products": { "title": "Productos", "description": "Lista, búsqueda y gestión de productos." },

@@ -106,6 +106,11 @@ for (const [locale, catalog] of catalogs) {
   }
 }
 
+for (const [key, message] of flattenCatalog(catalogs.get("pt-BR"))) {
+  const visibleMessage = message.replaceAll(/\{[a-zA-Z][\w]*\}/gu, "");
+  if (/\bworkspace\b/iu.test(visibleMessage)) throw new Error(`pt-BR: termo não traduzido em ${key}.`);
+}
+
 const routeView = readFileSync(join(ROOT, "js/views/route-view.js"), "utf8");
 if (!routeView.includes('locale === "pt-BR"') || !routeView.includes('return "hero"')) {
   throw new Error("A Brand Scene precisa estar limitada ao locale pt-BR.");

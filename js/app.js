@@ -129,6 +129,20 @@ function renderRoute(definition, { moveFocus = true } = {}) {
     onCriticalOperationChange: (criticalOperation) => {
       store.setState({ pwa: { ...store.getState().pwa, criticalOperation } });
     },
+    onResetWorkspace: async () => {
+      store.setState({ pwa: { ...store.getState().pwa, criticalOperation: true } });
+      try {
+        const workspace = await workspaceService.resetActiveWorkspace();
+        if (!workspace) throw new Error("No active workspace.");
+        store.setState({ workspace, pwa: { ...store.getState().pwa, criticalOperation: false } });
+        eventBus.emit("workspace:reset", { workspaceId: workspace.id });
+        toastManager.show({ message: i18n.t("settingsCore.resetSuccess"), tone: "success" });
+        window.location.hash = "#/dashboard";
+      } catch (error) {
+        store.setState({ pwa: { ...store.getState().pwa, criticalOperation: false } });
+        throw error;
+      }
+    },
     onProductSaved: (product) => {
       toastManager.show({ message: i18n.t("productCore.saved"), tone: "success" });
       window.location.hash = `#/products/${encodeURIComponent(product.id)}`;
@@ -298,6 +312,7 @@ async function bootstrap() {
     try {
       await i18n.setLocale(event.target.value);
       store.setState({ locale: i18n.locale });
+      toastManager.clear();
       applyShellTranslations();
       pwaStatus.renderConnection(store.getState().connection);
       if (store.getState().pwa.updateAvailable) pwaStatus.showUpdate();

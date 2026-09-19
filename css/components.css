@@ -863,3 +863,37 @@ textarea.ns-field__control {
 .insight-explanation[open] summary {
   margin-block-end: var(--ns-space-3);
 }
+.tour-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 22rem);
+  gap: var(--ns-space-6);
+  align-items: center;
+}
+
+.tour-hero img {
+  width: 100%;
+  max-height: 24rem;
+  object-fit: contain;
+}
+
+.tour-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--ns-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.tour-step {
+  padding: var(--ns-space-6);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-large);
+  background: var(--ns-color-surface);
+}
+
+.tour-step__example { font-weight: 600; }
+
+@media (max-width: 48rem) {
+  .tour-hero { grid-template-columns: 1fr; }
+  .tour-hero img { max-height: 18rem; }
+}

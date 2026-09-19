@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.0.0 — Release estável
+
+- Aprova os 35 critérios de release definidos no blueprint v1.1.
+- Expõe o reset seguro do espaço de trabalho na rota Configurações.
+- Adiciona confirmação acessível, bloqueio durante o reset e anúncio de resultado.
+- Publica matriz de evidências, limites conhecidos e instruções de atualização.
+- Preserva os dados do IndexedDB durante a atualização da aplicação.
+
+## 0.23.0 — Fase 23
+
+- Adiciona Demo Tour público, acessível e multilíngue em seis etapas.
+- Permite compreender o valor do produto sem cadastrar dados manualmente.
+- Finaliza o README profissional na ordem definida pelo blueprint.
+- Adiciona screenshots reais e descrições textuais equivalentes.
+- Publica guias de início, acessibilidade, segurança e testes.
+- Adiciona gate automatizado específico para o portfólio.
+
+## 0.22.1 — Correções pós-publicação
+
+- Corrige termos não traduzidos na interface em português.
+- Remove notificações no idioma anterior ao trocar a localização ativa.
+- Localiza os fatos de integridade e auditoria exibidos na Central de Segurança.
+- Distingue corretamente as garantias de integridade do IndexedDB e do PostgreSQL.
+- Adiciona regressões automatizadas para as correções encontradas na página publicada.
+
 ## 0.22.0 — Fase 22
 
 - Adiciona CI/CD oficial para validação e publicação no GitHub Pages.

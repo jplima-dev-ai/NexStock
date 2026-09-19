@@ -14,7 +14,7 @@ test("normaliza barras sem quebrar subdiretórios de hospedagem", () => {
 
 test("resolve todas as rotas estáticas exigidas pelo blueprint", () => {
   const expected = [
-    "/welcome", "/onboarding", "/dashboard", "/products", "/products/new",
+    "/welcome", "/tour", "/onboarding", "/dashboard", "/products", "/products/new",
     "/movements", "/radar", "/insights", "/time-machine", "/scenario",
     "/kits", "/about", "/settings", "/settings/profiles",
     "/settings/security", "/shield-test",

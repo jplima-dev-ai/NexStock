@@ -31,7 +31,11 @@ test("Shield Test Mode não recebe nem acessa DataProvider", () => {
 test("Security Center relata somente fatos configurados", () => {
   assert.deepEqual(getSecurityFacts({ appVersion: "0.16.0", online: false }), {
     provider: "IndexedDBProvider", mode: "local-first", database: "nexstock-db",
-    integrity: "NexShield domain validation and IndexedDB unique constraints",
-    history: "AuditLog and logical archiving", version: "0.16.0", connection: "offline",
+    integrity: "nexshield-indexeddb",
+    history: "audit-log-archive", version: "0.16.0", connection: "offline",
   });
+});
+
+test("Security Center descreve as restrições do provider remoto", () => {
+  assert.equal(getSecurityFacts({ provider: "SupabaseProvider", database: "PostgreSQL" }).integrity, "nexshield-postgresql");
 });

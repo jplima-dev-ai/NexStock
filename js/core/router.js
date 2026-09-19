@@ -2,6 +2,7 @@ import { APP_CONFIG } from "./config.js";
 
 export const ROUTES = Object.freeze([
   { pattern: "/welcome", messageKey: "welcome" },
+  { pattern: "/tour", messageKey: "tour" },
   { pattern: "/onboarding", messageKey: "onboarding" },
   { pattern: "/dashboard", messageKey: "dashboard" },
   { pattern: "/products", messageKey: "products" },

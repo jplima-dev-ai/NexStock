@@ -7,6 +7,11 @@ export function normalizeFeedbackTone(tone = "info") {
   return tone;
 }
 
+export function clearFeedbackLayer(layer) {
+  if (!layer) throw new TypeError("Feedback layer is required.");
+  layer.replaceChildren();
+}
+
 export function createAlert({ title, message, tone = "info", urgent = false } = {}) {
   if (!message) throw new TypeError("Alert requires a message.");
   const safeTone = normalizeFeedbackTone(tone);
@@ -28,6 +33,9 @@ export function createAlert({ title, message, tone = "info", urgent = false } = 
 export function createToastManager(layer, { getCloseLabel = () => "Close" } = {}) {
   if (!layer) throw new TypeError("Toast manager requires a layer element.");
   return Object.freeze({
+    clear() {
+      clearFeedbackLayer(layer);
+    },
     show({ message, tone = "info" } = {}) {
       if (!message) throw new TypeError("Toast requires a message.");
       const safeTone = normalizeFeedbackTone(tone);

@@ -43,7 +43,7 @@ test("serve a aplicação e seus módulos em um subdiretório", async (context) 
   assert.equal(manifestResponse.status, 200);
   assert.equal((await manifestResponse.json()).display, "standalone");
   assert.equal(workerResponse.status, 200);
-  assert.match(await workerResponse.text(), /nexstock-shell-v0\.22\.0/u);
+  assert.match(await workerResponse.text(), /nexstock-shell-v1\.0\.0/u);
 
   const brandAssets = [
     "assets/brand/logos/nexstock-main-logo-16x9.png",

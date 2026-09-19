@@ -12,6 +12,8 @@ import { createScenarioView, createTimeMachineView } from "./scenario-view.js";
 import { createCustomFieldView } from "./custom-field-view.js";
 import { createModuleView } from "./module-view.js";
 import { createSecurityCenterView, createShieldTestView } from "./security-view.js";
+import { createTourView } from "./tour-view.js";
+import { createSettingsView } from "./settings-view.js";
 
 function createTextElement(tagName, text, className) {
   const element = document.createElement(tagName);
@@ -50,6 +52,7 @@ function createWelcomeView({ title, t, locale }) {
   actions.className = "welcome-actions";
   actions.append(
     createButton({ text: t("welcome.configure"), href: "#/onboarding" }),
+    createButton({ text: t("welcome.tour"), href: "#/tour", variant: "secondary" }),
     createButton({ text: t("welcome.about"), href: "#/about", variant: "secondary" }),
   );
   copy.append(actions);
@@ -133,8 +136,10 @@ export function createRouteView({
   securityService,
   draftService,
   onCriticalOperationChange,
+  onResetWorkspace,
 }) {
   if (route === "/welcome") return createWelcomeView({ title, t, locale });
+  if (route === "/tour") return createTourView({ title, description, t });
   if (route === "/onboarding") {
     return createOnboardingView({
       title,
@@ -165,6 +170,7 @@ export function createRouteView({
   if (route === "/kits") return createModuleView({ title, description, t, workspace: currentWorkspace, service: moduleService });
   if (route === "/settings/security") return createSecurityCenterView({ title, description, t, service: securityService });
   if (route === "/shield-test") return createShieldTestView({ title, description, t, service: securityService });
+  if (route === "/settings") return createSettingsView({ title, description, t, workspace: currentWorkspace, persistenceReady, onReset: onResetWorkspace });
 
   const section = document.createElement("section");
   section.className = "route-panel";

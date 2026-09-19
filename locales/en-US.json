@@ -118,6 +118,7 @@
   },
   "nav": {
     "welcome": "Welcome",
+    "tour": "Guided tour",
     "dashboard": "Dashboard",
     "products": "Products",
     "movements": "Movements",
@@ -144,12 +145,39 @@
     "substituteTitle": "Smart Substitute", "substituteFound": "You may have an alternative: {product}.", "substituteUnknown": "No explicit alternative has been recorded."
   },
   "commandPalette": { "open": "Open commands", "title": "Command Palette", "description": "Search products or run an action without taking your hands off the keyboard.", "search": "Search commands and products", "help": "Use arrow keys to navigate, Enter to run, and Escape to close.", "close": "Close commands", "empty": "No command or product matches the search.", "resultCount": "{count} results available.", "actions": { "newProduct": "New product", "search": "Search products", "entry": "Record entry", "output": "Record withdrawal", "critical": "View critical products", "scenario": "Open Scenario Lab", "timeMachine": "Open Time Machine", "language": "Change language", "theme": "Toggle theme" } },
-  "securityCenter": { "honestTitle": "Fact-based security", "honestMessage": "This center describes implemented controls and does not promise absolute security.", "openTests": "Open Shield Test Mode", "facts": { "provider": "Data provider", "mode": "Operating mode", "database": "Local database", "integrity": "Integrity", "history": "History", "version": "Version", "connection": "Connection" }, "values": { "local-first": "Local-first", "online": "Online", "offline": "Offline" } },
+  "securityCenter": { "honestTitle": "Fact-based security", "honestMessage": "This center describes implemented controls and does not promise absolute security.", "openTests": "Open Shield Test Mode", "facts": { "provider": "Data provider", "mode": "Operating mode", "database": "Local database", "integrity": "Integrity", "history": "History", "version": "Version", "connection": "Connection" }, "values": { "local-first": "Local-first", "online": "Online", "offline": "Offline", "nexshield-indexeddb": "NexShield domain validation and IndexedDB unique constraints", "nexshield-postgresql": "NexShield domain validation and PostgreSQL constraints", "audit-log-archive": "Audit log and logical archiving" } },
   "shieldTest": { "run": "Run isolated tests", "warningTitle": "Disposable environment", "warningMessage": "Tests use local in-memory values and do not change the real workspace.", "passedTitle": "All tests passed", "passedMessage": "All five protections rejected or neutralized the expected adversarial inputs.", "failedTitle": "A protection failed", "failedMessage": "Review the results before continuing.", "isolated": "Isolated execution confirmed: no real data was written.", "tests": { "negativeStock": { "passed": "Negative stock: blocked.", "failed": "Negative stock: incorrectly accepted." }, "duplicateNexCode": { "passed": "Duplicate NexCode: detected.", "failed": "Duplicate NexCode: not detected." }, "duplicateSerial": { "passed": "Duplicate serial: detected.", "failed": "Duplicate serial: not detected." }, "html": { "passed": "Untrusted HTML: handled as text.", "failed": "Untrusted HTML: unsafe interpretation." }, "dangerousUrl": { "passed": "Dangerous URL: blocked.", "failed": "Dangerous URL: accepted." } } },
   "welcome": {
     "intro": "Start with a clear view of what you have, what changed, and what needs your attention.",
     "configure": "Set up my inventory",
+    "tour": "Explore in six steps",
     "about": "Discover NexStock"
+  },
+  "tour": {
+    "promise": "Understand NexStock's value without entering any data.",
+    "overviewTitle": "A complete reading, not just a count",
+    "overviewMessage": "NexStock turns inventory data into priorities, explanations, and safe simulations. The examples below represent what an already configured operation can reveal.",
+    "stepsTitle": "What you can do", "stepLabel": "Step {current} of {total}",
+    "start": "Try it with demo data", "back": "Back to welcome",
+    "steps": {
+      "pulse": { "title": "NexPulse", "description": "Summarizes inventory health in plain language and organizes priorities by urgency.", "example": "Example: two critical products and one priority replenishment." },
+      "products": { "title": "Products and NexCode", "description": "Combines registration, search, filters, archiving, and sequential codes without losing history.", "example": "Example: Quantum SSD, code NX-SSD-0002, five units." },
+      "insight": { "title": "Explainable insights", "description": "Estimates coverage and confidence while showing data, calculations, and limitations without inventing forecasts.", "example": "Example: estimated coverage of fifteen days with medium confidence." },
+      "scenario": { "title": "Scenario Lab", "description": "Simulates entries, withdrawals, and minimum-stock changes without altering real inventory.", "example": "Example: withdrawing three units would change the status to critical." },
+      "profiles": { "title": "Adaptive profiles", "description": "The same core supports technology, cosmetics, fashion, food, and custom operations.", "example": "Example: serial numbers for technology and expiry dates for food." },
+      "shield": { "title": "NexShield and PWA", "description": "Protects domain rules, keeps an audit trail, and supports local, installable, connection-resilient use.", "example": "Example: negative inventory, duplicate codes, and dangerous URLs are blocked." }
+    }
+  },
+  "settingsCore": {
+    "resetTitle": "Restore demo data",
+    "resetDescription": "Removes only the active workspace data and recreates the profile seed. Other workspaces and the complete database are not deleted.",
+    "resetAction": "Restore workspace",
+    "confirmTitle": "Restore this workspace data?",
+    "confirmMessage": "Products, movements, and history in this workspace will be replaced with the initial demo data. This action cannot be undone.",
+    "confirmAction": "Confirm restore", "cancel": "Cancel",
+    "workspaceRequired": "Create a workspace before using restore.",
+    "resetSuccess": "Workspace restored successfully.",
+    "resetError": "The restore could not be completed. Reload the page and confirm the current state before trying again."
   },
   "institutional": {
     "onboardingStatus": "Guided setup creates a local workspace accessibly, one step at a time.",
@@ -229,6 +257,7 @@
   },
   "routes": {
     "welcome": { "title": "Welcome", "description": "Guided choice and introduction to NexStock." },
+    "tour": { "title": "Guided tour", "description": "Six steps to understand NexStock's value before setup." },
     "onboarding": { "title": "Initial setup", "description": "Assisted creation of the local workspace." },
     "dashboard": { "title": "Dashboard", "description": "Inventory status, priorities, and next steps." },
     "products": { "title": "Products", "description": "Product listing, search, and management." },

@@ -67,12 +67,12 @@
     "reviewTitle": "Revise antes de criar",
     "reviewDescription": "Os dados iniciais do perfil e suas preferências serão gravados juntos em uma única operação.",
     "reviewProfile": "Perfil",
-    "reviewWorkspace": "Workspace",
+    "reviewWorkspace": "Espaço de trabalho",
     "reviewMode": "Modo",
     "reviewModules": "Módulos",
     "reviewCustomFields": "Campos específicos",
     "noModules": "Nenhum módulo opcional",
-    "created": "Workspace criado com sucesso.",
+    "created": "Espaço de trabalho criado com sucesso.",
     "errors": {
       "profileRequired": "Escolha um perfil para continuar.",
       "nameRequired": "Informe o nome do espaço de trabalho.",
@@ -118,6 +118,7 @@
   },
   "nav": {
     "welcome": "Boas-vindas",
+    "tour": "Visita guiada",
     "dashboard": "Painel",
     "products": "Produtos",
     "movements": "Movimentações",
@@ -144,12 +145,39 @@
     "substituteTitle": "Smart Substitute", "substituteFound": "Talvez você tenha uma alternativa: {product}.", "substituteUnknown": "Nenhuma alternativa explícita foi registrada."
   },
   "commandPalette": { "open": "Abrir comandos", "title": "Paleta de comandos", "description": "Pesquise produtos ou execute uma ação sem tirar as mãos do teclado.", "search": "Buscar comandos e produtos", "help": "Use as setas para navegar, Enter para executar e Escape para fechar.", "close": "Fechar comandos", "empty": "Nenhum comando ou produto corresponde à busca.", "resultCount": "Resultados disponíveis: {count}.", "actions": { "newProduct": "Novo produto", "search": "Buscar produtos", "entry": "Registrar entrada", "output": "Registrar saída", "critical": "Ver produtos críticos", "scenario": "Abrir Scenario Lab", "timeMachine": "Abrir Time Machine", "language": "Alterar idioma", "theme": "Alternar tema" } },
-  "securityCenter": { "honestTitle": "Segurança baseada em fatos", "honestMessage": "Esta central descreve controles implementados e não promete segurança absoluta.", "openTests": "Abrir modo de teste do NexShield", "facts": { "provider": "Provedor de dados", "mode": "Modo de operação", "database": "Banco de dados", "integrity": "Integridade", "history": "Histórico", "version": "Versão", "connection": "Conexão" }, "values": { "local-first": "Prioridade local", "online": "Conectado", "offline": "Sem conexão" } },
+  "securityCenter": { "honestTitle": "Segurança baseada em fatos", "honestMessage": "Esta central descreve controles implementados e não promete segurança absoluta.", "openTests": "Abrir modo de teste do NexShield", "facts": { "provider": "Provedor de dados", "mode": "Modo de operação", "database": "Banco de dados", "integrity": "Integridade", "history": "Histórico", "version": "Versão", "connection": "Conexão" }, "values": { "local-first": "Prioridade local", "online": "Conectado", "offline": "Sem conexão", "nexshield-indexeddb": "Validação de domínio NexShield e restrições únicas do IndexedDB", "nexshield-postgresql": "Validação de domínio NexShield e restrições do PostgreSQL", "audit-log-archive": "Registro de auditoria e arquivamento lógico" } },
   "shieldTest": { "run": "Executar testes isolados", "warningTitle": "Ambiente descartável", "warningMessage": "Os testes usam valores locais em memória e não alteram o espaço de trabalho real.", "passedTitle": "Todos os testes passaram", "passedMessage": "As cinco proteções rejeitaram ou neutralizaram as entradas adversas previstas.", "failedTitle": "Uma proteção falhou", "failedMessage": "Revise os resultados antes de continuar.", "isolated": "Execução isolada confirmada: nenhum dado real foi gravado.", "tests": { "negativeStock": { "passed": "Estoque negativo: bloqueado.", "failed": "Estoque negativo: aceito indevidamente." }, "duplicateNexCode": { "passed": "NexCode duplicado: detectado.", "failed": "NexCode duplicado: não detectado." }, "duplicateSerial": { "passed": "Serial duplicado: detectado.", "failed": "Serial duplicado: não detectado." }, "html": { "passed": "HTML não confiável: tratado como texto.", "failed": "HTML não confiável: interpretação insegura." }, "dangerousUrl": { "passed": "URL perigosa: bloqueada.", "failed": "URL perigosa: aceita." } } },
   "welcome": {
     "intro": "Comece com uma visão clara do que existe, do que mudou e do que precisa da sua atenção.",
     "configure": "Configurar meu estoque",
+    "tour": "Conhecer em seis etapas",
     "about": "Conhecer o NexStock"
+  },
+  "tour": {
+    "promise": "Entenda o valor do NexStock sem cadastrar nenhum dado.",
+    "overviewTitle": "Uma leitura completa, não apenas uma contagem",
+    "overviewMessage": "O NexStock transforma dados de estoque em prioridades, explicações e simulações seguras. Os exemplos abaixo representam o que uma operação já configurada consegue revelar.",
+    "stepsTitle": "O que você consegue fazer", "stepLabel": "Etapa {current} de {total}",
+    "start": "Experimentar com dados de demonstração", "back": "Voltar às boas-vindas",
+    "steps": {
+      "pulse": { "title": "NexPulse", "description": "Resume a saúde do estoque em linguagem direta e organiza as prioridades por urgência.", "example": "Exemplo: dois produtos críticos e uma reposição prioritária." },
+      "products": { "title": "Produtos e NexCode", "description": "Centraliza cadastro, busca, filtros, arquivamento e códigos sequenciais sem perder o histórico.", "example": "Exemplo: Quantum SSD, código NX-SSD-0002, cinco unidades." },
+      "insight": { "title": "Insights explicáveis", "description": "Estima cobertura e confiança mostrando dados, cálculo e limitações, sem inventar previsões.", "example": "Exemplo: cobertura estimada de quinze dias, com confiança média." },
+      "scenario": { "title": "Scenario Lab", "description": "Simula entradas, saídas e mudanças no mínimo sem alterar o estoque real.", "example": "Exemplo: uma saída de três unidades mudaria o status para crítico." },
+      "profiles": { "title": "Perfis adaptáveis", "description": "O mesmo núcleo atende tecnologia, cosméticos, moda, alimentos e operações personalizadas.", "example": "Exemplo: números de série em tecnologia e validade em alimentos." },
+      "shield": { "title": "NexShield e PWA", "description": "Protege regras de domínio, mantém auditoria e permite uso local, instalável e resiliente à conexão.", "example": "Exemplo: estoque negativo, código duplicado e URL perigosa são bloqueados." }
+    }
+  },
+  "settingsCore": {
+    "resetTitle": "Restaurar dados de demonstração",
+    "resetDescription": "Remove somente os dados do espaço de trabalho ativo e recria o seed do perfil. Outros espaços e o banco inteiro não são apagados.",
+    "resetAction": "Restaurar espaço de trabalho",
+    "confirmTitle": "Restaurar os dados deste espaço?",
+    "confirmMessage": "Produtos, movimentações e histórico deste espaço serão substituídos pelos dados iniciais de demonstração. Esta ação não pode ser desfeita.",
+    "confirmAction": "Confirmar restauração", "cancel": "Cancelar",
+    "workspaceRequired": "Crie um espaço de trabalho antes de usar a restauração.",
+    "resetSuccess": "Espaço de trabalho restaurado com sucesso.",
+    "resetError": "Não foi possível concluir a restauração. Recarregue a página e confirme o estado antes de tentar novamente."
   },
   "institutional": {
     "onboardingStatus": "A configuração guiada cria um espaço de trabalho local de forma acessível e passo a passo.",
@@ -176,7 +204,7 @@
     },
     "prioritiesTitle": "Prioridades", "priorityClearTitle": "Nenhuma prioridade imediata", "priorityClearMessage": "Os produtos ativos estão acima do mínimo e sem sinais de estoque parado.", "priorityLabel": { "out": "Prioridade máxima: sem estoque", "critical": "Prioridade alta: estoque crítico", "attention": "Prioridade moderada: atenção", "stopped": "Prioridade de revisão: produto parado" },
     "priority": { "out": "Restam {quantity} unidades; o mínimo definido é {minimum}.", "critical": "Restam {quantity} unidades, quantidade igual ou inferior ao mínimo de {minimum}.", "attention": "Restam {quantity} unidades. A margem sobre o mínimo de {minimum} está reduzida.", "stopped": "Há estoque disponível, mas nenhuma saída foi registrada nos últimos 30 dias." },
-    "viewProduct": "Ver produto", "viewRadar": "Abrir Radar completo", "metricsTitle": "Métricas essenciais", "metrics": { "products": { "label": "Produtos ativos", "context": "Itens acompanhados neste workspace." }, "totalUnits": { "label": "Unidades em estoque", "context": "Soma das quantidades atuais." }, "belowOrAtMinimum": { "label": "No mínimo ou abaixo", "context": "Produtos que pedem reposição." }, "movementsLast30Days": { "label": "Movimentações em 30 dias", "context": "Entradas, saídas e ajustes recentes." } },
+    "viewProduct": "Ver produto", "viewRadar": "Abrir Radar completo", "metricsTitle": "Métricas essenciais", "metrics": { "products": { "label": "Produtos ativos", "context": "Itens acompanhados neste espaço de trabalho." }, "totalUnits": { "label": "Unidades em estoque", "context": "Soma das quantidades atuais." }, "belowOrAtMinimum": { "label": "No mínimo ou abaixo", "context": "Produtos que pedem reposição." }, "movementsLast30Days": { "label": "Movimentações em 30 dias", "context": "Entradas, saídas e ajustes recentes." } },
     "recentTitle": "Movimentações recentes", "recentCaption": "As cinco movimentações mais recentes", "noMovements": "Ainda não há movimentações registradas.", "allMovements": "Ver todas as movimentações", "radarTitle": "Leitura do Radar", "radarMessage": "Prioridades encontradas: {count}, da mais urgente para a menos urgente.", "backDashboard": "Voltar ao painel", "insightsTitle": "Análises explicáveis", "insightsMessage": "Consulte estimativas de cobertura, nível de confiança, memória do estoque e todos os cálculos utilizados.", "openInsights": "Abrir análises"
   },
   "inventoryStory": {
@@ -187,17 +215,17 @@
     "next": { "replenishOut": "Próximo passo: priorize a reposição dos produtos sem estoque.", "replenishCritical": "Próximo passo: planeje a reposição dos produtos críticos.", "reviewAttention": "Próximo passo: revise os produtos em atenção antes de novas saídas.", "reviewStopped": "Próximo passo: avalie a utilidade e o giro dos produtos parados.", "keepMonitoring": "Próximo passo: continue registrando movimentações e acompanhando os níveis mínimos." }
   },
   "scenarioCore": {
-    "loading": "Preparando o laboratório de cenários…", "workspaceRequiredTitle": "Configure seu workspace", "workspaceRequiredMessage": "Crie um workspace antes de simular cenários.", "emptyTitle": "Nenhum produto disponível para simulação", "emptyMessage": "Cadastre um produto para testar cenários sem alterar o estoque real.", "loadError": "Não foi possível preparar as simulações.",
+    "loading": "Preparando o laboratório de cenários…", "workspaceRequiredTitle": "Configure seu espaço de trabalho", "workspaceRequiredMessage": "Crie um espaço de trabalho antes de simular cenários.", "emptyTitle": "Nenhum produto disponível para simulação", "emptyMessage": "Cadastre um produto para testar cenários sem alterar o estoque real.", "loadError": "Não foi possível preparar as simulações.",
     "noticeTitle": "Ambiente de simulação", "noticeMessage": "Os resultados ficam somente nesta tela. Nenhuma simulação altera ou salva o estoque real.", "product": "Produto", "type": "Tipo de cenário", "value": "Valor da simulação", "valueHelp": "Informe unidades, novo mínimo ou aumento percentual, conforme o cenário escolhido.", "simulate": "Simular cenário", "invalid": "O cenário não pode ser calculado. Confira o valor, o estoque disponível e o histórico necessário.",
     "types": { "saida": "Simular saída", "entrada": "Simular entrada", "alterar_estoque_minimo": "Alterar estoque mínimo", "aumentar_ritmo_de_saida": "Aumentar ritmo de saída" },
     "resultTitle": "Resultado para {product}", "now": "Agora", "scenario": "Cenário", "impact": "Impacto", "quantity": "Quantidade", "minimum": "Estoque mínimo", "status": "Status resultante", "impactSummary": "Variação da quantidade: {quantity}. Variação do mínimo: {minimum}.", "forecastImpact": "Cobertura estimada: de {current} dias agora para {scenario} dias no cenário.", "notSavedTitle": "Não persistido", "notSavedMessage": "Este resultado é uma simulação e não foi salvo no estoque."
   },
   "timeMachineCore": {
-    "loading": "Reconstruindo a linha do tempo…", "workspaceRequiredTitle": "Configure seu workspace", "workspaceRequiredMessage": "Crie um workspace para usar a Time Machine.", "emptyTitle": "Ainda não há produtos na linha do tempo", "emptyMessage": "Cadastre produtos e registre movimentações para construir a história do estoque.", "loadError": "Não foi possível reconstruir a linha do tempo.", "estimateTitle": "O futuro é uma estimativa", "estimateMessage": "Passado e presente usam registros locais. O futuro projeta o ritmo recente e nunca é apresentado como certeza.",
+    "loading": "Reconstruindo a linha do tempo…", "workspaceRequiredTitle": "Configure seu espaço de trabalho", "workspaceRequiredMessage": "Crie um espaço de trabalho para usar a Time Machine.", "emptyTitle": "Ainda não há produtos na linha do tempo", "emptyMessage": "Cadastre produtos e registre movimentações para construir a história do estoque.", "loadError": "Não foi possível reconstruir a linha do tempo.", "estimateTitle": "O futuro é uma estimativa", "estimateMessage": "Passado e presente usam registros locais. O futuro projeta o ritmo recente e nunca é apresentado como certeza.",
     "past": "Passado", "pastDescription": "Reconstruído exclusivamente pelas movimentações registradas.", "present": "Presente", "presentDescription": "Estado atual armazenado no produto.", "future": "Futuro", "futureDescription": "Estimativa, não certeza.", "events": "Eventos registrados", "maximum": "Máximo histórico", "minimum": "Mínimo histórico", "quantity": "Quantidade atual", "minimumStock": "Estoque mínimo", "status": "Status atual", "futureAvailable": "Estimativa: se o ritmo recente continuar, a cobertura pode durar aproximadamente {days} dias.", "futureUnavailable": "Estimativa indisponível: não há saídas recentes suficientes para calcular cobertura."
   },
   "insightCore": {
-    "loading": "Calculando insights…", "workspaceRequiredTitle": "Configure seu workspace", "workspaceRequiredMessage": "Crie um workspace para gerar insights do estoque.", "emptyTitle": "Ainda não há produtos para analisar", "emptyMessage": "Cadastre um produto para iniciar a memória e as previsões do estoque.", "loadError": "Não foi possível calcular os insights agora.",
+    "loading": "Calculando insights…", "workspaceRequiredTitle": "Configure seu espaço de trabalho", "workspaceRequiredMessage": "Crie um espaço de trabalho para gerar insights do estoque.", "emptyTitle": "Ainda não há produtos para analisar", "emptyMessage": "Cadastre um produto para iniciar a memória e as previsões do estoque.", "loadError": "Não foi possível calcular os insights agora.",
     "estimateTitle": "Estimativas, não certezas", "estimateMessage": "As previsões usam somente as saídas registradas nos últimos 30 dias. O nível de confiança e as limitações acompanham cada resultado.", "forecastTitle": "Previsão de cobertura", "estimateNotice": "Estimativa baseada no ritmo recente de saídas.", "forecastAvailable": "Se o ritmo recente continuar, a quantidade atual pode durar aproximadamente {days} dias.", "forecastUnavailable": "Ainda não há saídas registradas nos últimos 30 dias para calcular uma previsão.",
     "confidence": { "low": "Confiança baixa: há menos de cinco eventos relevantes.", "medium": "Confiança média: há dados úteis, mas o volume ou o período ainda é limitado.", "high": "Confiança alta: há pelo menos quinze eventos distribuídos por quatorze dias ou mais. Ainda é uma estimativa." },
     "explain": { "title": "Como calculamos isso?", "dataTitle": "Dados usados", "window": "Janela analisada", "currentQuantity": "Quantidade atual", "totalOut": "Total de saídas", "events": "Eventos de saída", "history": "Período de histórico", "calculationTitle": "Cálculo", "averageFormula": "Média diária: {total} unidades divididas por 30 dias, resultado {average}.", "daysFormula": "Cobertura: {quantity} unidades divididas pela média diária de {average}, resultado aproximado de {days} dias.", "unavailableFormula": "Sem saída no período, a média diária é zero e a divisão de cobertura não é calculável.", "limitationsTitle": "Limitações" },
@@ -206,12 +234,12 @@
     "memory": { "maximum": "Máximo histórico", "minimum": "Mínimo histórico", "lastZero": "Última vez zerado", "replenishments": "Reposições", "lastEntry": "Última entrada", "lastOutput": "Última saída", "largestOutput": "Maior saída", "totalMoved": "Total movimentado", "daysSince": "Dias desde a última movimentação", "explainTitle": "Como derivamos a memória?", "explainData": "Foram usados {count} eventos registrados para este produto.", "explainMethod": "Máximos e mínimos usam as quantidades antes e depois de cada evento. Entradas, saídas e totais usam o tipo e a quantidade gravados.", "explainLimitation": "Operações anteriores ao histórico local disponível não podem ser reconstruídas." }
   },
   "movement": {
-    "loading": "Carregando movimentações…", "workspaceRequiredTitle": "Configure seu workspace", "workspaceRequiredMessage": "Crie um workspace antes de movimentar o estoque.", "noProductsTitle": "Cadastre um produto primeiro", "noProductsMessage": "As movimentações ficam disponíveis quando existe ao menos um produto ativo.",
+    "loading": "Carregando movimentações…", "workspaceRequiredTitle": "Configure seu espaço de trabalho", "workspaceRequiredMessage": "Crie um espaço de trabalho antes de movimentar o estoque.", "noProductsTitle": "Cadastre um produto primeiro", "noProductsMessage": "As movimentações ficam disponíveis quando existe ao menos um produto ativo.",
     "product": "Produto", "type": "Tipo", "quantity": "Quantidade", "adjustedQuantity": "Nova quantidade total", "quantityHelp": "Em ajustes, informe a quantidade final desejada.", "reason": "Motivo", "notes": "Observações", "calculate": "Calcular impacto", "cancel": "Cancelar prévia", "moveProduct": "Movimentar estoque",
     "previewTitle": "Prévia de impacto", "currentQuantity": "Quantidade atual", "resultQuantity": "Quantidade após a operação", "currentStatus": "Status atual", "resultStatus": "Status resultante",
     "confirm": { "IN": "Confirmar entrada de {quantity} unidades", "OUT": "Confirmar saída de {quantity} unidades", "ADJUSTMENT": "Confirmar ajuste para {quantity} unidades" },
     "types": { "IN": "Entrada", "OUT": "Saída", "ADJUSTMENT": "Ajuste" },
-    "historyTitle": "Histórico do workspace", "historyCaption": "Movimentações recentes do workspace", "productHistoryTitle": "Histórico de movimentações", "productHistoryCaption": "Movimentações recentes deste produto", "emptyHistory": "Nenhuma movimentação registrada.", "date": "Data", "before": "Antes", "after": "Depois",
+    "historyTitle": "Histórico do espaço de trabalho", "historyCaption": "Movimentações recentes do espaço de trabalho", "productHistoryTitle": "Histórico de movimentações", "productHistoryCaption": "Movimentações recentes deste produto", "emptyHistory": "Nenhuma movimentação registrada.", "date": "Data", "before": "Antes", "after": "Depois",
     "invalidError": "A operação é inválida. Confira a quantidade, o motivo e o estoque disponível.", "conflictError": "O estoque mudou desde a prévia. Calcule o impacto novamente.", "loadError": "Não foi possível carregar as movimentações.", "saved": "Movimentação registrada com auditoria."
   },
   "statuses": { "out": "Sem estoque", "critical": "Crítico", "attention": "Atenção", "healthy": "Saudável", "archived": "Arquivado" },
@@ -229,7 +257,8 @@
   },
   "routes": {
     "welcome": { "title": "Boas-vindas", "description": "Escolha guiada e apresentação do NexStock." },
-    "onboarding": { "title": "Configuração inicial", "description": "Criação assistida do workspace local." },
+    "tour": { "title": "Visita guiada", "description": "Seis etapas para compreender o valor do NexStock antes da configuração." },
+    "onboarding": { "title": "Configuração inicial", "description": "Criação assistida do espaço de trabalho local." },
     "dashboard": { "title": "Painel", "description": "Situação, prioridades e próximos passos do estoque." },
     "products": { "title": "Produtos", "description": "Lista, busca e gestão dos produtos." },
     "productNew": { "title": "Novo produto", "description": "Cadastro acessível de um novo produto." },
@@ -242,7 +271,7 @@
     "scenario": { "title": "Scenario Lab", "description": "Simulações que não alteram os dados reais." },
     "kits": { "title": "Kits", "description": "Composição e disponibilidade de kits." },
     "about": { "title": "Sobre", "description": "Identidade, propósito e informações do NexStock." },
-    "settings": { "title": "Configurações", "description": "Preferências locais do workspace." },
+    "settings": { "title": "Configurações", "description": "Preferências locais do espaço de trabalho." },
     "profiles": { "title": "Perfis", "description": "Adaptação do NexStock ao tipo de negócio." },
     "security": { "title": "Central de segurança", "description": "Fatos verificáveis sobre proteção e integridade." },
     "shieldTest": { "title": "Teste NexShield", "description": "Validação isolada das regras de integridade." }

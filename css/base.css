@@ -1,0 +1,44 @@
+body {
+  min-width: 0;
+  min-height: 100dvh;
+  background: var(--ns-color-background);
+  color: var(--ns-color-text);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--ns-color-primary);
+  text-underline-offset: 0.2em;
+}
+
+h1 {
+  max-width: 24ch;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+}
+
+h1,
+h2,
+h3,
+p,
+li,
+label,
+button,
+a {
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.25;
+}
+
+p {
+  max-width: 68ch;
+}
+
+button {
+  color: inherit;
+}

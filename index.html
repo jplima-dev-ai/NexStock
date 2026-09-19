@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0B1120">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'"
+    >
+    <meta name="nexstock-data-provider" content="indexeddb">
+    <meta
+      name="description"
+      content="NexStock: estoque compreensível, local-first e acessível."
+    >
+    <title>NexStock</title>
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./assets/icons/pwa/icon-192x192.png">
+    <link rel="icon" sizes="32x32" href="./assets/icons/pwa/favicon-32x32.png">
+    <link rel="icon" sizes="48x48" href="./assets/icons/pwa/favicon-48x48.png">
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/accessibility.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+  </head>
+  <body>
+    <a class="skip-link" id="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="sidebar-brand" id="sidebar-brand" href="#/welcome" aria-label="NexStock, início">
+          <img
+            class="sidebar-brand__mark"
+            src="./assets/brand/symbols/nexstock-app-icon-1x1.png"
+            width="1024"
+            height="1024"
+            alt=""
+          >
+          <span class="sidebar-brand__name">NexStock</span>
+        </a>
+
+        <button
+          class="mobile-nav-toggle"
+          id="mobile-nav-toggle"
+          type="button"
+          aria-controls="primary-nav"
+          aria-expanded="false"
+        >Abrir menu</button>
+
+        <nav class="primary-nav" id="primary-nav" aria-label="Navegação principal">
+          <a href="#/welcome" data-i18n="nav.welcome">Boas-vindas</a>
+          <a href="#/dashboard" data-i18n="nav.dashboard">Painel</a>
+          <a href="#/products" data-i18n="nav.products">Produtos</a>
+          <a href="#/movements" data-i18n="nav.movements">Movimentações</a>
+          <a href="#/insights" data-i18n="nav.insights">Insights</a>
+          <a href="#/scenario" data-i18n="nav.scenario">Scenario Lab</a>
+          <a href="#/time-machine" data-i18n="nav.timeMachine">Time Machine</a>
+          <a href="#/kits" data-i18n="nav.modules">Módulos</a>
+          <a href="#/settings/profiles" data-i18n="nav.customFields">Campos personalizados</a>
+          <a href="#/settings/security" data-i18n="nav.security">Segurança</a>
+          <a href="#/settings" data-i18n="nav.settings">Configurações</a>
+        </nav>
+      </aside>
+
+      <div class="workspace">
+        <header class="app-header">
+          <div>
+            <p class="eyebrow" id="app-eyebrow">Inteligência calma para seu estoque</p>
+            <p class="phase-label" id="phase-label">NexStock em desenvolvimento</p>
+          </div>
+          <div class="header-actions">
+            <button class="ns-button ns-button--secondary" id="command-palette-trigger" type="button" data-i18n="commandPalette.open">Abrir comandos</button>
+            <div class="locale-control">
+              <label id="locale-label" for="locale-select">Idioma</label>
+              <select id="locale-select" name="locale">
+                <option value="pt-BR">Português (Brasil)</option>
+                <option value="en-US">English (US)</option>
+                <option value="es">Español</option>
+              </select>
+            </div>
+            <button
+              class="theme-toggle"
+              id="theme-toggle"
+              type="button"
+              aria-label="Tema escuro"
+              aria-pressed="false"
+            >
+              Usar tema escuro
+            </button>
+          </div>
+        </header>
+
+        <main id="main-content" tabindex="-1"></main>
+      </div>
+    </div>
+
+    <div id="pwa-status-layer" class="pwa-status-layer"></div>
+    <div id="route-status" class="visually-hidden" aria-live="polite"></div>
+    <div id="dialog-layer"></div>
+    <section
+      id="toast-layer"
+      class="toast-layer"
+      aria-label="Notificações"
+      aria-live="polite"
+      aria-relevant="additions"
+    ></section>
+    <noscript>O NexStock precisa de JavaScript para executar a aplicação.</noscript>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+{
+  "version": "1.2",
+  "assets": [
+    {
+      "file": "assets/brand/logos/nexstock-main-logo-16x9.png",
+      "role": "Primary Horizontal Logo",
+      "ratio": "16:9",
+      "background": "transparent",
+      "use": [
+        "Welcome header",
+        "About",
+        "README"
+      ]
+    },
+    {
+      "file": "assets/brand/logos/nexstock-stacked-logo-4x3.png",
+      "role": "Institutional Stacked Logo",
+      "ratio": "4:3",
+      "background": "transparent",
+      "note": "Slogan removed; render localized slogan as HTML.",
+      "use": [
+        "Institutional screens",
+        "Presentations",
+        "About"
+      ]
+    },
+    {
+      "file": "assets/brand/symbols/nexstock-brand-symbol-1x1.png",
+      "role": "Brand Symbol",
+      "ratio": "1:1",
+      "background": "transparent",
+      "use": [
+        "Onboarding",
+        "About",
+        "Special empty states"
+      ]
+    },
+    {
+      "file": "assets/brand/symbols/nexstock-app-icon-1x1.png",
+      "role": "Compact App Mark",
+      "ratio": "1:1",
+      "background": "transparent",
+      "use": [
+        "Sidebar compact state",
+        "Base for PWA icons"
+      ]
+    },
+    {
+      "file": "assets/brand/mascot/nexstock-mascot-full-body-3x4.png",
+      "role": "Mascot Illustration",
+      "ratio": "3:4",
+      "background": "transparent",
+      "use": [
+        "Onboarding",
+        "Demo Tour",
+        "Selected empty states"
+      ]
+    },
+    {
+      "file": "assets/brand/scenes/nexstock-brand-scene-16x9.jpg",
+      "role": "Brand Hero Illustration",
+      "ratio": "16:9",
+      "background": "intentional light scene",
+      "use": [
+        "Welcome hero",
+        "README",
+        "Portfolio",
+        "About hero"
+      ]
+    }
+  ],
+  "pwa": [
+    "assets/icons/pwa/icon-192x192.png",
+    "assets/icons/pwa/icon-512x512.png",
+    "assets/icons/pwa/icon-maskable-512x512.png",
+    "assets/icons/pwa/favicon-32x32.png",
+    "assets/icons/pwa/favicon-48x48.png"
+  ],
+  "source": "NexStock-Brand-Assets-v1.1.zip corrected project derivatives",
+  "corrections": {
+    "wordmarks": "checkerboard counters converted to alpha 0",
+    "mascot": "checkerboard background removed; corrected derivative resized to original 1200x1600"
+  }
+}

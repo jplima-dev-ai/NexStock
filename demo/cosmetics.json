@@ -1,0 +1,15 @@
+{
+  "profileKey": "cosmetics",
+  "workspace": { "name": "NexStock Cosméticos", "currency": "BRL", "timezone": "America/Sao_Paulo" },
+  "categories": [
+    { "key": "skin", "name": "Cuidados com a pele", "code": "PELE" },
+    { "key": "fragrance", "name": "Fragrâncias", "code": "FRAG" }
+  ],
+  "suppliers": [
+    { "key": "lumera", "name": "Lumera Botânica", "notes": "Marca fictícia para demonstração." }
+  ],
+  "products": [
+    { "key": "aurora-serum", "name": "Aurora Sérum", "categoryKey": "skin", "supplierKey": "lumera", "trackingMode": "batch", "currentQuantity": 20, "minimumStock": 7, "purchasePrice": 38, "salePrice": 79 },
+    { "key": "brisa-fragrance", "name": "Brisa Fragrância", "categoryKey": "fragrance", "supplierKey": "lumera", "trackingMode": "batch", "currentQuantity": 12, "minimumStock": 4, "purchasePrice": 52, "salePrice": 109 }
+  ]
+}

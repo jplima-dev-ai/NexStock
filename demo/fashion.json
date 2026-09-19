@@ -1,0 +1,15 @@
+{
+  "profileKey": "fashion",
+  "workspace": { "name": "NexStock Moda", "currency": "BRL", "timezone": "America/Sao_Paulo" },
+  "categories": [
+    { "key": "clothing", "name": "Vestuário", "code": "VEST" },
+    { "key": "accessories", "name": "Acessórios", "code": "ACES" }
+  ],
+  "suppliers": [
+    { "key": "vento", "name": "Vento Norte Atelier", "notes": "Marca fictícia para demonstração." }
+  ],
+  "products": [
+    { "key": "horizon-shirt", "name": "Camisa Horizonte", "categoryKey": "clothing", "supplierKey": "vento", "currentQuantity": 30, "minimumStock": 10, "purchasePrice": 49, "salePrice": 99, "customData": { "sizes": ["P", "M", "G"] } },
+    { "key": "orbit-bag", "name": "Bolsa Órbita", "categoryKey": "accessories", "supplierKey": "vento", "currentQuantity": 14, "minimumStock": 5, "purchasePrice": 68, "salePrice": 149 }
+  ]
+}

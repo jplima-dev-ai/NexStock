@@ -1,0 +1,19 @@
+{
+  "profileKey": "technology",
+  "workspace": { "name": "NexStock Tecnologia", "currency": "BRL", "timezone": "America/Sao_Paulo" },
+  "categories": [
+    { "key": "computing", "name": "Computação", "code": "COMP", "description": "Computadores e componentes." },
+    { "key": "network", "name": "Redes", "code": "REDE", "description": "Conectividade e infraestrutura." },
+    { "key": "peripherals", "name": "Periféricos", "code": "PERI", "description": "Acessórios de entrada, áudio e uso diário." }
+  ],
+  "suppliers": [
+    { "key": "aster", "name": "Aster Circuitos", "notes": "Marca fictícia para demonstração." }
+  ],
+  "products": [
+    { "key": "orion-notebook", "name": "Orion Notebook", "categoryKey": "computing", "supplierKey": "aster", "trackingMode": "serialized", "currentQuantity": 8, "minimumStock": 3, "purchasePrice": 3200, "salePrice": 4490, "location": "A-01" },
+    { "key": "quantum-ssd", "name": "Quantum SSD", "categoryKey": "computing", "supplierKey": "aster", "currentQuantity": 24, "minimumStock": 8, "purchasePrice": 210, "salePrice": 329, "location": "A-02" },
+    { "key": "novamesh-router", "name": "NovaMesh Router", "categoryKey": "network", "supplierKey": "aster", "trackingMode": "serialized", "currentQuantity": 11, "minimumStock": 4, "purchasePrice": 380, "salePrice": 549, "location": "B-01" },
+    { "key": "orbit-keyboard", "name": "Orbit Keyboard", "categoryKey": "peripherals", "supplierKey": "aster", "currentQuantity": 18, "minimumStock": 6, "purchasePrice": 145, "salePrice": 239, "location": "C-01" },
+    { "key": "pulse-headset", "name": "Pulse Headset", "categoryKey": "peripherals", "supplierKey": "aster", "currentQuantity": 15, "minimumStock": 5, "purchasePrice": 175, "salePrice": 289, "location": "C-02" }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "app": {
+    "skipLink": "Skip to main content",
+    "homeLabel": "NexStock, home",
+    "navLabel": "Primary navigation",
+    "openMenu": "Open main menu",
+    "closeMenu": "Close main menu",
+    "eyebrow": "Calm intelligence for your inventory",
+    "phase": "Local, accessible inventory management",
+    "languageLabel": "Language",
+    "toastLabel": "Notifications",
+    "closeNotification": "Close notification",
+    "localeError": "The language could not be changed. Please try again.",
+    "slogan": "Your inventory, explained simply."
+  },
+  "storage": {
+    "blocked": "Close other NexStock tabs to finish updating the local database.",
+    "versionChanged": "The local database was updated in another tab. Reload the page to continue.",
+    "unavailable": "Local storage is unavailable. NexStock will remain open, but it cannot save changes."
+  },
+  "pwa": {
+    "offlineMessage": "You are offline. You can keep working with the data available on this device.",
+    "updateReady": "A new version of NexStock is ready.",
+    "updateNow": "Update now",
+    "updateDeferred": "The update will wait until the current critical operation is complete.",
+    "registrationError": "Installation and offline cache features could not be enabled in this browser.",
+    "draftSaved": "Draft saved on this device.",
+    "draftRestored": "Local draft restored."
+  },
+  "forms": {
+    "required": "required"
+  },
+  "onboarding": {
+    "existingTitle": "Workspace already configured",
+    "existingMessage": "Workspace {name} is already active in this browser.",
+    "goDashboard": "Go to dashboard",
+    "storageTitle": "Setup unavailable",
+    "storageMessage": "Local storage must be available to create a workspace.",
+    "progressLabel": "Setup progress",
+    "progress": "Step {current} of {total}",
+    "steps": { "1": "Introduction", "2": "Profile", "3": "Workspace", "4": "Review" },
+    "actions": { "start": "Start setup", "continue": "Continue", "back": "Back", "create": "Create workspace" },
+    "introTitle": "Let's prepare NexStock for your business",
+    "introDescription": "You will choose a profile, name the workspace, and review everything before saving data in this browser.",
+    "profileTitle": "Choose your inventory profile",
+    "profileDescription": "Every profile uses the same core. Specialized fields, modules, and rules are what change.",
+    "profileLegend": "Available profiles",
+    "customizableModules": "Modules selected by you",
+    "modulesSummary": "Modules: {modules}.",
+    "workspaceTitle": "Configure your workspace",
+    "workspaceDescription": "These preferences stay linked to the inventory created in this browser.",
+    "workspaceName": "Workspace name",
+    "workspaceNameHelp": "Use a name that identifies your store, project, or operation.",
+    "experienceMode": "Experience mode",
+    "experienceModeHelp": "Guided mode provides more explanations; compact mode reduces supporting text.",
+    "guidedMode": "Guided",
+    "compactMode": "Compact",
+    "customModulesLegend": "Basic modules",
+    "customFieldsTitle": "Custom fields",
+    "customFieldLabel": "Field name",
+    "customFieldHelp": "Example: aisle, material, or internal code.",
+    "customFieldType": "Field type",
+    "customFieldRequired": "Require this field",
+    "addCustomField": "Add field",
+    "customFieldSummary": "{label}, {type} type",
+    "removeCustomField": "Remove {label} field",
+    "reviewTitle": "Review before creating",
+    "reviewDescription": "The profile's initial data and your preferences will be saved together in a single operation.",
+    "reviewProfile": "Profile",
+    "reviewWorkspace": "Workspace",
+    "reviewMode": "Mode",
+    "reviewModules": "Modules",
+    "reviewCustomFields": "Profile fields",
+    "noModules": "No optional modules",
+    "created": "Workspace created successfully.",
+    "errors": {
+      "profileRequired": "Choose a profile to continue.",
+      "nameRequired": "Enter a workspace name.",
+      "nameTooLong": "The workspace name must contain at most 80 characters.",
+      "modeRequired": "Choose a valid experience mode.",
+      "invalidModule": "One of the selected modules is invalid.",
+      "invalidCustomField": "Review the custom fields.",
+      "customFieldLabelRequired": "Enter a name for the custom field.",
+      "customFieldOptionsRequired": "Enter at least two different options for this field type.",
+      "creationFailed": "The workspace could not be created. Your previous data was not changed."
+    }
+  },
+  "profiles": {
+    "technology": { "name": "Technology", "description": "Track equipment, serial numbers, compatibility, kits, and lifecycle.", "defaultWorkspace": "My technology inventory" },
+    "cosmetics": { "name": "Cosmetics", "description": "Track expiry dates, batches, shades, and other variations.", "defaultWorkspace": "My cosmetics inventory" },
+    "fashion": { "name": "Fashion", "description": "Organize products by size, color, and variations.", "defaultWorkspace": "My fashion inventory" },
+    "food": { "name": "Food", "description": "Track batches, expiry dates, temperature, and allergens.", "defaultWorkspace": "My food inventory" },
+    "custom": { "name": "Custom", "description": "Choose basic modules and create the fields you need.", "defaultWorkspace": "My custom inventory" }
+  },
+  "modules": {
+    "serial": "NexSerial",
+    "compatibility": "NexCompat",
+    "kits": "NexKit",
+    "lifecycle": "NexLifecycle",
+    "expiry": "NexExpiry",
+    "variants": "NexVariants"
+  },
+  "profileFields": {
+    "model": "Model",
+    "warrantyMonths": "Warranty in months",
+    "shade": "Shade",
+    "skinType": "Skin type",
+    "size": "Size",
+    "color": "Color",
+    "storageTemperature": "Storage temperature",
+    "allergens": "Allergens"
+  },
+  "fieldTypes": { "text": "Text", "number": "Number", "currency": "Currency", "date": "Date", "boolean": "Yes or no", "select": "Single selection", "multiselect": "Multiple selection", "url": "Web address" },
+  "theme": {
+    "label": "Dark theme",
+    "useDark": "Use dark theme",
+    "useLight": "Use light theme"
+  },
+  "nav": {
+    "welcome": "Welcome",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "movements": "Movements",
+    "insights": "Insights",
+    "scenario": "Scenario Lab",
+    "timeMachine": "Time Machine",
+    "modules": "Modules",
+    "customFields": "Custom fields",
+    "security": "Security",
+    "settings": "Settings"
+  },
+  "customFields": {
+    "loading": "Loading custom fields…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace before managing custom fields.", "loadError": "Custom fields could not be loaded.", "noticeTitle": "Adaptable structure", "noticeMessage": "New fields appear in product creation, editing, details, and search. Disabling preserves stored values.",
+    "createTitle": "Create custom field", "label": "Field name", "type": "Data type", "options": "Options", "optionsHelp": "For single or multiple selection, enter at least two comma-separated options.", "required": "Require a value", "searchable": "Include this field in search", "create": "Create field", "invalid": "The field was not created. Review the name, type, and options.",
+    "listTitle": "Configured fields", "empty": "No custom field has been created.", "summary": "Type: {type}. Required: {required}. Searchable: {searchable}.", "optionsSummary": "Options: {options}.", "yes": "yes", "no": "no", "disable": "Disable field", "enable": "Enable field"
+  },
+  "moduleCore": {
+    "loading": "Loading specialized modules…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to use modules.", "loadError": "Modules could not be loaded.", "activeTitle": "Active modules", "activeMessage": "This profile enabled: {modules}.", "noneActive": "No specialized module is active. Core continues to work normally.", "summaryTitle": "Module summary", "product": "Product", "quantity": "Quantity", "saved": "Module record saved successfully.", "invalid": "The operation was rejected. Review data, duplicates, and active modules.",
+    "counts": { "serial": "Serialized units", "expiry": "Expiry batches", "variants": "Products with variants", "kits": "Kits", "compatibility": "Product relations" },
+    "serialNumber": "Serial number", "condition": "Condition", "conditions": { "new": "New", "used": "Used", "refurbished": "Refurbished", "damaged": "Damaged" }, "addSerial": "Add serialized unit",
+    "batchNumber": "Batch number", "expiryDate": "Expiry date", "addBatch": "Add batch",
+    "kitName": "Kit name", "component": "Component", "requiredQuantity": "Required quantity", "addKit": "Create kit",
+    "sourceProduct": "Source product", "targetProduct": "Related product", "relationType": "Relation type", "addRelation": "Add relation", "relations": { "compatible_with": "Compatible with", "requires": "Requires", "replaces": "Replaces", "upgrade_of": "Upgrade of", "accessory_for": "Accessory for" },
+    "substituteTitle": "Smart Substitute", "substituteFound": "You may have an alternative: {product}.", "substituteUnknown": "No explicit alternative has been recorded."
+  },
+  "commandPalette": { "open": "Open commands", "title": "Command Palette", "description": "Search products or run an action without taking your hands off the keyboard.", "search": "Search commands and products", "help": "Use arrow keys to navigate, Enter to run, and Escape to close.", "close": "Close commands", "empty": "No command or product matches the search.", "resultCount": "{count} results available.", "actions": { "newProduct": "New product", "search": "Search products", "entry": "Record entry", "output": "Record withdrawal", "critical": "View critical products", "scenario": "Open Scenario Lab", "timeMachine": "Open Time Machine", "language": "Change language", "theme": "Toggle theme" } },
+  "securityCenter": { "honestTitle": "Fact-based security", "honestMessage": "This center describes implemented controls and does not promise absolute security.", "openTests": "Open Shield Test Mode", "facts": { "provider": "Data provider", "mode": "Operating mode", "database": "Local database", "integrity": "Integrity", "history": "History", "version": "Version", "connection": "Connection" }, "values": { "local-first": "Local-first", "online": "Online", "offline": "Offline" } },
+  "shieldTest": { "run": "Run isolated tests", "warningTitle": "Disposable environment", "warningMessage": "Tests use local in-memory values and do not change the real workspace.", "passedTitle": "All tests passed", "passedMessage": "All five protections rejected or neutralized the expected adversarial inputs.", "failedTitle": "A protection failed", "failedMessage": "Review the results before continuing.", "isolated": "Isolated execution confirmed: no real data was written.", "tests": { "negativeStock": { "passed": "Negative stock: blocked.", "failed": "Negative stock: incorrectly accepted." }, "duplicateNexCode": { "passed": "Duplicate NexCode: detected.", "failed": "Duplicate NexCode: not detected." }, "duplicateSerial": { "passed": "Duplicate serial: detected.", "failed": "Duplicate serial: not detected." }, "html": { "passed": "Untrusted HTML: handled as text.", "failed": "Untrusted HTML: unsafe interpretation." }, "dangerousUrl": { "passed": "Dangerous URL: blocked.", "failed": "Dangerous URL: accepted." } } },
+  "welcome": {
+    "intro": "Start with a clear view of what you have, what changed, and what needs your attention.",
+    "configure": "Set up my inventory",
+    "about": "Discover NexStock"
+  },
+  "institutional": {
+    "onboardingStatus": "Guided setup creates a local workspace accessibly, one step at a time.",
+    "aboutStatus": "NexStock combines clarity, integrity, and adaptation for different businesses."
+  },
+  "products": {
+    "emptyTitle": "Your catalog is ready to begin",
+    "emptyDescription": "After initial setup, your products will appear here with quantity, minimum level, and status.",
+    "emptyAction": "Prepare a new product"
+  },
+  "productCore": {
+    "loading": "Loading products…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace before adding products.", "configure": "Set up now",
+    "search": "Search products", "searchHelp": "Searches name, NexCode, category, manufacturer, supplier, and searchable fields.", "category": "Category", "allCategories": "All categories", "status": "Status", "allStatuses": "All statuses", "allSuppliers": "All suppliers", "module": "Relevant module", "allModules": "All modules", "archivedFilter": "Archive filter", "activeOnly": "Active only", "archivedOnly": "Archived only", "allProducts": "Active and archived",
+    "emptyTitle": "No products found", "emptyDescription": "Adjust the filters or add your first product.", "newProduct": "New product", "nexCode": "NexCode", "name": "Name", "quantity": "Quantity", "minimum": "Minimum stock", "location": "Location", "actions": "Actions", "view": "View details", "tableCaption": "Workspace products", "applyFilters": "Apply filters", "clearFilters": "Clear filters",
+    "supplier": "Supplier", "noCategory": "No category", "noSupplier": "No supplier", "tracking": "Tracking", "initialQuantity": "Initial quantity", "quantityEditHelp": "Quantity will be changed through inventory movements.", "purchasePrice": "Purchase price", "salePrice": "Sale price", "description": "Description", "save": "Save product", "cancel": "Cancel", "edit": "Edit", "archive": "Archive", "confirmArchive": "Confirm archive", "archiveConfirmTitle": "Archive product?", "archiveConfirmMessage": "History will be preserved and the product can be found with the archived filter.", "backToProducts": "Back to products",
+    "loadError": "Products could not be loaded.", "saveError": "Review the fields. The product was not saved.", "notFound": "Product not found in this workspace.", "saved": "Product saved successfully.", "archived": "Product archived successfully."
+  },
+  "dashboardCore": {
+    "loading": "Analyzing your inventory…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to track inventory health.", "emptyTitle": "Your dashboard is ready for data", "emptyMessage": "Create the first product so NexPulse can explain the inventory situation.", "loadError": "The dashboard could not be calculated right now.",
+    "contextTitle": "Overview of {workspace}", "contextMessage": "The situation is explained in text and ordered by urgency, without depending on charts.",
+    "pulse": {
+      "title": "NexPulse", "question": "How is my inventory?", "out": "There are {count} out-of-stock products. Replenishment is the main priority.", "critical": "There are {count} products at a critical level. Plan replenishment before new withdrawals.", "attention": "There are {count} products needing attention. Inventory is operating, but should be monitored.", "stopped": "Minimum stock is protected, but {count} products have been idle for at least 30 days.", "healthy": "All active products are above minimum and no priorities were detected.", "score": "Supporting score: {score} out of 100.", "forecastPending": "There are not enough withdrawals to calculate a forecast; its weight was redistributed across available dimensions.", "forecastActive": "The forecast dimension uses {calculated} of {total} products with measurable consumption.",
+      "dimension": { "availability": "Availability: {value} percent.", "minimumCompliance": "Minimum compliance: {value} percent.", "freshness": "Recent movement: {value} percent.", "forecast": "Forecast coverage: {value} percent of the 30-day reference." }
+    },
+    "prioritiesTitle": "Priorities", "priorityClearTitle": "No immediate priorities", "priorityClearMessage": "Active products are above minimum and show no signs of idle inventory.", "priorityLabel": { "out": "Top priority: out of stock", "critical": "High priority: critical stock", "attention": "Moderate priority: attention", "stopped": "Review priority: idle product" },
+    "priority": { "out": "There are {quantity} units left; the defined minimum is {minimum}.", "critical": "There are {quantity} units left, equal to or below the minimum of {minimum}.", "attention": "There are {quantity} units left. The margin over the minimum of {minimum} is reduced.", "stopped": "Stock is available, but no withdrawal was recorded in the last 30 days." },
+    "viewProduct": "View product", "viewRadar": "Open full Radar", "metricsTitle": "Essential metrics", "metrics": { "products": { "label": "Active products", "context": "Items tracked in this workspace." }, "totalUnits": { "label": "Units in stock", "context": "Sum of current quantities." }, "belowOrAtMinimum": { "label": "At or below minimum", "context": "Products requiring replenishment." }, "movementsLast30Days": { "label": "Movements in 30 days", "context": "Recent entries, withdrawals, and adjustments." } },
+    "recentTitle": "Recent movements", "recentCaption": "The five most recent movements", "noMovements": "No movements have been recorded yet.", "allMovements": "View all movements", "radarTitle": "Radar reading", "radarMessage": "{count} priorities were found, ordered from most to least urgent.", "backDashboard": "Back to dashboard", "insightsTitle": "Explainable insights", "insightsMessage": "Review coverage estimates, confidence, inventory memory, and every calculation used.", "openInsights": "Open Insights"
+  },
+  "inventoryStory": {
+    "title": "Your inventory story", "description": "A deterministic reading based only on recorded data.",
+    "state": { "out": "Inventory tracks {products} products and {units} units. Out-of-stock products: {count}, the most urgent situation now.", "critical": "Inventory tracks {products} products and {units} units. Products at a critical level: {count}.", "attention": "Inventory tracks {products} products and {units} units. Products needing attention: {count}.", "stopped": "Inventory tracks {products} products and {units} units. Products idle for at least 30 days: {count}.", "healthy": "Inventory tracks {products} products and {units} units. No immediate priority was detected." },
+    "movements": { "recorded": "Movements recorded in the last 30 days: {count}.", "none": "No movement was recorded in the last 30 days; there is no recent activity to narrate." },
+    "forecast": { "available": "Among calculable estimates, {name} has the shortest coverage: approximately {days} days if the recent rate continues.", "unavailable": "There is not enough withdrawal data yet to narrate future coverage." },
+    "next": { "replenishOut": "Next step: prioritize replenishing out-of-stock products.", "replenishCritical": "Next step: plan replenishment for critical products.", "reviewAttention": "Next step: review products needing attention before new withdrawals.", "reviewStopped": "Next step: assess the usefulness and turnover of idle products.", "keepMonitoring": "Next step: keep recording movements and monitoring minimum levels." }
+  },
+  "scenarioCore": {
+    "loading": "Preparing the scenario lab…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace before simulating scenarios.", "emptyTitle": "No product is available for simulation", "emptyMessage": "Create a product to test scenarios without changing real inventory.", "loadError": "Simulations could not be prepared.",
+    "noticeTitle": "Simulation environment", "noticeMessage": "Results remain only on this screen. No simulation changes or saves real inventory.", "product": "Product", "type": "Scenario type", "value": "Simulation value", "valueHelp": "Enter units, a new minimum, or a percentage increase according to the selected scenario.", "simulate": "Simulate scenario", "invalid": "The scenario cannot be calculated. Check the value, available stock, and required history.",
+    "types": { "saida": "Simulate withdrawal", "entrada": "Simulate entry", "alterar_estoque_minimo": "Change minimum stock", "aumentar_ritmo_de_saida": "Increase withdrawal rate" },
+    "resultTitle": "Result for {product}", "now": "Now", "scenario": "Scenario", "impact": "Impact", "quantity": "Quantity", "minimum": "Minimum stock", "status": "Resulting status", "impactSummary": "Quantity change: {quantity}. Minimum change: {minimum}.", "forecastImpact": "Estimated coverage: from {current} days now to {scenario} days in the scenario.", "notSavedTitle": "Not persisted", "notSavedMessage": "This result is a simulation and was not saved to inventory."
+  },
+  "timeMachineCore": {
+    "loading": "Reconstructing the timeline…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to use Time Machine.", "emptyTitle": "There are no products on the timeline yet", "emptyMessage": "Create products and record movements to build inventory history.", "loadError": "The timeline could not be reconstructed.", "estimateTitle": "The future is an estimate", "estimateMessage": "Past and present use local records. The future projects the recent rate and is never presented as certainty.",
+    "past": "Past", "pastDescription": "Reconstructed exclusively from recorded movements.", "present": "Present", "presentDescription": "Current state stored in the product.", "future": "Future", "futureDescription": "Estimate, not certainty.", "events": "Recorded events", "maximum": "Historical maximum", "minimum": "Historical minimum", "quantity": "Current quantity", "minimumStock": "Minimum stock", "status": "Current status", "futureAvailable": "Estimate: if the recent rate continues, coverage may last approximately {days} days.", "futureUnavailable": "Estimate unavailable: there are not enough recent withdrawals to calculate coverage."
+  },
+  "insightCore": {
+    "loading": "Calculating insights…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace to generate inventory insights.", "emptyTitle": "There are no products to analyze yet", "emptyMessage": "Create a product to start inventory memory and forecasts.", "loadError": "Insights could not be calculated right now.",
+    "estimateTitle": "Estimates, not certainties", "estimateMessage": "Forecasts use only withdrawals recorded in the last 30 days. Confidence and limitations accompany every result.", "forecastTitle": "Coverage forecast", "estimateNotice": "Estimate based on the recent withdrawal rate.", "forecastAvailable": "If the recent rate continues, the current quantity may last approximately {days} days.", "forecastUnavailable": "There are no withdrawals in the last 30 days to calculate a forecast.",
+    "confidence": { "low": "Low confidence: there are fewer than five relevant events.", "medium": "Medium confidence: useful data exists, but volume or history is still limited.", "high": "High confidence: there are at least fifteen events over fourteen days or more. This remains an estimate." },
+    "explain": { "title": "How did we calculate this?", "dataTitle": "Data used", "window": "Analysis window", "currentQuantity": "Current quantity", "totalOut": "Total withdrawals", "events": "Withdrawal events", "history": "History period", "calculationTitle": "Calculation", "averageFormula": "Daily average: {total} units divided by 30 days, result {average}.", "daysFormula": "Coverage: {quantity} units divided by the daily average of {average}, approximate result {days} days.", "unavailableFormula": "With no withdrawals in the period, the daily average is zero and coverage division cannot be calculated.", "limitationsTitle": "Limitations" },
+    "limitations": { "NO_OUTPUT_EVENTS": "No withdrawal was recorded in the analysis window.", "FEW_EVENTS": "Few events can make the estimate unstable.", "SHORT_HISTORY": "The observed period is still shorter than fourteen days.", "PAST_DEMAND_MAY_CHANGE": "Future demand may change because of seasonality, purchases, losses, or business decisions." },
+    "memoryTitle": "Stock Memory", "memoryDescription": "Summary derived exclusively from recorded history.", "notRecorded": "Not recorded", "days": "{value} days",
+    "memory": { "maximum": "Historical maximum", "minimum": "Historical minimum", "lastZero": "Last time at zero", "replenishments": "Replenishments", "lastEntry": "Last entry", "lastOutput": "Last withdrawal", "largestOutput": "Largest withdrawal", "totalMoved": "Total moved", "daysSince": "Days since last movement", "explainTitle": "How did we derive the memory?", "explainData": "{count} recorded events were used for this product.", "explainMethod": "Maximum and minimum use quantities before and after each event. Entries, withdrawals, and totals use the recorded type and quantity.", "explainLimitation": "Operations before the available local history cannot be reconstructed." }
+  },
+  "movement": {
+    "loading": "Loading movements…", "workspaceRequiredTitle": "Set up your workspace", "workspaceRequiredMessage": "Create a workspace before moving inventory.", "noProductsTitle": "Create a product first", "noProductsMessage": "Movements become available when there is at least one active product.",
+    "product": "Product", "type": "Type", "quantity": "Quantity", "adjustedQuantity": "New total quantity", "quantityHelp": "For adjustments, enter the desired final quantity.", "reason": "Reason", "notes": "Notes", "calculate": "Calculate impact", "cancel": "Cancel preview", "moveProduct": "Move inventory",
+    "previewTitle": "Impact preview", "currentQuantity": "Current quantity", "resultQuantity": "Quantity after operation", "currentStatus": "Current status", "resultStatus": "Resulting status",
+    "confirm": { "IN": "Confirm entry of {quantity} units", "OUT": "Confirm withdrawal of {quantity} units", "ADJUSTMENT": "Confirm adjustment to {quantity} units" },
+    "types": { "IN": "Entry", "OUT": "Withdrawal", "ADJUSTMENT": "Adjustment" },
+    "historyTitle": "Workspace history", "historyCaption": "Recent workspace movements", "productHistoryTitle": "Movement history", "productHistoryCaption": "Recent movements for this product", "emptyHistory": "No movements recorded.", "date": "Date", "before": "Before", "after": "After",
+    "invalidError": "The operation is invalid. Check the quantity, reason, and available stock.", "conflictError": "Stock changed after the preview. Calculate the impact again.", "loadError": "Movements could not be loaded.", "saved": "Movement recorded with an audit trail."
+  },
+  "statuses": { "out": "Out of stock", "critical": "Critical", "attention": "Attention", "healthy": "Healthy", "archived": "Archived" },
+  "tracking": { "bulk": "Total quantity", "batch": "By batch", "serialized": "By serial number" },
+  "common": {
+    "preparedTitle": "Local preferences",
+    "preparedDescription": "Route {route} brings together NexStock preferences stored in this browser."
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "This NexStock area could not be found.",
+    "unavailableTitle": "Path unavailable",
+    "unavailableMessage": "Route {route} does not exist. Use the primary navigation to continue.",
+    "startup": "NexStock could not start. Reload the page."
+  },
+  "routes": {
+    "welcome": { "title": "Welcome", "description": "Guided choice and introduction to NexStock." },
+    "onboarding": { "title": "Initial setup", "description": "Assisted creation of the local workspace." },
+    "dashboard": { "title": "Dashboard", "description": "Inventory status, priorities, and next steps." },
+    "products": { "title": "Products", "description": "Product listing, search, and management." },
+    "productNew": { "title": "New product", "description": "Accessible registration of a new product." },
+    "productEdit": { "title": "Edit product", "description": "Edit product information." },
+    "productDetail": { "title": "Product details", "description": "Identity, inventory, history, and insights." },
+    "movements": { "title": "Movements", "description": "Inventory entries, withdrawals, and adjustments." },
+    "radar": { "title": "Radar", "description": "Priorities that need attention." },
+    "insights": { "title": "Insights", "description": "Reproducible explanations about your inventory." },
+    "timeMachine": { "title": "Time Machine", "description": "Past, present, and future estimates." },
+    "scenario": { "title": "Scenario Lab", "description": "Simulations that do not change real data." },
+    "kits": { "title": "Kits", "description": "Kit composition and availability." },
+    "about": { "title": "About", "description": "NexStock identity, purpose, and information." },
+    "settings": { "title": "Settings", "description": "Local workspace preferences." },
+    "profiles": { "title": "Profiles", "description": "Adapt NexStock to the type of business." },
+    "security": { "title": "Security center", "description": "Verifiable facts about protection and integrity." },
+    "shieldTest": { "title": "NexShield test", "description": "Isolated validation of integrity rules." }
+  }
+}

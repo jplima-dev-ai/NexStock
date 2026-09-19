@@ -1,0 +1,15 @@
+{
+  "profileKey": "food",
+  "workspace": { "name": "NexStock Alimentos", "currency": "BRL", "timezone": "America/Sao_Paulo" },
+  "categories": [
+    { "key": "dry", "name": "Secos", "code": "SECO" },
+    { "key": "drinks", "name": "Bebidas", "code": "BEBI" }
+  ],
+  "suppliers": [
+    { "key": "vale", "name": "Vale Claro Alimentos", "notes": "Marca fictícia para demonstração." }
+  ],
+  "products": [
+    { "key": "solar-granola", "name": "Granola Solar", "categoryKey": "dry", "supplierKey": "vale", "trackingMode": "batch", "currentQuantity": 36, "minimumStock": 12, "purchasePrice": 9.5, "salePrice": 17.9 },
+    { "key": "source-tea", "name": "Chá Nascente", "categoryKey": "drinks", "supplierKey": "vale", "trackingMode": "batch", "currentQuantity": 22, "minimumStock": 8, "purchasePrice": 7.2, "salePrice": 14.5 }
+  ]
+}

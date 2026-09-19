@@ -1,0 +1,18 @@
+create index if not exists workspace_members_user_idx on public.workspace_members(user_id);
+create index if not exists categories_workspace_idx on public.categories(workspace_id);
+create index if not exists suppliers_workspace_idx on public.suppliers(workspace_id);
+create index if not exists products_workspace_idx on public.products(workspace_id);
+create index if not exists products_category_idx on public.products(category_id);
+create index if not exists products_supplier_idx on public.products(supplier_id);
+create index if not exists product_units_workspace_product_idx on public.product_units(workspace_id, product_id);
+create index if not exists stock_batches_workspace_product_idx on public.stock_batches(workspace_id, product_id);
+create index if not exists stock_batches_expiry_idx on public.stock_batches(expiry_date) where archived_at is null;
+create index if not exists movements_workspace_created_idx on public.stock_movements(workspace_id, created_at desc);
+create index if not exists movements_product_created_idx on public.stock_movements(product_id, created_at desc);
+create index if not exists audit_workspace_created_idx on public.audit_logs(workspace_id, created_at desc);
+create index if not exists relations_workspace_source_idx on public.product_relations(workspace_id, source_product_id);
+create index if not exists kits_workspace_idx on public.kits(workspace_id);
+create index if not exists kit_items_workspace_kit_idx on public.kit_items(workspace_id, kit_id);
+create index if not exists custom_fields_workspace_order_idx on public.custom_field_definitions(workspace_id, sort_order);
+create index if not exists settings_workspace_idx on public.settings(workspace_id);
+create index if not exists sync_queue_workspace_status_idx on public.sync_queue(workspace_id, status, created_at);

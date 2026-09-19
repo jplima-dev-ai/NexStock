@@ -1,0 +1,58 @@
+:root {
+  color-scheme: light dark;
+  --ns-color-background: #f6f8fc;
+  --ns-color-surface: #ffffff;
+  --ns-color-surface-alt: #eef2f7;
+  --ns-color-text: #0f172a;
+  --ns-color-text-muted: #475569;
+  --ns-color-border: #cbd5e1;
+  --ns-color-primary: #1d4ed8;
+  --ns-color-primary-hover: #1e40af;
+  --ns-color-on-primary: #ffffff;
+  --ns-color-accent: #0e7490;
+  --ns-color-brand-amber: #d99a32;
+  --ns-color-success: #15803d;
+  --ns-color-warning: #a16207;
+  --ns-color-danger: #b91c1c;
+  --ns-color-info-surface: #e0f2fe;
+  --ns-color-success-surface: #dcfce7;
+  --ns-color-warning-surface: #fef3c7;
+  --ns-color-danger-surface: #fee2e2;
+  --ns-color-focus: #0e7490;
+  --ns-font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ns-space-1: 0.25rem;
+  --ns-space-2: 0.5rem;
+  --ns-space-3: 0.75rem;
+  --ns-space-4: 1rem;
+  --ns-space-6: 1.5rem;
+  --ns-space-8: 2rem;
+  --ns-space-10: 2.5rem;
+  --ns-space-12: 3rem;
+  --ns-radius: 0.75rem;
+  --ns-radius-large: 1.25rem;
+  --ns-shadow-raised: 0 1rem 2.5rem rgb(15 23 42 / 0.08);
+  --ns-content-max: 75rem;
+}
+
+[data-theme="dark"] {
+  --ns-color-background: #0b1120;
+  --ns-color-surface: #111827;
+  --ns-color-surface-alt: #1e293b;
+  --ns-color-text: #f8fafc;
+  --ns-color-text-muted: #cbd5e1;
+  --ns-color-border: #334155;
+  --ns-color-primary: #60a5fa;
+  --ns-color-primary-hover: #93c5fd;
+  --ns-color-on-primary: #0b1120;
+  --ns-color-accent: #22d3ee;
+  --ns-color-brand-amber: #d99a32;
+  --ns-color-success: #4ade80;
+  --ns-color-warning: #fbbf24;
+  --ns-color-danger: #f87171;
+  --ns-color-info-surface: #164e63;
+  --ns-color-success-surface: #14532d;
+  --ns-color-warning-surface: #713f12;
+  --ns-color-danger-surface: #7f1d1d;
+  --ns-color-focus: #22d3ee;
+  --ns-shadow-raised: 0 1rem 2.5rem rgb(0 0 0 / 0.28);
+}

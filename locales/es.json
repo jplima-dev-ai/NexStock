@@ -1,0 +1,250 @@
+{
+  "app": {
+    "skipLink": "Saltar al contenido principal",
+    "homeLabel": "NexStock, inicio",
+    "navLabel": "Navegación principal",
+    "openMenu": "Abrir menú principal",
+    "closeMenu": "Cerrar menú principal",
+    "eyebrow": "Inteligencia serena para tu inventario",
+    "phase": "Gestión de inventario local y accesible",
+    "languageLabel": "Idioma",
+    "toastLabel": "Notificaciones",
+    "closeNotification": "Cerrar notificación",
+    "localeError": "No se pudo cambiar el idioma. Inténtalo de nuevo.",
+    "slogan": "Tu inventario, explicado de forma sencilla."
+  },
+  "storage": {
+    "blocked": "Cierra las demás pestañas de NexStock para completar la actualización de la base local.",
+    "versionChanged": "La base local se actualizó en otra pestaña. Recarga la página para continuar.",
+    "unavailable": "El almacenamiento local no está disponible. NexStock seguirá abierto, pero no podrá guardar cambios."
+  },
+  "pwa": {
+    "offlineMessage": "Estás sin conexión. Puedes seguir trabajando con los datos disponibles en este dispositivo.",
+    "updateReady": "Hay una nueva versión de NexStock lista.",
+    "updateNow": "Actualizar ahora",
+    "updateDeferred": "La actualización esperará hasta que termine la operación crítica actual.",
+    "registrationError": "Las funciones de instalación y caché sin conexión no pudieron activarse en este navegador.",
+    "draftSaved": "Borrador guardado en este dispositivo.",
+    "draftRestored": "Borrador local restaurado."
+  },
+  "forms": {
+    "required": "obligatorio"
+  },
+  "onboarding": {
+    "existingTitle": "Espacio de trabajo ya configurado",
+    "existingMessage": "El espacio {name} ya está activo en este navegador.",
+    "goDashboard": "Ir al panel",
+    "storageTitle": "Configuración no disponible",
+    "storageMessage": "El almacenamiento local debe estar disponible para crear un espacio de trabajo.",
+    "progressLabel": "Progreso de la configuración",
+    "progress": "Paso {current} de {total}",
+    "steps": { "1": "Presentación", "2": "Perfil", "3": "Espacio", "4": "Revisión" },
+    "actions": { "start": "Iniciar configuración", "continue": "Continuar", "back": "Volver", "create": "Crear espacio" },
+    "introTitle": "Preparemos NexStock para tu negocio",
+    "introDescription": "Elegirás un perfil, darás un nombre al espacio y revisarás todo antes de guardar los datos en este navegador.",
+    "profileTitle": "Elige el perfil de tu inventario",
+    "profileDescription": "Todos los perfiles usan el mismo núcleo. Lo que cambia son los campos, módulos y reglas especializadas.",
+    "profileLegend": "Perfiles disponibles",
+    "customizableModules": "Módulos elegidos por ti",
+    "modulesSummary": "Módulos: {modules}.",
+    "workspaceTitle": "Configura tu espacio de trabajo",
+    "workspaceDescription": "Estas preferencias quedan vinculadas al inventario creado en este navegador.",
+    "workspaceName": "Nombre del espacio",
+    "workspaceNameHelp": "Usa un nombre que identifique tu tienda, proyecto u operación.",
+    "experienceMode": "Modo de experiencia",
+    "experienceModeHelp": "El modo guiado ofrece más explicaciones; el compacto reduce los textos auxiliares.",
+    "guidedMode": "Guiado",
+    "compactMode": "Compacto",
+    "customModulesLegend": "Módulos básicos",
+    "customFieldsTitle": "Campos personalizados",
+    "customFieldLabel": "Nombre del campo",
+    "customFieldHelp": "Ejemplo: pasillo, material o código interno.",
+    "customFieldType": "Tipo de campo",
+    "customFieldRequired": "Exigir este campo",
+    "addCustomField": "Añadir campo",
+    "customFieldSummary": "{label}, tipo {type}",
+    "removeCustomField": "Eliminar el campo {label}",
+    "reviewTitle": "Revisa antes de crear",
+    "reviewDescription": "Los datos iniciales del perfil y tus preferencias se guardarán juntos en una sola operación.",
+    "reviewProfile": "Perfil",
+    "reviewWorkspace": "Espacio",
+    "reviewMode": "Modo",
+    "reviewModules": "Módulos",
+    "reviewCustomFields": "Campos del perfil",
+    "noModules": "Sin módulos opcionales",
+    "created": "Espacio de trabajo creado correctamente.",
+    "errors": {
+      "profileRequired": "Elige un perfil para continuar.",
+      "nameRequired": "Introduce el nombre del espacio de trabajo.",
+      "nameTooLong": "El nombre debe tener como máximo 80 caracteres.",
+      "modeRequired": "Elige un modo de experiencia válido.",
+      "invalidModule": "Uno de los módulos elegidos no es válido.",
+      "invalidCustomField": "Revisa los campos personalizados.",
+      "customFieldLabelRequired": "Introduce el nombre del campo personalizado.",
+      "customFieldOptionsRequired": "Introduce al menos dos opciones diferentes para este tipo de campo.",
+      "creationFailed": "No se pudo crear el espacio. Tus datos anteriores no se modificaron."
+    }
+  },
+  "profiles": {
+    "technology": { "name": "Tecnología", "description": "Control de equipos, números de serie, compatibilidad, kits y ciclo de vida.", "defaultWorkspace": "Mi inventario de tecnología" },
+    "cosmetics": { "name": "Cosméticos", "description": "Control de caducidad, lotes, tonalidades y otras variaciones.", "defaultWorkspace": "Mi inventario de cosméticos" },
+    "fashion": { "name": "Moda", "description": "Organización por tallas, colores y variaciones de producto.", "defaultWorkspace": "Mi inventario de moda" },
+    "food": { "name": "Alimentos", "description": "Control de lotes, caducidad, temperatura y alérgenos.", "defaultWorkspace": "Mi inventario de alimentos" },
+    "custom": { "name": "Personalizado", "description": "Elige módulos básicos y crea los campos que necesitas.", "defaultWorkspace": "Mi inventario personalizado" }
+  },
+  "modules": {
+    "serial": "NexSerial",
+    "compatibility": "NexCompat",
+    "kits": "NexKit",
+    "lifecycle": "NexLifecycle",
+    "expiry": "NexExpiry",
+    "variants": "NexVariants"
+  },
+  "profileFields": {
+    "model": "Modelo",
+    "warrantyMonths": "Garantía en meses",
+    "shade": "Tonalidad",
+    "skinType": "Tipo de piel",
+    "size": "Talla",
+    "color": "Color",
+    "storageTemperature": "Temperatura de almacenamiento",
+    "allergens": "Alérgenos"
+  },
+  "fieldTypes": { "text": "Texto", "number": "Número", "currency": "Moneda", "date": "Fecha", "boolean": "Sí o no", "select": "Selección única", "multiselect": "Selección múltiple", "url": "Dirección web" },
+  "theme": {
+    "label": "Tema oscuro",
+    "useDark": "Usar tema oscuro",
+    "useLight": "Usar tema claro"
+  },
+  "nav": {
+    "welcome": "Bienvenida",
+    "dashboard": "Panel",
+    "products": "Productos",
+    "movements": "Movimientos",
+    "insights": "Insights",
+    "scenario": "Scenario Lab",
+    "timeMachine": "Time Machine",
+    "modules": "Módulos",
+    "customFields": "Campos personalizados",
+    "security": "Seguridad",
+    "settings": "Configuración"
+  },
+  "customFields": {
+    "loading": "Cargando campos personalizados…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio antes de gestionar campos personalizados.", "loadError": "No se pudieron cargar los campos personalizados.", "noticeTitle": "Estructura adaptable", "noticeMessage": "Los campos nuevos aparecen en el registro, edición, detalles y búsqueda de productos. Desactivarlos conserva los valores almacenados.",
+    "createTitle": "Crear campo personalizado", "label": "Nombre del campo", "type": "Tipo de dato", "options": "Opciones", "optionsHelp": "Para selección única o múltiple, introduce al menos dos opciones separadas por comas.", "required": "Exigir un valor", "searchable": "Incluir este campo en la búsqueda", "create": "Crear campo", "invalid": "El campo no fue creado. Revisa el nombre, tipo y opciones.",
+    "listTitle": "Campos configurados", "empty": "No se ha creado ningún campo personalizado.", "summary": "Tipo: {type}. Obligatorio: {required}. Buscable: {searchable}.", "optionsSummary": "Opciones: {options}.", "yes": "sí", "no": "no", "disable": "Desactivar campo", "enable": "Activar campo"
+  },
+  "moduleCore": {
+    "loading": "Cargando módulos especializados…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio para utilizar los módulos.", "loadError": "No se pudieron cargar los módulos.", "activeTitle": "Módulos activos", "activeMessage": "Este perfil activó: {modules}.", "noneActive": "No hay ningún módulo especializado activo. El núcleo de NexStock continúa funcionando normalmente.", "summaryTitle": "Resumen modular", "product": "Producto", "quantity": "Cantidad", "saved": "Registro modular guardado correctamente.", "invalid": "La operación fue rechazada. Revisa los datos, duplicados y módulos activos.",
+    "counts": { "serial": "Unidades serializadas", "expiry": "Lotes con caducidad", "variants": "Productos con variantes", "kits": "Kits", "compatibility": "Relaciones entre productos" },
+    "serialNumber": "Número de serie", "condition": "Condición", "conditions": { "new": "Nuevo", "used": "Usado", "refurbished": "Reacondicionado", "damaged": "Dañado" }, "addSerial": "Añadir unidad serializada",
+    "batchNumber": "Número de lote", "expiryDate": "Fecha de caducidad", "addBatch": "Añadir lote",
+    "kitName": "Nombre del kit", "component": "Componente", "requiredQuantity": "Cantidad necesaria", "addKit": "Crear kit",
+    "sourceProduct": "Producto de origen", "targetProduct": "Producto relacionado", "relationType": "Tipo de relación", "addRelation": "Añadir relación", "relations": { "compatible_with": "Compatible con", "requires": "Requiere", "replaces": "Sustituye", "upgrade_of": "Actualización de", "accessory_for": "Accesorio para" },
+    "substituteTitle": "Smart Substitute", "substituteFound": "Tal vez tengas una alternativa: {product}.", "substituteUnknown": "No se registró ninguna alternativa explícita."
+  },
+  "commandPalette": { "open": "Abrir comandos", "title": "Paleta de comandos", "description": "Busca productos o ejecuta una acción sin quitar las manos del teclado.", "search": "Buscar comandos y productos", "help": "Usa las flechas para navegar, Enter para ejecutar y Escape para cerrar.", "close": "Cerrar comandos", "empty": "Ningún comando o producto coincide con la búsqueda.", "resultCount": "Resultados disponibles: {count}.", "actions": { "newProduct": "Producto nuevo", "search": "Buscar productos", "entry": "Registrar entrada", "output": "Registrar salida", "critical": "Ver productos críticos", "scenario": "Abrir Scenario Lab", "timeMachine": "Abrir Time Machine", "language": "Cambiar idioma", "theme": "Alternar tema" } },
+  "securityCenter": { "honestTitle": "Seguridad basada en hechos", "honestMessage": "Este centro describe controles implementados y no promete seguridad absoluta.", "openTests": "Abrir modo de prueba de NexShield", "facts": { "provider": "Proveedor de datos", "mode": "Modo de operación", "database": "Base de datos", "integrity": "Integridad", "history": "Historial", "version": "Versión", "connection": "Conexión" }, "values": { "local-first": "Prioridad local", "online": "Conectado", "offline": "Sin conexión" } },
+  "shieldTest": { "run": "Ejecutar pruebas aisladas", "warningTitle": "Entorno desechable", "warningMessage": "Las pruebas usan valores locales en memoria y no cambian el espacio real.", "passedTitle": "Todas las pruebas pasaron", "passedMessage": "Las cinco protecciones rechazaron o neutralizaron las entradas adversas previstas.", "failedTitle": "Una protección falló", "failedMessage": "Revisa los resultados antes de continuar.", "isolated": "Ejecución aislada confirmada: no se escribieron datos reales.", "tests": { "negativeStock": { "passed": "Stock negativo: bloqueado.", "failed": "Stock negativo: aceptado indebidamente." }, "duplicateNexCode": { "passed": "NexCode duplicado: detectado.", "failed": "NexCode duplicado: no detectado." }, "duplicateSerial": { "passed": "Serial duplicado: detectado.", "failed": "Serial duplicado: no detectado." }, "html": { "passed": "HTML no confiable: tratado como texto.", "failed": "HTML no confiable: interpretación insegura." }, "dangerousUrl": { "passed": "URL peligrosa: bloqueada.", "failed": "URL peligrosa: aceptada." } } },
+  "welcome": {
+    "intro": "Empieza con una visión clara de lo que tienes, lo que cambió y lo que necesita tu atención.",
+    "configure": "Configurar mi inventario",
+    "about": "Conocer NexStock"
+  },
+  "institutional": {
+    "onboardingStatus": "La configuración guiada crea un espacio de trabajo local y accesible, paso a paso.",
+    "aboutStatus": "NexStock combina claridad, integridad y adaptación para distintos negocios."
+  },
+  "products": {
+    "emptyTitle": "Tu catálogo está listo para empezar",
+    "emptyDescription": "Después de la configuración inicial, tus productos aparecerán aquí con cantidad, mínimo y estado.",
+    "emptyAction": "Preparar un producto nuevo"
+  },
+  "productCore": {
+    "loading": "Cargando productos…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio de trabajo antes de registrar productos.", "configure": "Configurar ahora",
+    "search": "Buscar productos", "searchHelp": "Busca por nombre, NexCode, categoría, fabricante, proveedor y campos buscables.", "category": "Categoría", "allCategories": "Todas las categorías", "status": "Estado", "allStatuses": "Todos los estados", "allSuppliers": "Todos los proveedores", "module": "Módulo relevante", "allModules": "Todos los módulos", "archivedFilter": "Archivo", "activeOnly": "Solo activos", "archivedOnly": "Solo archivados", "allProducts": "Activos y archivados",
+    "emptyTitle": "No se encontraron productos", "emptyDescription": "Ajusta los filtros o registra el primer producto.", "newProduct": "Producto nuevo", "nexCode": "NexCode", "name": "Nombre", "quantity": "Cantidad", "minimum": "Stock mínimo", "location": "Ubicación", "actions": "Acciones", "view": "Ver detalles", "tableCaption": "Productos del espacio", "applyFilters": "Aplicar filtros", "clearFilters": "Limpiar filtros",
+    "supplier": "Proveedor", "noCategory": "Sin categoría", "noSupplier": "Sin proveedor", "tracking": "Seguimiento", "initialQuantity": "Cantidad inicial", "quantityEditHelp": "La cantidad se cambiará mediante movimientos de inventario.", "purchasePrice": "Precio de compra", "salePrice": "Precio de venta", "description": "Descripción", "save": "Guardar producto", "cancel": "Cancelar", "edit": "Editar", "archive": "Archivar", "confirmArchive": "Confirmar archivo", "archiveConfirmTitle": "¿Archivar producto?", "archiveConfirmMessage": "El historial se conservará y el producto podrá encontrarse con el filtro de archivados.", "backToProducts": "Volver a productos",
+    "loadError": "No se pudieron cargar los productos.", "saveError": "Revisa los campos. El producto no se guardó.", "notFound": "Producto no encontrado en este espacio.", "saved": "Producto guardado correctamente.", "archived": "Producto archivado correctamente."
+  },
+  "dashboardCore": {
+    "loading": "Analizando tu inventario…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio para seguir la situación del inventario.", "emptyTitle": "Tu panel está listo para recibir datos", "emptyMessage": "Crea el primer producto para que NexPulse explique la situación del inventario.", "loadError": "No se pudo calcular el panel ahora.",
+    "contextTitle": "Resumen de {workspace}", "contextMessage": "La situación se explica con texto y se ordena por urgencia, sin depender de gráficos.",
+    "pulse": {
+      "title": "NexPulse", "question": "¿Cómo está mi inventario?", "out": "Hay {count} productos sin stock. La reposición es la prioridad principal.", "critical": "Hay {count} productos en nivel crítico. Planifica la reposición antes de nuevas salidas.", "attention": "Hay {count} productos que requieren atención. El inventario funciona, pero debe supervisarse.", "stopped": "El stock mínimo está protegido, pero {count} productos llevan al menos 30 días sin salida.", "healthy": "Todos los productos activos están por encima del mínimo y no se detectaron prioridades.", "score": "Puntuación de apoyo: {score} de 100.", "forecastPending": "No hay salidas suficientes para calcular una previsión; su peso se redistribuyó entre las dimensiones disponibles.", "forecastActive": "La dimensión de previsión usa {calculated} de {total} productos con consumo calculable.",
+      "dimension": { "availability": "Disponibilidad: {value} por ciento.", "minimumCompliance": "Cumplimiento del mínimo: {value} por ciento.", "freshness": "Movimiento reciente: {value} por ciento.", "forecast": "Cobertura prevista: {value} por ciento de la referencia de 30 días." }
+    },
+    "prioritiesTitle": "Prioridades", "priorityClearTitle": "Sin prioridades inmediatas", "priorityClearMessage": "Los productos activos están por encima del mínimo y no muestran inventario detenido.", "priorityLabel": { "out": "Prioridad máxima: sin stock", "critical": "Prioridad alta: stock crítico", "attention": "Prioridad moderada: atención", "stopped": "Prioridad de revisión: producto detenido" },
+    "priority": { "out": "Quedan {quantity} unidades; el mínimo definido es {minimum}.", "critical": "Quedan {quantity} unidades, cantidad igual o inferior al mínimo de {minimum}.", "attention": "Quedan {quantity} unidades. El margen sobre el mínimo de {minimum} es reducido.", "stopped": "Hay stock disponible, pero no se registraron salidas en los últimos 30 días." },
+    "viewProduct": "Ver producto", "viewRadar": "Abrir Radar completo", "metricsTitle": "Métricas esenciales", "metrics": { "products": { "label": "Productos activos", "context": "Artículos seguidos en este espacio." }, "totalUnits": { "label": "Unidades en stock", "context": "Suma de las cantidades actuales." }, "belowOrAtMinimum": { "label": "En el mínimo o por debajo", "context": "Productos que requieren reposición." }, "movementsLast30Days": { "label": "Movimientos en 30 días", "context": "Entradas, salidas y ajustes recientes." } },
+    "recentTitle": "Movimientos recientes", "recentCaption": "Los cinco movimientos más recientes", "noMovements": "Aún no hay movimientos registrados.", "allMovements": "Ver todos los movimientos", "radarTitle": "Lectura del Radar", "radarMessage": "Se encontraron {count} prioridades, ordenadas de mayor a menor urgencia.", "backDashboard": "Volver al panel", "insightsTitle": "Insights explicables", "insightsMessage": "Consulta estimaciones de cobertura, nivel de confianza, memoria del inventario y todos los cálculos utilizados.", "openInsights": "Abrir Insights"
+  },
+  "inventoryStory": {
+    "title": "La historia de tu inventario", "description": "Lectura determinista basada solamente en los datos registrados.",
+    "state": { "out": "El inventario sigue {products} productos y {units} unidades. Productos sin existencias: {count}, la situación más urgente ahora.", "critical": "El inventario sigue {products} productos y {units} unidades. Productos en nivel crítico: {count}.", "attention": "El inventario sigue {products} productos y {units} unidades. Productos que requieren atención: {count}.", "stopped": "El inventario sigue {products} productos y {units} unidades. Productos sin salida durante al menos 30 días: {count}.", "healthy": "El inventario sigue {products} productos y {units} unidades. No se detectó ninguna prioridad inmediata." },
+    "movements": { "recorded": "Movimientos registrados en los últimos 30 días: {count}.", "none": "No se registró ningún movimiento en los últimos 30 días; no hay actividad reciente que narrar." },
+    "forecast": { "available": "Entre las estimaciones calculables, {name} tiene la menor cobertura: aproximadamente {days} días si continúa el ritmo reciente.", "unavailable": "Todavía no hay suficientes datos de salida para narrar una cobertura futura." },
+    "next": { "replenishOut": "Próximo paso: prioriza la reposición de productos sin stock.", "replenishCritical": "Próximo paso: planifica la reposición de productos críticos.", "reviewAttention": "Próximo paso: revisa los productos en atención antes de nuevas salidas.", "reviewStopped": "Próximo paso: evalúa la utilidad y la rotación de los productos detenidos.", "keepMonitoring": "Próximo paso: continúa registrando movimientos y siguiendo los niveles mínimos." }
+  },
+  "scenarioCore": {
+    "loading": "Preparando el laboratorio de escenarios…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio antes de simular escenarios.", "emptyTitle": "No hay productos disponibles para simulación", "emptyMessage": "Crea un producto para probar escenarios sin cambiar el inventario real.", "loadError": "No se pudieron preparar las simulaciones.",
+    "noticeTitle": "Entorno de simulación", "noticeMessage": "Los resultados permanecen solo en esta pantalla. Ninguna simulación cambia ni guarda el inventario real.", "product": "Producto", "type": "Tipo de escenario", "value": "Valor de la simulación", "valueHelp": "Introduce unidades, un nuevo mínimo o un aumento porcentual según el escenario elegido.", "simulate": "Simular escenario", "invalid": "No se puede calcular el escenario. Revisa el valor, el stock disponible y el historial necesario.",
+    "types": { "saida": "Simular salida", "entrada": "Simular entrada", "alterar_estoque_minimo": "Cambiar stock mínimo", "aumentar_ritmo_de_saida": "Aumentar ritmo de salida" },
+    "resultTitle": "Resultado para {product}", "now": "Ahora", "scenario": "Escenario", "impact": "Impacto", "quantity": "Cantidad", "minimum": "Stock mínimo", "status": "Estado resultante", "impactSummary": "Cambio de cantidad: {quantity}. Cambio del mínimo: {minimum}.", "forecastImpact": "Cobertura estimada: de {current} días ahora a {scenario} días en el escenario.", "notSavedTitle": "No persistido", "notSavedMessage": "Este resultado es una simulación y no se guardó en el inventario."
+  },
+  "timeMachineCore": {
+    "loading": "Reconstruyendo la línea temporal…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio para usar Time Machine.", "emptyTitle": "Todavía no hay productos en la línea temporal", "emptyMessage": "Crea productos y registra movimientos para construir la historia del inventario.", "loadError": "No se pudo reconstruir la línea temporal.", "estimateTitle": "El futuro es una estimación", "estimateMessage": "Pasado y presente usan registros locales. El futuro proyecta el ritmo reciente y nunca se presenta como certeza.",
+    "past": "Pasado", "pastDescription": "Reconstruido exclusivamente a partir de movimientos registrados.", "present": "Presente", "presentDescription": "Estado actual almacenado en el producto.", "future": "Futuro", "futureDescription": "Estimación, no certeza.", "events": "Eventos registrados", "maximum": "Máximo histórico", "minimum": "Mínimo histórico", "quantity": "Cantidad actual", "minimumStock": "Stock mínimo", "status": "Estado actual", "futureAvailable": "Estimación: si continúa el ritmo reciente, la cobertura puede durar aproximadamente {days} días.", "futureUnavailable": "Estimación no disponible: no hay suficientes salidas recientes para calcular la cobertura."
+  },
+  "insightCore": {
+    "loading": "Calculando insights…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio para generar insights del inventario.", "emptyTitle": "Todavía no hay productos para analizar", "emptyMessage": "Crea un producto para iniciar la memoria y las previsiones del inventario.", "loadError": "No se pudieron calcular los insights ahora.",
+    "estimateTitle": "Estimaciones, no certezas", "estimateMessage": "Las previsiones usan solo las salidas registradas en los últimos 30 días. La confianza y las limitaciones acompañan cada resultado.", "forecastTitle": "Previsión de cobertura", "estimateNotice": "Estimación basada en el ritmo reciente de salidas.", "forecastAvailable": "Si el ritmo reciente continúa, la cantidad actual puede durar aproximadamente {days} días.", "forecastUnavailable": "No hay salidas registradas en los últimos 30 días para calcular una previsión.",
+    "confidence": { "low": "Confianza baja: hay menos de cinco eventos relevantes.", "medium": "Confianza media: existen datos útiles, pero el volumen o el período todavía es limitado.", "high": "Confianza alta: hay al menos quince eventos distribuidos en catorce días o más. Sigue siendo una estimación." },
+    "explain": { "title": "¿Cómo calculamos esto?", "dataTitle": "Datos utilizados", "window": "Ventana analizada", "currentQuantity": "Cantidad actual", "totalOut": "Total de salidas", "events": "Eventos de salida", "history": "Período del historial", "calculationTitle": "Cálculo", "averageFormula": "Promedio diario: {total} unidades divididas por 30 días, resultado {average}.", "daysFormula": "Cobertura: {quantity} unidades divididas por el promedio diario de {average}, resultado aproximado de {days} días.", "unavailableFormula": "Sin salidas en el período, el promedio diario es cero y la división de cobertura no puede calcularse.", "limitationsTitle": "Limitaciones" },
+    "limitations": { "NO_OUTPUT_EVENTS": "No se registraron salidas en la ventana analizada.", "FEW_EVENTS": "Pocos eventos pueden volver inestable la estimación.", "SHORT_HISTORY": "El período observado todavía es inferior a catorce días.", "PAST_DEMAND_MAY_CHANGE": "El ritmo futuro puede cambiar por estacionalidad, compras, pérdidas o decisiones del negocio." },
+    "memoryTitle": "Stock Memory", "memoryDescription": "Resumen derivado exclusivamente del historial registrado.", "notRecorded": "No registrado", "days": "{value} días",
+    "memory": { "maximum": "Máximo histórico", "minimum": "Mínimo histórico", "lastZero": "Última vez en cero", "replenishments": "Reposiciones", "lastEntry": "Última entrada", "lastOutput": "Última salida", "largestOutput": "Mayor salida", "totalMoved": "Total movido", "daysSince": "Días desde el último movimiento", "explainTitle": "¿Cómo derivamos la memoria?", "explainData": "Se usaron {count} eventos registrados para este producto.", "explainMethod": "Máximos y mínimos usan las cantidades antes y después de cada evento. Entradas, salidas y totales usan el tipo y la cantidad registrados.", "explainLimitation": "Las operaciones anteriores al historial local disponible no pueden reconstruirse." }
+  },
+  "movement": {
+    "loading": "Cargando movimientos…", "workspaceRequiredTitle": "Configura tu espacio", "workspaceRequiredMessage": "Crea un espacio antes de mover el inventario.", "noProductsTitle": "Crea primero un producto", "noProductsMessage": "Los movimientos están disponibles cuando existe al menos un producto activo.",
+    "product": "Producto", "type": "Tipo", "quantity": "Cantidad", "adjustedQuantity": "Nueva cantidad total", "quantityHelp": "En ajustes, informa la cantidad final deseada.", "reason": "Motivo", "notes": "Observaciones", "calculate": "Calcular impacto", "cancel": "Cancelar vista previa", "moveProduct": "Mover inventario",
+    "previewTitle": "Vista previa del impacto", "currentQuantity": "Cantidad actual", "resultQuantity": "Cantidad después de la operación", "currentStatus": "Estado actual", "resultStatus": "Estado resultante",
+    "confirm": { "IN": "Confirmar entrada de {quantity} unidades", "OUT": "Confirmar salida de {quantity} unidades", "ADJUSTMENT": "Confirmar ajuste a {quantity} unidades" },
+    "types": { "IN": "Entrada", "OUT": "Salida", "ADJUSTMENT": "Ajuste" },
+    "historyTitle": "Historial del espacio", "historyCaption": "Movimientos recientes del espacio", "productHistoryTitle": "Historial de movimientos", "productHistoryCaption": "Movimientos recientes de este producto", "emptyHistory": "No hay movimientos registrados.", "date": "Fecha", "before": "Antes", "after": "Después",
+    "invalidError": "La operación no es válida. Revisa la cantidad, el motivo y el stock disponible.", "conflictError": "El stock cambió desde la vista previa. Calcula el impacto de nuevo.", "loadError": "No se pudieron cargar los movimientos.", "saved": "Movimiento registrado con auditoría."
+  },
+  "statuses": { "out": "Sin stock", "critical": "Crítico", "attention": "Atención", "healthy": "Saludable", "archived": "Archivado" },
+  "tracking": { "bulk": "Cantidad total", "batch": "Por lote", "serialized": "Por número de serie" },
+  "common": {
+    "preparedTitle": "Preferencias locales",
+    "preparedDescription": "La ruta {route} reúne preferencias de NexStock guardadas en este navegador."
+  },
+  "errors": {
+    "notFoundTitle": "Página no encontrada",
+    "notFoundDescription": "No se pudo encontrar esta área de NexStock.",
+    "unavailableTitle": "Ruta no disponible",
+    "unavailableMessage": "La ruta {route} no existe. Usa la navegación principal para continuar.",
+    "startup": "No se pudo iniciar NexStock. Recarga la página."
+  },
+  "routes": {
+    "welcome": { "title": "Bienvenida", "description": "Elección guiada y presentación de NexStock." },
+    "onboarding": { "title": "Configuración inicial", "description": "Creación asistida del espacio de trabajo local." },
+    "dashboard": { "title": "Panel", "description": "Situación, prioridades y próximos pasos del inventario." },
+    "products": { "title": "Productos", "description": "Lista, búsqueda y gestión de productos." },
+    "productNew": { "title": "Producto nuevo", "description": "Registro accesible de un producto nuevo." },
+    "productEdit": { "title": "Editar producto", "description": "Edición de la información del producto." },
+    "productDetail": { "title": "Detalles del producto", "description": "Identidad, inventario, historial e información útil." },
+    "movements": { "title": "Movimientos", "description": "Entradas, salidas y ajustes de inventario." },
+    "radar": { "title": "Radar", "description": "Prioridades que necesitan atención." },
+    "insights": { "title": "Información útil", "description": "Explicaciones reproducibles sobre el inventario." },
+    "timeMachine": { "title": "Time Machine", "description": "Pasado, presente y estimaciones futuras." },
+    "scenario": { "title": "Scenario Lab", "description": "Simulaciones que no modifican los datos reales." },
+    "kits": { "title": "Kits", "description": "Composición y disponibilidad de kits." },
+    "about": { "title": "Acerca de", "description": "Identidad, propósito e información de NexStock." },
+    "settings": { "title": "Configuración", "description": "Preferencias locales del espacio de trabajo." },
+    "profiles": { "title": "Perfiles", "description": "Adaptación de NexStock al tipo de negocio." },
+    "security": { "title": "Centro de seguridad", "description": "Datos verificables sobre protección e integridad." },
+    "shieldTest": { "title": "Prueba NexShield", "description": "Validación aislada de las reglas de integridad." }
+  }
+}

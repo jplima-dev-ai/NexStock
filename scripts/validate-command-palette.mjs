@@ -1,0 +1,10 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd();
+const palette = readFileSync(join(root, "js/components/command-palette.js"), "utf8");
+for (const contract of ["ctrlKey", "metaKey", 'event.key.toLowerCase() === "k"', 'event.key === "ArrowDown"', 'event.key === "ArrowUp"', 'event.key === "Enter"', "aria-activedescendant", "dialog.close()", "option.disabled", 'removeEventListener("click", onOpen)', 'setAttribute("aria-expanded", "false")']) if (!palette.includes(contract)) throw new Error(`Contrato da Command Palette ausente: ${contract}`);
+const productView = readFileSync(join(root, "js/views/product-view.js"), "utf8");
+for (const contract of ["product-supplier-filter", "product-module-filter", "clearFilters"]) if (!productView.includes(contract)) throw new Error(`Filtro avançado ausente: ${contract}`);
+const html = readFileSync(join(root, "index.html"), "utf8");
+if (!html.includes('id="command-palette-trigger"')) throw new Error("Gatilho da Command Palette ausente no shell.");
+process.stdout.write("Busca e Command Palette: filtros avançados, Ctrl+K, teclado, foco e ações aprovados.\n");

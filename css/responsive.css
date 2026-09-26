@@ -239,6 +239,12 @@
   }
 }
 
+@media (max-width: 47.99rem) {
+  .toast-layer {
+    inset-block-end: calc(4.5rem + max(var(--ns-space-4), env(safe-area-inset-bottom)));
+  }
+}
+
 @media (max-height: 32rem) {
   .ns-dialog {
     max-height: calc(100dvh - 1rem);

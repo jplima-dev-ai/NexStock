@@ -79,7 +79,6 @@ export function validateBackup(value, { expectedWorkspaceId } = {}) {
   if (!isRecord(value.media) || typeof value.media.included !== "boolean" || !Array.isArray(value.media.records)) {
     invalid("media", "Backup media manifest is invalid.");
   }
-  if (value.media.included && value.media.records.length === 0) invalid("media", "embedded media records are required when media is included.");
   if (!value.media.included && value.media.records.length) invalid("media", "Media records require an included media manifest.");
   if (value.data.workspaces.length !== 1) invalid("structure", "Backup must contain exactly one workspace.");
   const workspace = value.data.workspaces[0];

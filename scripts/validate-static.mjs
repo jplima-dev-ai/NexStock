@@ -8,8 +8,6 @@ const requiredFiles = [
   "CHANGELOG.md",
   "CONTRIBUTING.md",
   "LICENSE",
-  "NEXSTOCK-BLUEPRINT-v1.1.md",
-  "NEXSTOCK-BLUEPRINT-v1.2.md",
   "manifest.webmanifest",
   "service-worker.js",
   "js/app.js",

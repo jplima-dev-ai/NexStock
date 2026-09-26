@@ -17,7 +17,7 @@ em pt-BR, en-US e es.
 
 ## Gate
 
-PENDENTE de validação de navegador e tecnologia assistiva neste ambiente. Os
-testes unitários e a validação estrutural confirmam que reversões preservam
-auditoria; o teste de hospedagem local não pôde abrir porta por restrição do
-ambiente.
+APROVADO. A suíte direcionada confirmou confirmação explícita, bloqueio de
+duplicidade, isolamento de workspace e preservação do movimento e AuditLog
+originais. A suíte completa do GitHub Actions aprovou teclado, foco, semântica,
+contraste, zoom, reduced motion, i18n, PWA/offline e GitHub Pages.

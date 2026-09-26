@@ -1,10 +1,13 @@
 import { createButton } from "../components/button.js";
+import { createContentStatus } from "../components/content-state.js";
 import { createEmptyState } from "../components/empty-state.js";
 import { createAlert } from "../components/feedback.js";
 import { createChoice, createField } from "../components/field.js";
 import { createStatusBadge } from "../components/status-badge.js";
 import { createTable } from "../components/table.js";
+import { createCopyContext } from "../services/copy-service.js";
 import { createProductInsightSections } from "./insight-view.js";
+import { validateImageFile } from "../services/media-service.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -14,9 +17,7 @@ function text(tag, value, className) {
 }
 
 function loading(t) {
-  const message = text("p", t("productCore.loading"));
-  message.setAttribute("role", "status");
-  return message;
+  return createContentStatus({ message: t("productCore.loading") });
 }
 
 function money(value, locale, currency) {
@@ -34,6 +35,18 @@ function createHeader(title, description) {
 
 function createWorkspaceRequired(t) {
   return createAlert({ title: t("productCore.workspaceRequiredTitle"), message: t("productCore.workspaceRequiredMessage"), tone: "warning" });
+}
+
+function createMediaPreview(media, t, { thumbnail = false } = {}) {
+  if (!media?.blob) return null;
+  const figure = document.createElement("figure");
+  figure.className = "product-media";
+  const image = document.createElement("img");
+  image.src = URL.createObjectURL(thumbnail ? (media.thumbnailBlob ?? media.blob) : media.blob);
+  image.alt = media.altText;
+  image.loading = "lazy";
+  figure.append(image, text("figcaption", t("productMedia.previewCaption")));
+  return figure;
 }
 
 function createListView({ title, description, t, locale, workspace, service, initialFilters = {} }) {
@@ -55,13 +68,13 @@ function createListView({ title, description, t, locale, workspace, service, ini
     const toolbar = document.createElement("form");
     toolbar.className = "product-toolbar";
     toolbar.setAttribute("role", "search");
-    const search = createField({ id: "product-search", label: t("productCore.search"), type: "search", helpText: t("productCore.searchHelp") });
-    const category = createField({ id: "product-category-filter", label: t("productCore.category"), type: "select", options: [{ value: "", label: t("productCore.allCategories") }, ...options.categories.map((item) => ({ value: item.id, label: item.name }))] });
-    const supplier = createField({ id: "product-supplier-filter", label: t("productCore.supplier"), type: "select", options: [{ value: "", label: t("productCore.allSuppliers") }, ...options.suppliers.map((item) => ({ value: item.id, label: item.name }))] });
+    const search = createField({ id: "product-search", label: t("productCore.search"), type: "search", value: initialFilters.query, helpText: t("productCore.searchHelp") });
+    const category = createField({ id: "product-category-filter", label: t("productCore.category"), type: "select", value: initialFilters.categoryId, options: [{ value: "", label: t("productCore.allCategories") }, ...options.categories.map((item) => ({ value: item.id, label: item.name }))] });
+    const supplier = createField({ id: "product-supplier-filter", label: t("productCore.supplier"), type: "select", value: initialFilters.supplierId, options: [{ value: "", label: t("productCore.allSuppliers") }, ...options.suppliers.map((item) => ({ value: item.id, label: item.name }))] });
     const status = createField({ id: "product-status-filter", label: t("productCore.status"), type: "select", value: initialFilters.status, options: [{ value: "", label: t("productCore.allStatuses") }, ...["out", "critical", "attention", "healthy"].map((value) => ({ value, label: t(`statuses.${value}`) }))] });
     const filterableModules = options.modules.filter((value) => ["serial", "lifecycle", "expiry", "variants"].includes(value));
-    const module = createField({ id: "product-module-filter", label: t("productCore.module"), type: "select", options: [{ value: "", label: t("productCore.allModules") }, ...filterableModules.map((value) => ({ value, label: t(`modules.${value}`) }))] });
-    const archived = createField({ id: "product-archived-filter", label: t("productCore.archivedFilter"), type: "select", options: [
+    const module = createField({ id: "product-module-filter", label: t("productCore.module"), type: "select", value: initialFilters.module, options: [{ value: "", label: t("productCore.allModules") }, ...filterableModules.map((value) => ({ value, label: t(`modules.${value}`) }))] });
+    const archived = createField({ id: "product-archived-filter", label: t("productCore.archivedFilter"), type: "select", value: initialFilters.archived, options: [
       { value: "active", label: t("productCore.activeOnly") }, { value: "archived", label: t("productCore.archivedOnly") }, { value: "all", label: t("productCore.allProducts") },
     ] });
     const results = document.createElement("div");
@@ -70,17 +83,17 @@ function createListView({ title, description, t, locale, workspace, service, ini
     async function renderResults() {
       const products = await service.search(workspace.id, { query: search.control.value, categoryId: category.control.value, supplierId: supplier.control.value, status: status.control.value, module: module.control.value, archived: archived.control.value });
       if (products.length === 0) {
-        results.replaceChildren(createEmptyState({ title: t("productCore.emptyTitle"), description: t("productCore.emptyDescription"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }) }));
+        results.replaceChildren(createEmptyState({ title: t("productCore.emptyTitle"), description: t("productCore.emptyDescription"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }), kind: "filtered" }));
         return;
       }
       const columns = [
-        { key: "nexCode", label: t("productCore.nexCode") },
-        { key: "name", label: t("productCore.name") },
-        { key: "categoryName", label: t("productCore.category") },
-        { key: "currentQuantity", label: t("productCore.quantity") },
-        { key: "minimumStock", label: t("productCore.minimum") },
+        { key: "nexCode", label: t("productCore.nexCode"), sortable: true },
+        { key: "name", label: t("productCore.name"), sortable: true },
+        { key: "categoryName", label: t("productCore.category"), sortable: true },
+        { key: "currentQuantity", label: t("productCore.quantity"), sortable: true },
+        { key: "minimumStock", label: t("productCore.minimum"), sortable: true },
         { key: "status", label: t("productCore.status"), render: (product) => createStatusBadge(product.status, { label: t(`statuses.${product.status}`) }) },
-        { key: "location", label: t("productCore.location") },
+        { key: "location", label: t("productCore.location"), sortable: true },
         { key: "actions", label: t("productCore.actions"), render: (product) => createButton({ text: t("productCore.view"), href: `#/products/${encodeURIComponent(product.id)}`, variant: "quiet" }) },
       ];
       results.replaceChildren(createTable({ caption: t("productCore.tableCaption"), columns, rows: products, emptyMessage: t("productCore.emptyDescription") }));
@@ -91,7 +104,9 @@ function createListView({ title, description, t, locale, workspace, service, ini
     buttons.className = "product-toolbar__actions";
     buttons.append(
       createButton({ text: t("productCore.applyFilters"), type: "submit" }),
-      createButton({ text: t("productCore.clearFilters"), variant: "secondary", onClick: () => { toolbar.reset(); renderResults(); } }),
+      createButton({ text: t("productCore.clearFilters"), variant: "secondary", onClick: () => {
+        search.control.value = ""; category.control.value = ""; supplier.control.value = ""; status.control.value = ""; module.control.value = ""; archived.control.value = "active"; renderResults();
+      } }),
       createButton({ text: t("productCore.newProduct"), href: "#/products/new" }),
     );
     toolbar.append(search.element, category.element, supplier.element, status.element, module.element, archived.element, buttons);
@@ -101,7 +116,7 @@ function createListView({ title, description, t, locale, workspace, service, ini
   return { element: section, focusTarget: header.heading };
 }
 
-function createProductFormView({ title, description, t, workspace, service, draftService, productId, onSaved }) {
+function createProductFormView({ title, description, t, workspace, service, mediaService, draftService, productId, onSaved }) {
   const section = document.createElement("section");
   section.className = "route-stack";
   const header = createHeader(title, description);
@@ -114,23 +129,32 @@ function createProductFormView({ title, description, t, workspace, service, draf
   content.append(loading(t));
   section.append(content);
   (async () => {
-    const [options, product] = await Promise.all([service.getFormOptions(workspace.id), productId ? service.getById(productId, workspace.id) : null]);
+    const [options, product, existingMedia] = await Promise.all([service.getFormOptions(workspace.id), productId ? service.getById(productId, workspace.id) : null, productId ? mediaService?.getByProduct(workspace.id, productId) : null]);
     if (productId && !product) throw new Error("not-found");
     const form = document.createElement("form");
     form.className = "product-form";
+    const copy = createCopyContext({ translate: t, workspace });
+    const nameCopy = copy.field({ helpKey: "productCore.nameHelp", exampleKey: "productCore.nameExample", profileExample: "productName" });
+    const trackingCopy = copy.field({ helpKey: "productCore.trackingHelp" });
+    const quantityCopy = copy.field({ helpKey: product ? "productCore.quantityEditHelp" : "productCore.initialQuantityHelp", exampleKey: "productCore.quantityExample" });
+    const minimumCopy = copy.field({ helpKey: "productCore.minimumHelp", exampleKey: "productCore.minimumExample" });
+    const purchaseCopy = copy.field({ helpKey: "productCore.purchasePriceHelp", exampleKey: "productCore.priceExample" });
+    const saleCopy = copy.field({ helpKey: "productCore.salePriceHelp", exampleKey: "productCore.priceExample" });
+    const locationCopy = copy.field({ helpKey: "productCore.locationHelp", exampleKey: "productCore.locationExample", profileExample: "location" });
+    const descriptionCopy = copy.field({ helpKey: "productCore.descriptionHelp", exampleKey: "productCore.descriptionExample", profileExample: "description" });
     const draftId = `product:${productId ?? "new"}`;
     const draft = draftService?.load(workspace.id, draftId);
     const fields = {
-      name: createField({ id: "product-name", label: t("productCore.name"), required: true, requiredText: t("forms.required"), value: product?.name, maxLength: 120 }),
+      name: createField({ id: "product-name", label: t("productCore.name"), ...nameCopy, required: true, requiredText: t("forms.required"), value: product?.name, maxLength: 120, autocomplete: "off" }),
       categoryId: createField({ id: "product-category", label: t("productCore.category"), type: "select", value: product?.categoryId, options: [{ value: "", label: t("productCore.noCategory") }, ...options.categories.map((item) => ({ value: item.id, label: item.name }))] }),
       supplierId: createField({ id: "product-supplier", label: t("productCore.supplier"), type: "select", value: product?.supplierId, options: [{ value: "", label: t("productCore.noSupplier") }, ...options.suppliers.map((item) => ({ value: item.id, label: item.name }))] }),
-      trackingMode: createField({ id: "product-tracking", label: t("productCore.tracking"), type: "select", value: product?.trackingMode ?? "bulk", options: ["bulk", "batch", "serialized"].map((value) => ({ value, label: t(`tracking.${value}`) })) }),
-      currentQuantity: createField({ id: "product-quantity", label: t("productCore.initialQuantity"), type: "number", value: product?.currentQuantity ?? 0, helpText: product ? t("productCore.quantityEditHelp") : "", min: 0, step: "any" }),
-      minimumStock: createField({ id: "product-minimum", label: t("productCore.minimum"), type: "number", value: product?.minimumStock ?? 0, min: 0, step: "any" }),
-      purchasePrice: createField({ id: "product-purchase-price", label: t("productCore.purchasePrice"), type: "number", value: product?.purchasePrice ?? 0, min: 0, step: "any" }),
-      salePrice: createField({ id: "product-sale-price", label: t("productCore.salePrice"), type: "number", value: product?.salePrice ?? 0, min: 0, step: "any" }),
-      location: createField({ id: "product-location", label: t("productCore.location"), value: product?.location }),
-      description: createField({ id: "product-description", label: t("productCore.description"), type: "textarea", value: product?.description }),
+      trackingMode: createField({ id: "product-tracking", label: t("productCore.tracking"), ...trackingCopy, type: "select", value: product?.trackingMode ?? "bulk", options: ["bulk", "batch", "serialized"].map((value) => ({ value, label: t(`tracking.${value}`) })) }),
+      currentQuantity: createField({ id: "product-quantity", label: t("productCore.initialQuantity"), ...quantityCopy, type: "number", value: product?.currentQuantity ?? 0, min: 0, step: "any", inputMode: "decimal" }),
+      minimumStock: createField({ id: "product-minimum", label: t("productCore.minimum"), ...minimumCopy, type: "number", value: product?.minimumStock ?? 0, min: 0, step: "any", inputMode: "decimal" }),
+      purchasePrice: createField({ id: "product-purchase-price", label: t("productCore.purchasePrice"), ...purchaseCopy, type: "number", value: product?.purchasePrice ?? 0, min: 0, step: "any", inputMode: "decimal" }),
+      salePrice: createField({ id: "product-sale-price", label: t("productCore.salePrice"), ...saleCopy, type: "number", value: product?.salePrice ?? 0, min: 0, step: "any", inputMode: "decimal" }),
+      location: createField({ id: "product-location", label: t("productCore.location"), ...locationCopy, value: product?.location, autocomplete: "off" }),
+      description: createField({ id: "product-description", label: t("productCore.description"), ...descriptionCopy, type: "textarea", value: product?.description }),
     };
     if (draft) {
       for (const [key, field] of Object.entries(fields)) {
@@ -139,6 +163,17 @@ function createProductFormView({ title, description, t, workspace, service, draf
     }
     if (product) fields.currentQuantity.control.disabled = true;
     for (const field of Object.values(fields)) form.append(field.element);
+    const mediaFile = createField({ id: "product-image", label: t("productMedia.fileLabel"), type: "file", accept: "image/jpeg,image/png,image/webp", helpText: t("productMedia.fileHelp") });
+    const mediaAlt = createField({ id: "product-image-alt", label: t("productMedia.altLabel"), helpText: t("productMedia.altHelp"), value: existingMedia?.altText ?? "", maxLength: 240 });
+    const removeMedia = createChoice({ id: "product-image-remove", label: t("productMedia.removeLabel") });
+    const mediaSection = document.createElement("section"); mediaSection.className = "product-media-section"; mediaSection.setAttribute("aria-labelledby", "product-media-title");
+    const mediaTitle = text("h2", t("productMedia.title")); mediaTitle.id = "product-media-title";
+    mediaSection.append(mediaTitle);
+    const preview = createMediaPreview(existingMedia, t, { thumbnail: true });
+    if (preview) mediaSection.append(preview);
+    mediaSection.append(mediaFile.element, mediaAlt.element);
+    if (existingMedia) mediaSection.append(removeMedia.element);
+    form.append(mediaSection);
     const customControls = [];
     for (const definition of options.customFields) {
       if (["boolean"].includes(definition.type)) {
@@ -163,7 +198,11 @@ function createProductFormView({ title, description, t, workspace, service, draf
     form.append(errorArea, actions);
     const draftStatus = text("p", draft ? t("pwa.draftRestored") : "", "route-meta");
     draftStatus.setAttribute("role", "status");
-    form.prepend(draftStatus);
+    form.prepend(
+      text("p", copy.modeMessage(), "ns-copy-mode"),
+      createButton({ text: t("nexCopy.openGlossary"), href: "#/glossary", variant: "quiet" }),
+      draftStatus,
+    );
     form.addEventListener("input", () => {
       const values = Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.control.value]));
       draftService?.save(workspace.id, draftId, values);
@@ -172,13 +211,21 @@ function createProductFormView({ title, description, t, workspace, service, draf
     form.addEventListener("submit", async (event) => {
       event.preventDefault(); save.disabled = true; errorArea.replaceChildren();
       try {
+        const file = mediaFile.control.files?.[0];
+        if (file) {
+          validateImageFile(file);
+          if (!mediaAlt.control.value.trim()) throw new TypeError("Image description is required.");
+        }
         const customData = Object.fromEntries(customControls.map(({ definition, control }) => [definition.key, control.type === "checkbox" ? control.checked : (definition.type === "multiselect" ? [...control.selectedOptions].map(({ value }) => value) : control.value)]));
         const input = Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.control.value]));
         const saved = product ? await service.update(workspace.id, product.id, { ...input, customData }) : await service.create(workspace.id, { ...input, customData });
+        if (file) await mediaService?.setImage({ workspaceId: workspace.id, productId: saved.id, file, altText: mediaAlt.control.value });
+        else if (existingMedia && removeMedia.control.checked) await mediaService?.remove(workspace.id, saved.id);
+        else if (existingMedia && mediaAlt.control.value.trim() !== existingMedia.altText) await mediaService?.updateAltText({ workspaceId: workspace.id, productId: saved.id, altText: mediaAlt.control.value });
         draftService?.remove(workspace.id, draftId);
         onSaved(saved);
       } catch {
-        errorArea.append(createAlert({ message: t("productCore.saveError"), tone: "danger", urgent: true })); save.disabled = false;
+        errorArea.append(createAlert({ message: t("productMedia.saveError"), tone: "danger", urgent: true })); save.disabled = false;
       }
     });
     content.replaceChildren(form);
@@ -186,13 +233,13 @@ function createProductFormView({ title, description, t, workspace, service, draf
   return { element: section, focusTarget: header.heading };
 }
 
-function createDetailView({ title, description, t, locale, workspace, service, movementService, insightService, productId, onMoveProduct, onArchived }) {
+function createDetailView({ title, description, t, locale, workspace, service, mediaService, movementService, insightService, productId, onMoveProduct, onArchived }) {
   const section = document.createElement("section"); section.className = "route-stack";
   const header = createHeader(title, description); section.append(header.wrapper);
   const content = document.createElement("div"); content.append(loading(t)); section.append(content);
   if (!workspace) content.replaceChildren(createWorkspaceRequired(t));
   else (async () => {
-    const [product, options, movements, insight] = await Promise.all([service.getById(productId, workspace.id), service.getFormOptions(workspace.id), movementService.listByProduct(workspace.id, productId), insightService.getByProduct(workspace.id, productId)]);
+    const [product, options, movements, insight, media] = await Promise.all([service.getById(productId, workspace.id), service.getFormOptions(workspace.id), movementService.listByProduct(workspace.id, productId), insightService.getByProduct(workspace.id, productId), mediaService?.getByProduct(workspace.id, productId)]);
     if (!product) { content.replaceChildren(createAlert({ message: t("productCore.notFound"), tone: "warning" })); return; }
     const category = options.categories.find(({ id }) => id === product.categoryId)?.name ?? t("productCore.noCategory");
     const status = product.archivedAt ? "archived" : product.status ?? (await service.search(workspace.id, { archived: "all" })).find(({ id }) => id === product.id)?.status;
@@ -225,7 +272,8 @@ function createDetailView({ title, description, t, locale, workspace, service, m
       { key: "quantity", label: t("movement.quantity") }, { key: "beforeQuantity", label: t("movement.before") }, { key: "afterQuantity", label: t("movement.after") }, { key: "reason", label: t("movement.reason") },
     ] }));
     const insightSections = insight ? createProductInsightSections({ insight, t, locale }) : createAlert({ message: t("insightCore.loadError"), tone: "warning" });
-    content.replaceChildren(createStatusBadge(status, { label: t(`statuses.${status}`) }), details, actions, insightSections, history);
+    const preview = createMediaPreview(media, t);
+    content.replaceChildren(createStatusBadge(status, { label: t(`statuses.${status}`) }), ...(preview ? [preview] : []), details, actions, insightSections, history);
   })().catch(() => content.replaceChildren(createAlert({ message: t("productCore.loadError"), tone: "danger" })));
   return { element: section, focusTarget: header.heading };
 }

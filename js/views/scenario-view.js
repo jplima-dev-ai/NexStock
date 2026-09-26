@@ -1,10 +1,12 @@
 import { createButton } from "../components/button.js";
+import { createContentStatus } from "../components/content-state.js";
 import { createCard } from "../components/card.js";
 import { createEmptyState } from "../components/empty-state.js";
 import { createAlert } from "../components/feedback.js";
 import { createField } from "../components/field.js";
-import { SCENARIO_TYPES, simulateScenario } from "../services/scenario-service.js";
+import { SCENARIO_TYPES, applyTwinScenario, compareScenarios, createDigitalTwin, reconstructHistoricalSnapshot, simulateScenario } from "../services/scenario-service.js";
 import { getInventoryStatus } from "../services/product-service.js";
+import { createCopyContext } from "../services/copy-service.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -50,29 +52,62 @@ function resultCard(result, product, t, locale) {
   return createCard({ title: t("scenarioCore.resultTitle", { product: product.name }), content });
 }
 
-export function createScenarioView({ title, description, t, locale, workspace, productService, movementService }) {
+function comparisonCard(record, t, locale) {
+  const number = (value, digits = 1) => new Intl.NumberFormat(locale, { maximumFractionDigits: digits }).format(value);
+  const forecast = record.forecast.available
+    ? t("scenarioCore.comparisonForecastAvailable", { days: number(record.forecast.daysRemaining) })
+    : t("scenarioCore.comparisonForecastUnavailable", { sufficiency: t(`insightCore.dataSufficiency.${record.forecast.dataSufficiency}`) });
+  const risks = record.risks.length
+    ? t("scenarioCore.comparisonRisksPresent", { count: record.risks.length })
+    : t("scenarioCore.comparisonRisksNone");
+  return createCard({
+    title: record.id === "REAL" ? t("scenarioCore.comparisonReal") : t("scenarioCore.comparisonScenario", { id: record.id }),
+    content: definitionList([
+      [t("scenarioCore.quantity"), number(record.quantity)],
+      [t("scenarioCore.minimum"), number(record.minimum)],
+      [t("scenarioCore.status"), t(`statuses.${record.status}`)],
+      [t("scenarioCore.comparisonImpact"), t("scenarioCore.comparisonImpactValue", { quantity: number(record.impact.quantityDelta), minimum: number(record.impact.minimumDelta) })],
+      [t("scenarioCore.comparisonForecast"), forecast],
+      [t("scenarioCore.comparisonRisks"), risks],
+    ]),
+    headingLevel: 3,
+  });
+}
+
+function scenarioComparison(result, t, locale) {
+  const content = document.createElement("div");
+  content.className = "insight-list";
+  content.append(comparisonCard(result.real, t, locale), ...result.scenarios.map((record) => comparisonCard(record, t, locale)));
+  return createCard({ title: t("scenarioCore.comparisonTitle"), description: t("scenarioCore.comparisonDescription"), content });
+}
+
+export function createScenarioView({ title, description, t, locale, workspace, productService, movementService, initialProductId }) {
   const { section, heading } = baseView(title, description);
   if (!workspace) {
     section.append(createAlert({ title: t("scenarioCore.workspaceRequiredTitle"), message: t("scenarioCore.workspaceRequiredMessage"), tone: "warning" }));
     return { element: section, focusTarget: heading };
   }
-  const content = text("p", t("scenarioCore.loading"));
-  content.setAttribute("role", "status");
+  const content = createContentStatus({ message: t("scenarioCore.loading") });
   section.append(content);
   Promise.all([productService.listByWorkspace(workspace.id), movementService.listByWorkspace(workspace.id)]).then(([allProducts, movements]) => {
     const products = allProducts.filter(({ archivedAt }) => !archivedAt);
     if (!products.length) {
-      content.replaceChildren(createEmptyState({ title: t("scenarioCore.emptyTitle"), description: t("scenarioCore.emptyMessage"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }) }));
+      content.replaceChildren(createEmptyState({ title: t("scenarioCore.emptyTitle"), description: t("scenarioCore.emptyMessage"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }), kind: "first-use" }));
       return;
     }
     const form = document.createElement("form");
     form.className = "movement-form";
-    const product = createField({ id: "scenario-product", label: t("scenarioCore.product"), type: "select", options: products.map((item) => ({ value: item.id, label: `${item.name} · ${item.nexCode}` })) });
-    const type = createField({ id: "scenario-type", label: t("scenarioCore.type"), type: "select", options: Object.values(SCENARIO_TYPES).map((value) => ({ value, label: t(`scenarioCore.types.${value}`) })) });
-    const value = createField({ id: "scenario-value", label: t("scenarioCore.value"), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), helpText: t("scenarioCore.valueHelp") });
+    const copy = createCopyContext({ translate: t, workspace });
+    const product = createField({ id: "scenario-product", label: t("scenarioCore.product"), ...copy.field({ helpKey: "scenarioCore.productHelp" }), type: "select", value: products.some(({ id }) => id === initialProductId) ? initialProductId : undefined, options: products.map((item) => ({ value: item.id, label: `${item.name} · ${item.nexCode}` })) });
+    const type = createField({ id: "scenario-type", label: t("scenarioCore.type"), ...copy.field({ helpKey: "scenarioCore.typeHelp" }), type: "select", options: Object.values(SCENARIO_TYPES).map((value) => ({ value, label: t(`scenarioCore.types.${value}`) })) });
+    const value = createField({ id: "scenario-value", label: t("scenarioCore.value"), ...copy.field({ helpKey: "scenarioCore.valueHelp", exampleKey: "scenarioCore.valueExample" }), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" });
+    const comparisonValues = ["A", "B", "C"].map((id) => createField({ id: `scenario-comparison-${id.toLowerCase()}`, label: t("scenarioCore.comparisonValue", { id }), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" }));
     const feedback = document.createElement("div");
     feedback.setAttribute("aria-live", "polite");
-    form.append(product.element, type.element, value.element, createButton({ text: t("scenarioCore.simulate"), type: "submit" }), feedback);
+    const comparison = document.createElement("fieldset");
+    comparison.append(text("legend", t("scenarioCore.comparisonInputTitle")), text("p", t("scenarioCore.comparisonInputHelp")), ...comparisonValues.map(({ element }) => element));
+    const compareButton = createButton({ text: t("scenarioCore.compare"), type: "button" });
+    form.append(text("p", copy.modeMessage(), "ns-copy-mode"), createButton({ text: t("nexCopy.openGlossary"), href: "#/glossary", variant: "quiet" }), product.element, type.element, value.element, createButton({ text: t("scenarioCore.simulate"), type: "submit" }), comparison, compareButton, feedback);
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       try {
@@ -83,38 +118,154 @@ export function createScenarioView({ title, description, t, locale, workspace, p
         feedback.replaceChildren(createAlert({ message: t("scenarioCore.invalid"), tone: "danger" }));
       }
     });
+    compareButton.addEventListener("click", () => {
+      try {
+        const selected = products.find(({ id }) => id === product.control.value);
+        const changes = comparisonValues.map(({ control }) => ({ type: type.control.value, value: control.value }));
+        const result = compareScenarios({ product: selected, movements: movements.filter(({ productId }) => productId === selected.id), scenarios: ["A", "B", "C"].map((id, index) => ({ id, changes: [changes[index]] })) });
+        feedback.replaceChildren(scenarioComparison(result, t, locale));
+      } catch {
+        feedback.replaceChildren(createAlert({ message: t("scenarioCore.invalid"), tone: "danger" }));
+      }
+    });
     content.replaceChildren(createAlert({ title: t("scenarioCore.noticeTitle"), message: t("scenarioCore.noticeMessage"), tone: "info" }), form);
   }).catch(() => content.replaceChildren(createAlert({ message: t("scenarioCore.loadError"), tone: "danger" })));
   return { element: section, focusTarget: heading };
 }
 
-export function createTimeMachineView({ title, description, t, locale, workspace, insightService }) {
+function historicalPulseCard(snapshot, t, locale) {
+  const content = document.createElement("div");
+  if (!snapshot.pulse.available) {
+    content.append(text("p", t("timeMachineCore.pulseUnavailable")));
+  } else {
+    const number = (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value);
+    content.append(
+      text("p", t("timeMachineCore.pulseNarrative", { products: number(snapshot.metrics.products), critical: number(snapshot.metrics.belowOrAtMinimum) })),
+      definitionList([
+        [t("timeMachineCore.pulseScore"), t("timeMachineCore.pulseScoreContext", { score: number(snapshot.pulse.score) })],
+        [t("timeMachineCore.pulseForecastCoverage"), t("timeMachineCore.pulseForecastCoverageValue", { calculated: number(snapshot.pulse.forecastCoverage.calculated), total: number(snapshot.pulse.forecastCoverage.total) })],
+      ]),
+    );
+  }
+  return createCard({ title: t("timeMachineCore.pulseTitle"), description: t("timeMachineCore.pulseDescription"), content, headingLevel: 2 });
+}
+
+function historicalResult(snapshot, t, locale) {
+  const number = (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value);
+  const content = document.createElement("div");
+  content.className = "insight-list";
+  content.append(
+    createCard({ title: t("timeMachineCore.past"), description: t("timeMachineCore.pastDescription"), content: text("p", t("timeMachineCore.snapshotDescription", { date: new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(snapshot.selectedAt)) })), headingLevel: 2 }),
+    createCard({ title: t("timeMachineCore.present"), description: t("timeMachineCore.presentDescription"), content: text("p", t("timeMachineCore.presentContext")), headingLevel: 2 }),
+    createCard({ title: t("timeMachineCore.future"), description: t("timeMachineCore.futureDescription"), content: text("p", t("timeMachineCore.futureUnavailable")), headingLevel: 2 }),
+    createCard({ title: t("timeMachineCore.snapshotTitle"), description: t("timeMachineCore.snapshotDescription", { date: new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(snapshot.selectedAt)) }), content: definitionList([
+      [t("timeMachineCore.productsAtDate"), number(snapshot.metrics.products)],
+      [t("timeMachineCore.totalUnitsAtDate"), number(snapshot.metrics.totalUnits)],
+      [t("timeMachineCore.movementsAtDate"), number(snapshot.movements.length)],
+    ]), headingLevel: 2 }),
+    historicalPulseCard(snapshot, t, locale),
+  );
+  const products = document.createElement("div");
+  products.className = "insight-list";
+  for (const product of snapshot.products) {
+    products.append(createCard({ title: `${product.name} · ${product.nexCode}`, content: definitionList([
+      [t("timeMachineCore.quantity"), number(product.currentQuantity)],
+      [t("timeMachineCore.minimumStock"), number(product.minimumStock)],
+      [t("timeMachineCore.status"), t(`statuses.${product.status}`)],
+    ]), headingLevel: 3 }));
+  }
+  content.append(createCard({ title: t("timeMachineCore.productsTitle"), description: t("timeMachineCore.productsDescription"), content: products, headingLevel: 2 }));
+  return content;
+}
+
+export function createTimeMachineView({ title, description, t, locale, workspace, productService, movementService }) {
   const { section, heading } = baseView(title, description);
   if (!workspace) {
     section.append(createAlert({ title: t("timeMachineCore.workspaceRequiredTitle"), message: t("timeMachineCore.workspaceRequiredMessage"), tone: "warning" }));
     return { element: section, focusTarget: heading };
   }
-  const content = text("p", t("timeMachineCore.loading"));
-  content.setAttribute("role", "status");
+  const content = createContentStatus({ message: t("timeMachineCore.loading") });
   section.append(content);
-  insightService.listByWorkspace(workspace.id).then((insights) => {
-    if (!insights.length) {
-      content.replaceChildren(createEmptyState({ title: t("timeMachineCore.emptyTitle"), description: t("timeMachineCore.emptyMessage") }));
+  Promise.all([productService.listByWorkspace(workspace.id), movementService.listByWorkspace(workspace.id)]).then(([products, movements]) => {
+    if (!products.length) {
+      content.replaceChildren(createEmptyState({ title: t("timeMachineCore.emptyTitle"), description: t("timeMachineCore.emptyMessage"), kind: "insufficient-data" }));
       return;
     }
-    const list = document.createElement("div");
-    list.className = "insight-list";
-    for (const { product, memory, forecast } of insights) {
-      const article = document.createElement("article");
-      article.className = "insight-product";
-      article.append(text("h2", `${product.name} · ${product.nexCode}`));
-      const past = definitionList([[t("timeMachineCore.events"), String(memory.eventCount)], [t("timeMachineCore.maximum"), String(memory.maximumQuantity)], [t("timeMachineCore.minimum"), String(memory.minimumQuantity)]]);
-      const present = definitionList([[t("timeMachineCore.quantity"), String(product.currentQuantity)], [t("timeMachineCore.minimumStock"), String(product.minimumStock)], [t("timeMachineCore.status"), t(`statuses.${getInventoryStatus(product.currentQuantity, product.minimumStock)}`)]]);
-      const future = text("p", forecast.available ? t("timeMachineCore.futureAvailable", { days: new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(forecast.daysRemaining) }) : t("timeMachineCore.futureUnavailable"));
-      article.append(createCard({ title: t("timeMachineCore.past"), description: t("timeMachineCore.pastDescription"), content: past, headingLevel: 3 }), createCard({ title: t("timeMachineCore.present"), description: t("timeMachineCore.presentDescription"), content: present, headingLevel: 3 }), createCard({ title: t("timeMachineCore.future"), description: t("timeMachineCore.futureDescription"), content: future, headingLevel: 3 }));
-      list.append(article);
-    }
-    content.replaceChildren(createAlert({ title: t("timeMachineCore.estimateTitle"), message: t("timeMachineCore.estimateMessage"), tone: "info" }), list);
+    const form = document.createElement("form");
+    form.className = "movement-form";
+    const date = createField({ id: "time-machine-date", label: t("timeMachineCore.date"), helpText: t("timeMachineCore.dateHelp"), type: "date", max: new Date().toISOString().slice(0, 10), required: true, requiredText: t("forms.required") });
+    const feedback = document.createElement("div");
+    feedback.setAttribute("aria-live", "polite");
+    form.append(date.element, createButton({ text: t("timeMachineCore.reconstruct"), type: "submit" }), feedback);
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        const selectedAt = new Date(`${date.control.value}T23:59:59.999Z`);
+        const snapshot = reconstructHistoricalSnapshot({ products, movements, at: selectedAt });
+        feedback.replaceChildren(historicalResult(snapshot, t, locale));
+      } catch {
+        feedback.replaceChildren(createAlert({ message: t("timeMachineCore.invalidDate"), tone: "danger" }));
+      }
+    });
+    content.replaceChildren(createAlert({ title: t("timeMachineCore.estimateTitle"), message: t("timeMachineCore.estimateMessage"), tone: "info" }), form);
   }).catch(() => content.replaceChildren(createAlert({ message: t("timeMachineCore.loadError"), tone: "danger" })));
+  return { element: section, focusTarget: heading };
+}
+
+function digitalTwinResult(twin, t, locale) {
+  const number = (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value);
+  const content = document.createElement("div");
+  content.className = "insight-list";
+  content.append(createCard({ title: t("digitalTwinCore.snapshotTitle"), description: t("digitalTwinCore.snapshotDescription"), content: definitionList([
+    [t("digitalTwinCore.products"), number(twin.snapshot.metrics.products)],
+    [t("digitalTwinCore.units"), number(twin.snapshot.metrics.totalUnits)],
+    [t("digitalTwinCore.status"), t("digitalTwinCore.virtualOnly")],
+  ]), headingLevel: 2 }));
+  const products = document.createElement("div");
+  products.className = "insight-list";
+  for (const product of twin.products) {
+    products.append(createCard({ title: `${product.name} · ${product.nexCode}`, content: definitionList([
+      [t("digitalTwinCore.quantity"), number(product.currentQuantity)],
+      [t("digitalTwinCore.minimum"), number(product.minimumStock)],
+      [t("digitalTwinCore.productStatus"), t(`statuses.${getInventoryStatus(product.currentQuantity, product.minimumStock)}`)],
+    ]), headingLevel: 3 }));
+  }
+  content.append(createCard({ title: t("digitalTwinCore.productsTitle"), content: products, headingLevel: 2 }));
+  return content;
+}
+
+export function createDigitalTwinView({ title, description, t, locale, workspace, productService, movementService }) {
+  const { section, heading } = baseView(title, description);
+  if (!workspace) {
+    section.append(createAlert({ title: t("digitalTwinCore.workspaceRequiredTitle"), message: t("digitalTwinCore.workspaceRequiredMessage"), tone: "warning" }));
+    return { element: section, focusTarget: heading };
+  }
+  const content = createContentStatus({ message: t("digitalTwinCore.loading") });
+  section.append(content);
+  Promise.all([productService.listByWorkspace(workspace.id), movementService.listByWorkspace(workspace.id)]).then(([products, movements]) => {
+    if (!products.length) {
+      content.replaceChildren(createEmptyState({ title: t("digitalTwinCore.emptyTitle"), description: t("digitalTwinCore.emptyMessage"), kind: "insufficient-data" }));
+      return;
+    }
+    let twin = createDigitalTwin({ products, movements });
+    const form = document.createElement("form");
+    form.className = "movement-form";
+    const product = createField({ id: "digital-twin-product", label: t("digitalTwinCore.product"), type: "select", options: products.map((item) => ({ value: item.id, label: `${item.name} · ${item.nexCode}` })) });
+    const type = createField({ id: "digital-twin-type", label: t("digitalTwinCore.type"), type: "select", options: Object.values(SCENARIO_TYPES).map((item) => ({ value: item, label: t(`scenarioCore.types.${item}`) })) });
+    const value = createField({ id: "digital-twin-value", label: t("digitalTwinCore.value"), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" });
+    const feedback = document.createElement("div");
+    feedback.setAttribute("aria-live", "polite");
+    form.append(product.element, type.element, value.element, createButton({ text: t("digitalTwinCore.apply"), type: "submit" }), feedback);
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      try {
+        twin = applyTwinScenario({ twin, productId: product.control.value, changes: [{ type: type.control.value, value: value.control.value }] });
+        feedback.replaceChildren(createAlert({ title: t("digitalTwinCore.updatedTitle"), message: t("digitalTwinCore.updatedMessage"), tone: "success" }), digitalTwinResult(twin, t, locale));
+      } catch {
+        feedback.replaceChildren(createAlert({ message: t("digitalTwinCore.invalid"), tone: "danger" }));
+      }
+    });
+    content.replaceChildren(createAlert({ title: t("digitalTwinCore.noticeTitle"), message: t("digitalTwinCore.noticeMessage"), tone: "info" }), digitalTwinResult(twin, t, locale), form);
+  }).catch(() => content.replaceChildren(createAlert({ message: t("digitalTwinCore.loadError"), tone: "danger" })));
   return { element: section, focusTarget: heading };
 }

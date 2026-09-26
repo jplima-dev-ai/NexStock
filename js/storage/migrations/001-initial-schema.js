@@ -9,6 +9,7 @@ export const STORE_DEFINITIONS = Object.freeze({
     keyPath: "id",
     indexes: [["workspaceId", "workspaceId"], ["categoryId", "categoryId"], ["supplierId", "supplierId"], ["nexCode", "nexCode"]],
   }),
+  media: Object.freeze({ keyPath: "id", indexes: [["workspaceId", "workspaceId"], ["productId", "productId"]] }),
   productUnits: Object.freeze({
     keyPath: "id",
     indexes: [["workspaceId", "workspaceId"], ["productId", "productId"], ["serialNumber", "serialNumber"]],

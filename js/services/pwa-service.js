@@ -6,6 +6,7 @@ export class PwaService {
     this.onConnectionChange = onConnectionChange;
     this.registration = null;
     this.installPrompt = null;
+    this.updateRequested = false;
   }
 
   async start() {
@@ -22,12 +23,15 @@ export class PwaService {
         if (worker.state === "installed" && this.navigator.serviceWorker.controller) this.onUpdateAvailable(this.registration);
       });
     });
-    this.navigator.serviceWorker.addEventListener("controllerchange", () => this.window.location.reload());
+    this.navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (this.updateRequested) this.window.location.reload();
+    });
     return this.registration;
   }
 
   applyUpdate() {
     if (!this.registration?.waiting) return false;
+    this.updateRequested = true;
     this.registration.waiting.postMessage({ type: "SKIP_WAITING" });
     return true;
   }

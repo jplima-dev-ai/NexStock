@@ -4,6 +4,7 @@ export const DATA_STORES = Object.freeze([
   "categories",
   "suppliers",
   "products",
+  "media",
   "productUnits",
   "batches",
   "movements",
@@ -36,6 +37,8 @@ export class DataProvider {
   async put() { return notImplemented("put"); }
   async bulkPut() { return notImplemented("bulkPut"); }
   async applyStockMovement() { return notImplemented("applyStockMovement"); }
+  async applyStockReversal() { return notImplemented("applyStockReversal"); }
   async delete() { return notImplemented("delete"); }
   async deleteWorkspace() { return notImplemented("deleteWorkspace"); }
+  async replaceWorkspaceData() { return notImplemented("replaceWorkspaceData"); }
 }

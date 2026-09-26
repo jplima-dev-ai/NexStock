@@ -1,16 +1,28 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+
+  /* Brand */
+  --ns-color-brand-blue: #1d4ed8;
+  --ns-color-brand-navy: #0f172a;
+  --ns-color-brand-gray: #6b7280;
+  --ns-color-brand-light-gray: #d1d5db;
+  --ns-color-brand-amber: #d99a32;
+  --ns-color-brand-amber-dark: #c98a2e;
+
+  /* Semantic theme */
   --ns-color-background: #f6f8fc;
   --ns-color-surface: #ffffff;
   --ns-color-surface-alt: #eef2f7;
+  --ns-color-elevated: #ffffff;
+  --ns-color-overlay: rgb(15 23 42 / 0.72);
   --ns-color-text: #0f172a;
   --ns-color-text-muted: #475569;
   --ns-color-border: #cbd5e1;
+  --ns-color-border-strong: #94a3b8;
   --ns-color-primary: #1d4ed8;
   --ns-color-primary-hover: #1e40af;
   --ns-color-on-primary: #ffffff;
   --ns-color-accent: #0e7490;
-  --ns-color-brand-amber: #d99a32;
   --ns-color-success: #15803d;
   --ns-color-warning: #a16207;
   --ns-color-danger: #b91c1c;
@@ -19,33 +31,81 @@
   --ns-color-warning-surface: #fef3c7;
   --ns-color-danger-surface: #fee2e2;
   --ns-color-focus: #0e7490;
+  --ns-color-row-hover: #f8fafc;
+  --ns-color-row-selected: #dbeafe;
+
+  /* Typography */
   --ns-font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ns-font-family-data: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --ns-font-size-display: clamp(2rem, 5vw, 3rem);
+  --ns-font-size-heading-xl: clamp(1.75rem, 4vw, 2.5rem);
+  --ns-font-size-heading-l: clamp(1.375rem, 3vw, 1.75rem);
+  --ns-font-size-heading-m: clamp(1.125rem, 2vw, 1.25rem);
+  --ns-font-size-body: 1rem;
+  --ns-font-size-body-small: 0.875rem;
+  --ns-font-size-label: 0.875rem;
+  --ns-font-size-metric: clamp(1.75rem, 5vw, 2.5rem);
+  --ns-font-size-data: 0.9375rem;
+  --ns-line-height-tight: 1.15;
+  --ns-line-height-heading: 1.25;
+  --ns-line-height-body: 1.6;
+  --ns-font-weight-regular: 400;
+  --ns-font-weight-medium: 600;
+  --ns-font-weight-bold: 750;
+  --ns-font-weight-heavy: 850;
+
+  /* Spacing */
+  --ns-space-0: 0;
   --ns-space-1: 0.25rem;
   --ns-space-2: 0.5rem;
   --ns-space-3: 0.75rem;
   --ns-space-4: 1rem;
+  --ns-space-5: 1.25rem;
   --ns-space-6: 1.5rem;
   --ns-space-8: 2rem;
   --ns-space-10: 2.5rem;
   --ns-space-12: 3rem;
+  --ns-space-16: 4rem;
+
+  /* Shape, elevation and sizing */
+  --ns-radius-small: 0.5rem;
   --ns-radius: 0.75rem;
   --ns-radius-large: 1.25rem;
-  --ns-shadow-raised: 0 1rem 2.5rem rgb(15 23 42 / 0.08);
+  --ns-radius-pill: 999px;
+  --ns-shadow-subtle: 0 0.25rem 1rem rgb(15 23 42 / 0.06);
+  --ns-shadow-raised: 0 1rem 2.5rem rgb(15 23 42 / 0.1);
+  --ns-control-min-size: 2.75rem;
+  --ns-table-row-size: 3rem;
+  --ns-icon-small: 1rem;
+  --ns-icon-base: 1.25rem;
+  --ns-icon-large: 1.5rem;
   --ns-content-max: 75rem;
+
+  /* Motion */
+  --ns-motion-instant: 0ms;
+  --ns-motion-fast: 120ms;
+  --ns-motion-base: 180ms;
+  --ns-motion-slow: 260ms;
+  --ns-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ns-ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ns-ease-exit: cubic-bezier(0.4, 0, 1, 1);
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
   --ns-color-background: #0b1120;
   --ns-color-surface: #111827;
   --ns-color-surface-alt: #1e293b;
+  --ns-color-elevated: #182235;
+  --ns-color-overlay: rgb(2 6 23 / 0.82);
   --ns-color-text: #f8fafc;
   --ns-color-text-muted: #cbd5e1;
   --ns-color-border: #334155;
+  --ns-color-border-strong: #64748b;
   --ns-color-primary: #60a5fa;
   --ns-color-primary-hover: #93c5fd;
   --ns-color-on-primary: #0b1120;
   --ns-color-accent: #22d3ee;
-  --ns-color-brand-amber: #d99a32;
   --ns-color-success: #4ade80;
   --ns-color-warning: #fbbf24;
   --ns-color-danger: #f87171;
@@ -54,5 +114,8 @@
   --ns-color-warning-surface: #713f12;
   --ns-color-danger-surface: #7f1d1d;
   --ns-color-focus: #22d3ee;
-  --ns-shadow-raised: 0 1rem 2.5rem rgb(0 0 0 / 0.28);
+  --ns-color-row-hover: #172033;
+  --ns-color-row-selected: #1e3a5f;
+  --ns-shadow-subtle: 0 0.25rem 1rem rgb(0 0 0 / 0.2);
+  --ns-shadow-raised: 0 1rem 2.5rem rgb(0 0 0 / 0.36);
 }

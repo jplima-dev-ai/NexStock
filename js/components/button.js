@@ -1,3 +1,5 @@
+import { createIcon } from "./icon.js";
+
 const BUTTON_VARIANTS = new Set(["primary", "secondary", "quiet", "danger"]);
 
 export function getButtonClassName(variant = "primary", iconOnly = false) {
@@ -43,14 +45,13 @@ export function createIconButton({ label, icon, variant = "quiet", onClick } = {
   button.type = "button";
   button.className = getButtonClassName(variant, true);
   button.setAttribute("aria-label", label);
-  if (icon instanceof Node) {
+  if (typeof icon === "string") {
+    button.append(createIcon(icon));
+  } else if (icon instanceof Node) {
     icon.setAttribute?.("aria-hidden", "true");
     button.append(icon);
   } else {
-    const iconText = document.createElement("span");
-    iconText.setAttribute("aria-hidden", "true");
-    iconText.textContent = icon ?? "×";
-    button.append(iconText);
+    button.append(createIcon("close"));
   }
   if (onClick) button.addEventListener("click", onClick);
   return button;

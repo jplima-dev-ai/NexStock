@@ -35,6 +35,7 @@ test("Confidence Meter respeita limites e exige extensão histórica para alta",
 test("sem saídas a previsão declara indisponibilidade em vez de inventar valor", () => {
   const forecast = calculateForecast(PRODUCT, [movement("in", "IN", 5, 10, 15, "2026-09-18T12:00:00.000Z")], NOW);
   assert.equal(forecast.available, false);
+  assert.equal(forecast.dataSufficiency, "insufficient");
   assert.equal(forecast.daysRemaining, null);
   assert.ok(forecast.limitations.includes("NO_OUTPUT_EVENTS"));
 });

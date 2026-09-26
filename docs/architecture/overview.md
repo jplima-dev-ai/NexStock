@@ -2,12 +2,13 @@
 
 ## Fluxo de dependências
 
-O NexStock será implementado em quatro camadas, sempre nesta direção:
+O NexStock está implementado em quatro camadas, sempre nesta direção:
 
 1. Views e componentes recebem eventos e apresentam estado.
 2. Serviços aplicam regras de domínio e coordenam operações.
 3. A interface DataProvider define contratos de persistência.
-4. IndexedDBProvider e, futuramente, SupabaseProvider implementam o contrato.
+4. IndexedDBProvider e SupabaseProvider implementam o contrato; IndexedDB é o
+   padrão local-first e Supabase permanece opcional.
 
 Views não acessam providers diretamente. O Store conserva apenas estado global
 essencial e não duplica coleções completas do banco.
@@ -21,15 +22,16 @@ renderizada e o foco vai para o título principal.
 
 ## Estado atual
 
-A fundação contém shell, rotas, EventBus, Store, Design System e
-internacionalização. A persistência local está implementada por meio do contrato
-DataProvider, IndexedDBProvider, migrações aditivas, WorkspaceService,
-ProductService, MovementService, DashboardService, InsightService e seeds
-fictícios.
-Movimentações usam uma única
-transação sobre produto, histórico e auditoria, com bloqueio otimista da
-quantidade exibida na prévia. O Dashboard deriva um snapshot textual de produtos
-e movimentos, sem guardar coleções duplicadas no Store. PWA, módulos avançados
-Insights usam apenas histórico persistido, expõem cálculos e não alteram o
-estado real. PWA, módulos avançados e o provider Supabase pertencem às fases
-posteriores.
+A versão 1.2.0 contém shell, rotas, EventBus, Store, Design System,
+internacionalização, PWA, providers, serviços de domínio e módulos
+especializados. Movimentações usam uma única transação sobre produto, histórico
+e auditoria, com bloqueio otimista da quantidade exibida na prévia. O Dashboard
+deriva um snapshot textual de produtos e movimentos, sem duplicar coleções no
+Store. Insights usam o histórico persistido, expõem cálculos e não alteram o
+estado real. Scenario Lab e Time Machine também permanecem isolados do estoque
+real. A camada de mobilidade acrescenta importação validada, exportação filtrada,
+backup transacional e snapshots locais; o Command Center transforma comandos de
+produto controlados em navegação com contexto, sem adicionar um parser aberto.
+
+A rastreabilidade entre funcionalidades, serviços, providers, testes e
+interfaces está em [Matriz de rastreabilidade](feature-traceability.md).

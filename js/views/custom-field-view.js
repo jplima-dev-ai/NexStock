@@ -1,7 +1,9 @@
 import { createButton } from "../components/button.js";
+import { createContentStatus } from "../components/content-state.js";
 import { createAlert } from "../components/feedback.js";
 import { createChoice, createField } from "../components/field.js";
 import { CUSTOM_FIELD_TYPES } from "../services/custom-field-service.js";
+import { createCopyContext } from "../services/copy-service.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -23,37 +25,40 @@ function fieldSummary(definition, t) {
   return item;
 }
 
-export function createCustomFieldView({ title, description, t, workspace, service }) {
+export function createCustomFieldView({ title, description, t, workspace, service, embedded = false }) {
   const section = document.createElement("section");
   section.className = "route-stack";
-  const heading = text("h1", title);
-  heading.id = "route-title";
-  heading.tabIndex = -1;
-  section.append(heading, text("p", description));
+  let heading;
+  if (!embedded) {
+    heading = text("h1", title);
+    heading.id = "route-title";
+    heading.tabIndex = -1;
+    section.append(heading, text("p", description));
+  }
   if (!workspace) {
     section.append(createAlert({ title: t("customFields.workspaceRequiredTitle"), message: t("customFields.workspaceRequiredMessage"), tone: "warning" }));
-    return { element: section, focusTarget: heading };
+    return { element: section, focusTarget: heading ?? section };
   }
-  const content = text("p", t("customFields.loading"));
-  content.setAttribute("role", "status");
+  const content = createContentStatus({ message: t("customFields.loading") });
   section.append(content);
 
   async function render() {
     const definitions = await service.list(workspace.id);
     const form = document.createElement("form");
     form.className = "product-form";
+    const copy = createCopyContext({ translate: t, workspace });
     form.setAttribute("aria-labelledby", "custom-field-create-title");
     const formTitle = text("h2", t("customFields.createTitle"));
     formTitle.id = "custom-field-create-title";
-    const label = createField({ id: "definition-label", label: t("customFields.label"), required: true, requiredText: t("forms.required"), maxLength: 60 });
-    const type = createField({ id: "definition-type", label: t("customFields.type"), type: "select", options: CUSTOM_FIELD_TYPES.map((value) => ({ value, label: t(`fieldTypes.${value}`) })) });
-    const options = createField({ id: "definition-options", label: t("customFields.options"), helpText: t("customFields.optionsHelp") });
+    const label = createField({ id: "definition-label", label: t("customFields.label"), ...copy.field({ helpKey: "customFields.labelHelp", exampleKey: "customFields.labelExample" }), required: true, requiredText: t("forms.required"), maxLength: 60, autocomplete: "off" });
+    const type = createField({ id: "definition-type", label: t("customFields.type"), ...copy.field({ helpKey: "customFields.typeHelp" }), type: "select", options: CUSTOM_FIELD_TYPES.map((value) => ({ value, label: t(`fieldTypes.${value}`) })) });
+    const options = createField({ id: "definition-options", label: t("customFields.options"), ...copy.field({ helpKey: "customFields.optionsHelp", exampleKey: "customFields.optionsExample" }) });
     const required = createChoice({ id: "definition-required", label: t("customFields.required") });
     const searchable = createChoice({ id: "definition-searchable", label: t("customFields.searchable") });
     const feedback = document.createElement("div");
     feedback.setAttribute("aria-live", "polite");
     const save = createButton({ text: t("customFields.create"), type: "submit" });
-    form.append(formTitle, label.element, type.element, options.element, required.element, searchable.element, feedback, save);
+    form.append(formTitle, text("p", copy.modeMessage(), "ns-copy-mode"), createButton({ text: t("nexCopy.openGlossary"), href: "#/glossary", variant: "quiet" }), label.element, type.element, options.element, required.element, searchable.element, feedback, save);
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       save.disabled = true;
@@ -91,5 +96,5 @@ export function createCustomFieldView({ title, description, t, workspace, servic
     content.replaceChildren(createAlert({ title: t("customFields.noticeTitle"), message: t("customFields.noticeMessage"), tone: "info" }), form, listSection);
   }
   render().catch(() => content.replaceChildren(createAlert({ message: t("customFields.loadError"), tone: "danger" })));
-  return { element: section, focusTarget: heading };
+  return { element: section, focusTarget: heading ?? section };
 }

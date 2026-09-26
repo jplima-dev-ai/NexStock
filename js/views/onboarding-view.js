@@ -241,6 +241,7 @@ export function createOnboardingView({
       id: "custom-field-label",
       label: t("onboarding.customFieldLabel"),
       helpText: t("onboarding.customFieldHelp"),
+      exampleText: t("onboarding.customFieldExample"),
     });
     const typeField = createField({
       id: "custom-field-type",
@@ -254,7 +255,7 @@ export function createOnboardingView({
       label: t("onboarding.customFieldRequired"),
     });
     const searchableChoice = createChoice({ id: "custom-field-searchable", label: t("customFields.searchable") });
-    const optionsField = createField({ id: "custom-field-options", label: t("customFields.options"), helpText: t("customFields.optionsHelp") });
+    const optionsField = createField({ id: "custom-field-options", label: t("customFields.options"), helpText: t("customFields.optionsHelp"), exampleText: t("customFields.optionsExample") });
     const addButton = createButton({
       text: t("onboarding.addCustomField"),
       variant: "secondary",
@@ -318,6 +319,7 @@ export function createOnboardingView({
       id: "workspace-name",
       label: t("onboarding.workspaceName"),
       helpText: t("onboarding.workspaceNameHelp"),
+      exampleText: t("onboarding.workspaceNameExample"),
       required: true,
       requiredText: t("forms.required"),
       value: state.name,

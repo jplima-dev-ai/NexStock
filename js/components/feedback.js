@@ -1,4 +1,5 @@
 import { createIconButton } from "./button.js";
+import { createIcon } from "./icon.js";
 
 const FEEDBACK_TONES = new Set(["info", "success", "warning", "danger"]);
 
@@ -18,15 +19,20 @@ export function createAlert({ title, message, tone = "info", urgent = false } = 
   const alert = document.createElement("section");
   alert.className = `ns-alert ns-alert--${safeTone}`;
   if (urgent) alert.setAttribute("role", "alert");
+  const icon = createIcon(safeTone === "success" ? "check" : safeTone === "danger" ? "danger" : safeTone === "warning" ? "warning" : "info");
+  icon.classList.add("ns-alert__icon");
+  const content = document.createElement("div");
+  content.className = "ns-alert__content";
   if (title) {
     const heading = document.createElement("h2");
     heading.className = "ns-alert__title";
     heading.textContent = title;
-    alert.append(heading);
+    content.append(heading);
   }
   const text = document.createElement("p");
   text.textContent = message;
-  alert.append(text);
+  content.append(text);
+  alert.append(icon, content);
   return alert;
 }
 
@@ -45,7 +51,7 @@ export function createToastManager(layer, { getCloseLabel = () => "Close" } = {}
       text.textContent = message;
       const close = createIconButton({
         label: getCloseLabel(),
-        icon: "×",
+        icon: "close",
         onClick: () => toast.remove(),
       });
       toast.append(text, close);

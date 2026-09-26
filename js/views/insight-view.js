@@ -1,7 +1,9 @@
 import { createButton } from "../components/button.js";
+import { createContentStatus } from "../components/content-state.js";
 import { createCard } from "../components/card.js";
 import { createEmptyState } from "../components/empty-state.js";
 import { createAlert } from "../components/feedback.js";
+import { createTabs } from "../components/tabs.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -62,7 +64,8 @@ function forecastContent(insight, t, locale) {
   wrapper.append(text("p", forecast.available
     ? t("insightCore.forecastAvailable", { days: number(locale, forecast.daysRemaining, 1) })
     : t("insightCore.forecastUnavailable"), "insight-forecast__result"));
-  wrapper.append(text("p", t(`insightCore.confidence.${forecast.confidence}`), "insight-confidence"));
+  wrapper.append(text("p", t(`insightCore.dataSufficiency.${forecast.dataSufficiency}`), "route-meta"));
+  if (forecast.dataSufficiency !== "insufficient") wrapper.append(text("p", t(`insightCore.confidence.${forecast.confidence}`), "insight-confidence"));
   wrapper.append(explainForecast(forecast, t, locale));
   return wrapper;
 }
@@ -95,14 +98,21 @@ function memoryContent(insight, t, locale) {
 }
 
 export function createProductInsightSections({ insight, t, locale, headingLevel = 2, includeProductLink = false }) {
-  const container = document.createElement("div");
-  container.className = "insight-product-sections";
+  const forecastPanel = document.createElement("div");
+  const memoryPanel = document.createElement("div");
   const forecastActions = includeProductLink ? createButton({ text: t("dashboardCore.viewProduct"), href: `#/products/${encodeURIComponent(insight.product.id)}`, variant: "secondary" }) : undefined;
-  container.append(
-    createCard({ title: t("insightCore.forecastTitle"), description: t("insightCore.estimateNotice"), content: forecastContent(insight, t, locale), actions: forecastActions, headingLevel }),
-    createCard({ title: t("insightCore.memoryTitle"), description: t("insightCore.memoryDescription"), content: memoryContent(insight, t, locale), headingLevel }),
-  );
-  return container;
+  forecastPanel.append(createCard({ title: t("insightCore.forecastTitle"), description: t("insightCore.estimateNotice"), content: forecastContent(insight, t, locale), actions: forecastActions, headingLevel }));
+  memoryPanel.append(createCard({ title: t("insightCore.memoryTitle"), description: t("insightCore.memoryDescription"), content: memoryContent(insight, t, locale), headingLevel }));
+  const safeProductId = String(insight.product.id).replace(/[^A-Za-z0-9_-]/gu, "-");
+  const tabs = createTabs({
+    id: `insight-${safeProductId}`,
+    tabs: [
+      { id: "forecast", label: t("insightCore.forecastTitle"), panel: forecastPanel },
+      { id: "memory", label: t("insightCore.memoryTitle"), panel: memoryPanel },
+    ],
+  });
+  tabs.element.classList.add("insight-product-sections");
+  return tabs.element;
 }
 
 export function createInsightsView({ title, description, t, locale, workspace, service }) {
@@ -116,12 +126,11 @@ export function createInsightsView({ title, description, t, locale, workspace, s
     section.append(createAlert({ title: t("insightCore.workspaceRequiredTitle"), message: t("insightCore.workspaceRequiredMessage"), tone: "warning" }));
     return { element: section, focusTarget: heading };
   }
-  const content = text("p", t("insightCore.loading"));
-  content.setAttribute("role", "status");
+  const content = createContentStatus({ message: t("insightCore.loading") });
   section.append(content);
   service.listByWorkspace(workspace.id).then((insights) => {
     if (insights.length === 0) {
-      content.replaceChildren(createEmptyState({ title: t("insightCore.emptyTitle"), description: t("insightCore.emptyMessage"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }) }));
+      content.replaceChildren(createEmptyState({ title: t("insightCore.emptyTitle"), description: t("insightCore.emptyMessage"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }), kind: "insufficient-data" }));
       return;
     }
     const intro = createAlert({ title: t("insightCore.estimateTitle"), message: t("insightCore.estimateMessage"), tone: "info" });

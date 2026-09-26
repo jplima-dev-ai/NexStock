@@ -2,7 +2,7 @@ import { assertStoreName, DataProvider } from "./data-provider.js";
 import { assertSafeUrl } from "../utils/security.js";
 
 export const STORE_TABLES = Object.freeze({
-  meta: "meta", workspaces: "workspaces", categories: "categories", suppliers: "suppliers", products: "products",
+  meta: "meta", workspaces: "workspaces", categories: "categories", suppliers: "suppliers", products: "products", media: "product_media",
   productUnits: "product_units", batches: "stock_batches", movements: "stock_movements", auditLogs: "audit_logs",
   productRelations: "product_relations", kits: "kits", kitItems: "kit_items", customFieldDefinitions: "custom_field_definitions",
   settings: "settings", syncQueue: "sync_queue",
@@ -143,6 +143,11 @@ export class SupabaseProvider extends DataProvider {
     };
   }
 
+  async applyStockReversal({ workspaceId, productId, originalMovementId, expectedBeforeQuantity, afterQuantity, movement, audit }) {
+    const result = await this.#request("rpc/apply_stock_reversal", { method: "POST", body: { p_workspace_id: workspaceId, p_product_id: productId, p_original_movement_id: originalMovementId, p_expected_before: expectedBeforeQuantity, p_after_quantity: afterQuantity, p_movement: toRemoteRecord(movement), p_audit: toRemoteRecord(audit) } });
+    return { product: fromRemoteRecord(result.product), movement: fromRemoteRecord(result.movement), audit: fromRemoteRecord(result.audit) };
+  }
+
   async delete(storeName, key) {
     const column = KEY_COLUMNS[storeName] ?? "id";
     await this.#request(`${this.#table(storeName)}?${column}=eq.${encodeURIComponent(key)}`, { method: "DELETE" });
@@ -150,5 +155,18 @@ export class SupabaseProvider extends DataProvider {
 
   async deleteWorkspace(workspaceId) {
     await this.#request(`workspaces?id=eq.${encodeURIComponent(workspaceId)}`, { method: "DELETE" });
+  }
+
+  async replaceWorkspaceData({ workspaceId, expectedUpdatedAt, collections }) {
+    await this.#request("rpc/restore_workspace_backup", {
+      method: "POST",
+      body: {
+        p_workspace_id: workspaceId,
+        p_expected_updated_at: expectedUpdatedAt,
+        p_collections: Object.fromEntries(Object.entries(collections).map(([name, records]) => [
+          STORE_TABLES[name], records.map(toRemoteRecord),
+        ])),
+      },
+    });
   }
 }

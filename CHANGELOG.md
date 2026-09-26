@@ -1,5 +1,189 @@
 # Changelog
 
+## Unreleased — v1.5.0 Proactive Inventory
+
+- Adiciona NexForecast 2 com suficiência de dados separada da confiança.
+- Adiciona NexAnomaly determinístico para saídas incomumente grandes, com razão e movimentação-fonte explícitas.
+- Adiciona NexReorder local: ponto de reposição baseado em consumo, lead time e estoque de segurança, sem compra automática.
+- Adiciona NexActions: central de prioridades explicáveis e revisáveis, sem execução automática.
+- Evolui o Dashboard 2.0 com NexActions entre NexPulse e métricas, em ordem linear e sem depender de gráficos.
+- Adiciona Scenario Lab 2.0 para combinar múltiplas variáveis virtuais sem persistir alterações.
+- Adiciona Scenario Comparison para contrastar estoque real e cenários A, B e C por quantidade, status, previsão, riscos e impacto.
+- Evolui a Time Machine para reconstruir uma data com produtos, movimentações, métricas e NexPulse histórico reproduzível.
+- Adiciona Inventory Digital Twin como cópia virtual imutável, isolada do estoque real e das gravações locais.
+- Adiciona Consequence Preview 2.0 com antes/depois de quantidade, status, impacto e previsão antes de confirmar movimentações.
+- Evolui o NexShield 2.0 com dez testes isolados de hardening para integridade, importação, restauração, isolamento entre espaços, corrupção e mídia.
+- Adiciona NexHealth: diagnóstico local e não destrutivo para referências órfãs, duplicidades, estados impossíveis, lotes, mídia, relações, kits e movimentações inconsistentes.
+- Adiciona Audit Explorer: timeline local, ordenada e textual do histórico de ações, sem alterar o AuditLog.
+- Adiciona Reversal System: entrada ou saída pode gerar uma movimentação compensatória vinculada, sem editar ou apagar o registro original.
+- Bloqueia reversão duplicada, ajustes manuais, movimentações de outro espaço e compensações que deixariam o estoque negativo.
+- Adiciona confirmação textual acessível de reversão em pt-BR, en-US e es.
+
+## 1.6.0 — 2026-09-26 — Decision Lab
+
+- Formaliza as Fases 52 a 56: simulações múltiplas, comparação, histórico, Twin isolado e prévias de consequência.
+
+## 1.4.0 — 2026-09-25 — Intelligence Foundation
+
+- Adiciona sinais determinísticos de risco e inatividade, explicações reproduzíveis e linhagem de produto e movimentações-fonte.
+- Evolui NexPulse: texto primeiro; pontuação somente com dimensões, dados disponíveis e limites explícitos.
+
+## Unreleased — v1.3.0 Operational Speed
+
+### Added
+
+- Adiciona Mobile Operations 2.0: navegação inferior, ações rápidas em diálogo,
+  entrada, saída, NexScan e busca em uma experiência própria para mobile.
+- Adiciona NexLabels para gerar e imprimir etiquetas locais de produto, lote,
+  localização e unidade serializada, com código reconhecido pelo NexScan.
+- Adiciona NexScan: leitura opcional por câmera e `BarcodeDetector`, NexCode ou
+  busca manual, com abertura do produto ou início de entrada e saída.
+- Adiciona Product Media: upload local de JPEG, PNG e WebP, descrição
+  alternativa, prévia, thumbnail e restauração por backup.
+- Adiciona NexQuery local para transformar consultas de estoque suportadas em
+  filtros explícitos, sem IA generativa ou dependência de rede.
+- Evolui o Command Center 2.0: `Ctrl+K` agora reconhece entrada, saída,
+  abertura e simulação direcionadas por produto, pré-preenchendo o fluxo que
+  será executado com `Enter`.
+- Mantém os comandos de produto controlados e locais em português, inglês e
+  espanhol; consultas analíticas permanecem no NexQuery da próxima fase.
+
+### Accessibility
+
+- Confirma por Chromium que uma entrada e uma simulação podem começar somente
+  com teclado, preservando foco, opções semânticas e anúncio de resultados.
+
+## 1.2.0 — 2026-09-25 — Data Mobility
+
+### Added
+
+- Adiciona Import Center para CSV com seleção de arquivo, arrastar e soltar,
+  detecção de delimitador, mapeamento de colunas e prévia editável.
+- Valida campos e relações por linha, identifica duplicatas no arquivo e no
+  workspace e só habilita a confirmação quando todo o plano é válido.
+- Cria NexCodes sequenciais e auditoria `PRODUCT_IMPORTED` em uma única
+  operação do provider após confirmação explícita.
+- Adiciona rota profunda `#/settings/data/import`, suporte offline e textos
+  equivalentes em português, inglês e espanhol.
+- Adiciona Export Center para produtos, movimentações, lotes, auditoria e
+  workspace, com prévia e filtros por texto, produto, datas e estados.
+- Gera CSV com cabeçalhos localizados e proteção contra fórmulas, JSON com
+  metadados reproduzíveis e impressão da prévia filtrada.
+- Adiciona rota `#/settings/data/export` e mantém isolamento obrigatório por
+  workspace, listas explícitas de campos e permissões do provider.
+- Adiciona NexBackup para criar e restaurar cópias completas e versionadas do
+  workspace, com revisão antes da confirmação.
+- Adiciona snapshots locais para criar pontos de restauração manuais e
+  automáticos antes de importação e restaurações.
+
+### Accessibility
+
+- Organiza o fluxo com títulos hierárquicos, fieldsets por linha, rótulos e
+  mensagens de erro textuais, além de retorno de foco ao cancelar.
+- Informa antes da confirmação: “Nenhuma alteração foi feita ainda.”
+- O Export Center usa formulário e fieldset rotulados, tabela com caption,
+  foco na prévia e região de status para download ou impressão.
+- O NexBackup usa controles rotulados, resumo focável, avisos em texto e
+  confirmação explícita antes de substituir dados.
+- Snapshots oferecem listas semânticas, estados vazios textuais e confirmação
+  independente para restaurar ou excluir cada ponto local.
+
+### Technical
+
+- Adiciona gate da Fase 33 e regressões unitárias e E2E que comprovam que uma
+  importação inválida não altera nem corrompe o workspace.
+- Adiciona gate da Fase 34 e regressões que verificam filtros, isolamento,
+  campos permitidos, CSV seguro, JSON e impressão.
+- Adiciona gate da Fase 35, validação de versão, tamanho, mídia, duplicidades e
+  referências, além de restauração atômica por workspace no IndexedDB.
+- Adiciona gate da Fase 36 e regressões para histórico de snapshots,
+  restauração com cópia de segurança, limite explícito e cache offline.
+
+## 1.1.0 — 2026-09-20 — Experience Foundation
+
+### Added
+
+- Registra a baseline reproduzível da versão 1.0.0 e a auditoria da Fase 25.
+- Adiciona matriz de rastreabilidade entre funcionalidade, serviço, provider,
+  teste e interface.
+- Inclui os blueprints v1.1 e v1.2 no pacote governado.
+- Adiciona Playwright com Chromium reproduzível, smoke suite, axe em navegador,
+  fluxo principal E2E e testes reais de IndexedDB e offline.
+- Adiciona NexDesign 2.0 com escala tipográfica, cinco níveis de superfície,
+  espaçamento formal e catálogo vetorial de ícones.
+- Adiciona NexMotion com tokens de duração e easing, transições curtas e abas
+  acessíveis na leitura de previsão e memória do estoque.
+- Adiciona NexCopy com ajuda e exemplos fictícios associados aos campos,
+  categorias de estado vazio e contrato comum para carregamento.
+- Adiciona NexCopy contextual com modos guiado e compacto, exemplos adaptados
+  aos cinco perfis e glossário pesquisável.
+- Adiciona NexSettings com shell, navegação interna, painel e nove rotas
+  profundas para desktop e mobile.
+- Adiciona Settings Summary com cinco áreas centrais, atalhos e estados reais.
+- Adiciona salvamento imediato e validado para nome, moeda, fuso horário, tema
+  e modo de experiência.
+
+### Changed
+
+- Atualiza backlog, visão de arquitetura, persistência, marca e guia de testes
+  para refletirem o estado real após a versão 1.0.0.
+- O gate integrado e o clone limpo passam a executar também a suíte E2E.
+- Cards, estados e tabelas passam a compartilhar tokens semânticos; tabelas
+  recebem ordenação, densidade, seleção, cabeçalho fixo e layout móvel em cards.
+- Rotas, diálogos, navegação, badges, métricas e feedback recebem movimento
+  discreto sem bloquear a operação.
+- Ações, confirmações, erros e mensagens de sucesso passam a explicar efeitos e
+  próximos passos; orientação essencial permanece fora de tooltips.
+- Formulários passam a resolver a densidade de conteúdo pelo modo já salvo no
+  workspace, sem preferência ou persistência paralela.
+- Perfis, dados e segurança passam a compartilhar a estrutura do NexSettings;
+  o reset seguro fica na seção Dados.
+- Atualiza a versão estável para `1.1.0` após a aprovação das Fases 25 a 32.
+
+### Accessibility
+
+- Valida teclado, foco, Paleta de Comandos, temas, idiomas e axe nas superfícies
+  centrais em Chromium.
+- Corrige o link para pular conteúdo em conjunto com o roteador por hash.
+- Ícones permanecem decorativos quando acompanhados por texto, e ordenação de
+  tabelas expõe seu estado programaticamente.
+- Movimento reduzido remove animações e transforms decorativos, preservando
+  teclado, foco e conteúdo.
+- Ajuda, exemplo e erro são associados ao campo em ordem previsível, sem usar
+  placeholder como rótulo.
+- O modo compacto mantém ajuda essencial; o glossário usa estrutura semântica,
+  busca rotulada e anúncio de resultados.
+- A seção atual do NexSettings usa `aria-current`; no mobile, um seletor
+  rotulado substitui a navegação lateral sem perder o link direto.
+- Estados de salvamento usam região de status; falhas restauram o valor anterior
+  e alterações destrutivas continuam exigindo confirmação explícita.
+
+### Technical
+
+- Adiciona gate automatizado para os artefatos e documentos da Fase 25.
+- Adiciona lockfile, instalação reproduzível no CI e gate da Fase 26.
+- Mantém todos os módulos da aplicação no precache e valida a cobertura offline.
+- Adiciona gate automatizado e teste em Chromium para o NexDesign 2.0.
+- Adiciona gate automatizado em Chromium para NexMotion e movimento reduzido.
+- Adiciona gate estático, testes unitários e fluxo Chromium para NexCopy.
+- Adiciona gate de paridade contextual, testes dos dois modos, exemplos por
+  perfil e terminologia do glossário em PT/EN/ES.
+- Adiciona gate e testes em Chromium para as nove rotas do NexSettings,
+  incluindo reload e navegação mobile.
+- Adiciona testes de resumo, atalhos, persistência após reload e confirmação de
+  alto impacto para concluir a Experience Foundation.
+
+### Fixed
+
+- Remove fades de conteúdo que reduziam temporariamente o contraste durante a
+  entrada de rotas, cards, estados, números e feedback.
+- Evita que o foco inicial da rota sobrescreva um controle já alcançado durante
+  a inicialização da persistência.
+- Corrige a falha da validação integrada causada pela ausência do blueprint
+  v1.1 no pacote entregue.
+- Evita que a primeira instalação do service worker recarregue a página e
+  interrompa onboarding, atalhos ou formulários.
+
 ## 1.0.0 — Release estável
 
 - Aprova os 35 critérios de release definidos no blueprint v1.1.
@@ -75,7 +259,7 @@
 
 Todas as mudanças relevantes do NexStock serão registradas neste arquivo.
 
-## Unreleased
+## Histórico acumulado anterior à v1.0.0
 
 ### Added
 

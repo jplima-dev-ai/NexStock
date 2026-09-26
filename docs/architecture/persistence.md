@@ -40,4 +40,5 @@ continua navegável, mas não afirma que alterações serão salvas.
 
 Os arquivos em `demo/` usam somente marcas fictícias. Tecnologia contém Orion
 Notebook, Quantum SSD, NovaMesh Router, Orbit Keyboard e Pulse Headset. Os seeds
-de cosméticos, moda e alimentos preparam a infraestrutura da próxima fase.
+de cosméticos, moda e alimentos são usados pelos respectivos perfis durante o
+onboarding; o perfil personalizado começa com uma estrutura mínima própria.

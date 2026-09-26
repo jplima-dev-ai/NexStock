@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { assertStoreName, DATA_STORES, DataProvider } from "../../js/storage/data-provider.js";
 import { IndexedDBProvider, StorageUnavailableError } from "../../js/storage/indexeddb-provider.js";
 
-test("DataProvider expõe os quinze stores oficiais", () => {
-  assert.equal(DATA_STORES.length, 15);
+test("DataProvider expõe os dezesseis stores oficiais", () => {
+  assert.equal(DATA_STORES.length, 16);
   assert.equal(assertStoreName("products"), "products");
   assert.throws(() => assertStoreName("unknown"), RangeError);
 });

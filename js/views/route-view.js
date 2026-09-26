@@ -8,12 +8,16 @@ import { createDashboardView, createRadarView } from "./dashboard-view.js";
 import { createInsightsView } from "./insight-view.js";
 import { createMovementView } from "./movement-view.js";
 import { createProductRouteView } from "./product-view.js";
-import { createScenarioView, createTimeMachineView } from "./scenario-view.js";
-import { createCustomFieldView } from "./custom-field-view.js";
+import { createDigitalTwinView, createScenarioView, createTimeMachineView } from "./scenario-view.js";
 import { createModuleView } from "./module-view.js";
-import { createSecurityCenterView, createShieldTestView } from "./security-view.js";
+import { createShieldTestView } from "./security-view.js";
+import { createHealthView } from "./health-view.js";
+import { createAuditView } from "./audit-view.js";
 import { createTourView } from "./tour-view.js";
 import { createSettingsView } from "./settings-view.js";
+import { createGlossaryView } from "./glossary-view.js";
+import { createScanView } from "./scan-view.js";
+import { createLabelsView } from "./labels-view.js";
 
 function createTextElement(tagName, text, className) {
   const element = document.createElement(tagName);
@@ -115,6 +119,7 @@ export function createRouteView({
   t,
   locale,
   currentWorkspace,
+  settingsState,
   persistenceReady,
   onboardingState,
   onOnboardingStateChange,
@@ -126,6 +131,7 @@ export function createRouteView({
   movementService,
   movementProductId,
   movementType,
+  scenarioProductId,
   productFilterPreset,
   onMoveProduct,
   onMovementSaved,
@@ -134,9 +140,22 @@ export function createRouteView({
   customFieldService,
   moduleService,
   securityService,
+  importService,
+  exportService,
+  backupService,
+  snapshotService,
+  mediaService,
+  scannerService,
+  labelService,
+  healthService,
+  auditService,
+  reversalService,
   draftService,
+  onScanProduct,
   onCriticalOperationChange,
   onResetWorkspace,
+  onSaveSettings,
+  onBackupRestored,
 }) {
   if (route === "/welcome") return createWelcomeView({ title, t, locale });
   if (route === "/tour") return createTourView({ title, description, t });
@@ -156,21 +175,25 @@ export function createRouteView({
   if (route === "/about") {
     return createInstitutionalView({ title, description, route, t });
   }
+  if (route === "/glossary") return createGlossaryView({ title, description, t });
 
   if (route.startsWith("/products")) {
-    return createProductRouteView({ title, description, route, params, t, locale, currentWorkspace, workspace: currentWorkspace, service: productService, movementService, insightService, draftService, onMoveProduct, onSaved: onProductSaved, onArchived: onProductArchived, initialFilters: productFilterPreset });
+    return createProductRouteView({ title, description, route, params, t, locale, currentWorkspace, workspace: currentWorkspace, service: productService, mediaService, movementService, insightService, draftService, onMoveProduct, onSaved: onProductSaved, onArchived: onProductArchived, initialFilters: productFilterPreset });
   }
   if (route === "/movements") return createMovementView({ title, description, t, locale, workspace: currentWorkspace, productService, movementService, draftService, initialProductId: movementProductId, initialType: movementType, onSaved: onMovementSaved, onCriticalOperationChange });
+  if (route === "/scan") return createScanView({ title, description, t, workspace: currentWorkspace, scannerService, onSelectProduct: onScanProduct });
+  if (route === "/labels") return createLabelsView({ title, description, t, workspace: currentWorkspace, service: labelService });
   if (route === "/dashboard") return createDashboardView({ title, description, t, locale, workspace: currentWorkspace, service: dashboardService });
   if (route === "/radar") return createRadarView({ title, description, t, workspace: currentWorkspace, service: dashboardService });
   if (route === "/insights") return createInsightsView({ title, description, t, locale, workspace: currentWorkspace, service: insightService });
-  if (route === "/scenario") return createScenarioView({ title, description, t, locale, workspace: currentWorkspace, productService, movementService });
-  if (route === "/time-machine") return createTimeMachineView({ title, description, t, locale, workspace: currentWorkspace, insightService });
-  if (route === "/settings/profiles") return createCustomFieldView({ title, description, t, workspace: currentWorkspace, service: customFieldService });
+  if (route === "/scenario") return createScenarioView({ title, description, t, locale, workspace: currentWorkspace, productService, movementService, initialProductId: scenarioProductId });
+  if (route === "/time-machine") return createTimeMachineView({ title, description, t, locale, workspace: currentWorkspace, productService, movementService });
+  if (route === "/digital-twin") return createDigitalTwinView({ title, description, t, locale, workspace: currentWorkspace, productService, movementService });
   if (route === "/kits") return createModuleView({ title, description, t, workspace: currentWorkspace, service: moduleService });
-  if (route === "/settings/security") return createSecurityCenterView({ title, description, t, service: securityService });
   if (route === "/shield-test") return createShieldTestView({ title, description, t, service: securityService });
-  if (route === "/settings") return createSettingsView({ title, description, t, workspace: currentWorkspace, persistenceReady, onReset: onResetWorkspace });
+  if (route === "/health") return createHealthView({ title, description, t, workspace: currentWorkspace, service: healthService });
+  if (route === "/audit") return createAuditView({ title, description, t, workspace: currentWorkspace, service: auditService, reversalService, onReversed: onMovementSaved });
+  if (route.startsWith("/settings")) return createSettingsView({ route, t, locale, workspace: currentWorkspace, persistenceReady, appState: settingsState, onReset: onResetWorkspace, onSave: onSaveSettings, customFieldService, securityService, importService, exportService, backupService, snapshotService, onBackupRestored });
 
   const section = document.createElement("section");
   section.className = "route-panel";

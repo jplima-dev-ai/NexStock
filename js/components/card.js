@@ -1,14 +1,16 @@
 const ALLOWED_HEADING_LEVELS = new Set([2, 3, 4]);
+const CARD_SURFACES = new Set(["surface", "alt", "elevated"]);
 
 function appendContent(container, content) {
   if (content instanceof Node) container.append(content);
   else if (content !== undefined && content !== null) container.append(String(content));
 }
 
-export function createCard({ title, description, content, actions, headingLevel = 2 } = {}) {
+export function createCard({ title, description, content, actions, headingLevel = 2, surface = "surface" } = {}) {
   if (!ALLOWED_HEADING_LEVELS.has(headingLevel)) throw new RangeError("Card heading level must be 2, 3, or 4.");
+  if (!CARD_SURFACES.has(surface)) throw new RangeError(`Card surface not supported: ${surface}`);
   const article = document.createElement("article");
-  article.className = "ns-card";
+  article.className = `ns-card ns-card--${surface}`;
   if (title) {
     const heading = document.createElement(`h${headingLevel}`);
     heading.className = "ns-card__title";
@@ -49,5 +51,5 @@ export function createMetricCard({ label, value, context } = {}) {
     contextElement.textContent = context;
     content.append(contextElement);
   }
-  return createCard({ title: label, content, headingLevel: 3 });
+  return createCard({ title: label, content, headingLevel: 3, surface: "elevated" });
 }

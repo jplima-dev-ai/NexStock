@@ -10,6 +10,7 @@ create index if not exists stock_batches_expiry_idx on public.stock_batches(expi
 create index if not exists movements_workspace_created_idx on public.stock_movements(workspace_id, created_at desc);
 create index if not exists movements_product_created_idx on public.stock_movements(product_id, created_at desc);
 create index if not exists audit_workspace_created_idx on public.audit_logs(workspace_id, created_at desc);
+create unique index if not exists stock_movements_single_reversal_idx on public.stock_movements(reversal_of_movement_id) where reversal_of_movement_id is not null;
 create index if not exists relations_workspace_source_idx on public.product_relations(workspace_id, source_product_id);
 create index if not exists kits_workspace_idx on public.kits(workspace_id);
 create index if not exists kit_items_workspace_kit_idx on public.kit_items(workspace_id, kit_id);

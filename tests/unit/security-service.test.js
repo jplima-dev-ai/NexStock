@@ -13,11 +13,11 @@ test("entrada HTML permanece texto não confiável", () => {
   assert.deepEqual(untrustedText(payload), { value: payload, insertionMode: "textContent" });
 });
 
-test("cinco testes NexShield passam de forma isolada", () => {
+test("dez testes NexShield passam de forma isolada", () => {
   const report = runShieldTests();
   assert.equal(report.isolated, true);
   assert.equal(report.passed, true);
-  assert.deepEqual(report.results.map(({ id }) => id), ["negativeStock", "duplicateNexCode", "duplicateSerial", "html", "dangerousUrl"]);
+  assert.deepEqual(report.results.map(({ id }) => id), ["negativeStock", "duplicateNexCode", "duplicateSerial", "html", "dangerousUrl", "invalidImport", "restoreBoundary", "crossWorkspace", "corruptData", "invalidMedia"]);
 });
 
 test("Shield Test Mode não recebe nem acessa DataProvider", () => {

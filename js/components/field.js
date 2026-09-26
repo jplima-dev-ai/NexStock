@@ -1,10 +1,15 @@
 import { assertComponentId } from "../utils/component-id.js";
 
-const CONTROL_TYPES = new Set(["text", "search", "email", "tel", "url", "number", "date"]);
+const CONTROL_TYPES = new Set(["text", "search", "email", "tel", "url", "number", "date", "file"]);
 
 export function buildFieldIds(id) {
   const safeId = assertComponentId(id);
-  return Object.freeze({ control: safeId, help: `${safeId}-help`, error: `${safeId}-error` });
+  return Object.freeze({
+    control: safeId,
+    help: `${safeId}-help`,
+    example: `${safeId}-example`,
+    error: `${safeId}-error`,
+  });
 }
 
 export function createErrorMessage(id, message = "") {
@@ -16,9 +21,10 @@ export function createErrorMessage(id, message = "") {
   return error;
 }
 
-function setDescription(control, ids, hasHelp, hasError) {
+function setDescription(control, ids, hasHelp, hasExample, hasError) {
   const descriptions = [];
   if (hasHelp) descriptions.push(ids.help);
+  if (hasExample) descriptions.push(ids.example);
   if (hasError) descriptions.push(ids.error);
   if (descriptions.length > 0) control.setAttribute("aria-describedby", descriptions.join(" "));
   else control.removeAttribute("aria-describedby");
@@ -29,6 +35,7 @@ export function createField({
   label,
   type = "text",
   helpText = "",
+  exampleText = "",
   errorText = "",
   required = false,
   requiredText = "",
@@ -39,6 +46,9 @@ export function createField({
   max,
   step,
   maxLength,
+  autocomplete,
+  inputMode,
+  accept,
 } = {}) {
   if (!label) throw new TypeError("Field requires a label.");
   const ids = buildFieldIds(id);
@@ -69,7 +79,7 @@ export function createField({
   } else if (type === "textarea") {
     control = document.createElement("textarea");
     control.rows = rows;
-    control.value = value;
+    if (type !== "file") control.value = value;
   } else {
     if (!CONTROL_TYPES.has(type)) throw new RangeError(`Field type not supported: ${type}`);
     control = document.createElement("input");
@@ -84,6 +94,9 @@ export function createField({
   if (max !== undefined) control.max = String(max);
   if (step !== undefined) control.step = String(step);
   if (maxLength !== undefined) control.maxLength = maxLength;
+  if (autocomplete) control.autocomplete = autocomplete;
+  if (inputMode) control.inputMode = inputMode;
+  if (accept) control.accept = accept;
 
   const help = document.createElement("p");
   help.id = ids.help;
@@ -91,16 +104,22 @@ export function createField({
   help.textContent = helpText;
   help.hidden = !helpText;
 
+  const example = document.createElement("p");
+  example.id = ids.example;
+  example.className = "ns-field__example";
+  example.textContent = exampleText;
+  example.hidden = !exampleText;
+
   const error = createErrorMessage(ids.error, errorText);
 
   function setError(message) {
     error.textContent = message;
     error.hidden = !message;
     control.setAttribute("aria-invalid", message ? "true" : "false");
-    setDescription(control, ids, Boolean(helpText), Boolean(message));
+    setDescription(control, ids, Boolean(helpText), Boolean(exampleText), Boolean(message));
   }
 
-  wrapper.append(labelElement, control, help, error);
+  wrapper.append(labelElement, control, help, example, error);
   setError(errorText);
   return { element: wrapper, control, setError, clearError: () => setError("") };
 }

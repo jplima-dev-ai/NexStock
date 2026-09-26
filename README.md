@@ -6,7 +6,8 @@ NexStock é uma PWA local-first que transforma registros de estoque em uma
 leitura compreensível: situação atual, prioridades, histórico, estimativas
 explicáveis e simulações que não alteram os dados reais.
 
-Versão estável: `1.0.0`. Fases 0 a 24 do blueprint concluídas.
+Versão estável: `1.2.0 — Data Mobility`. Fases 0 a 42 concluídas; a próxima
+entrega é a Fase 43, NexIntelligence Engine, da release alvo `1.4.0`.
 
 ## Links
 
@@ -15,7 +16,8 @@ Versão estável: `1.0.0`. Fases 0 a 24 do blueprint concluídas.
 - [Guia de início](docs/getting-started.md)
 - [Arquitetura](docs/architecture/overview.md)
 - [Implantação no GitHub Pages](docs/deployment/github-pages.md)
-- [Blueprint mestre](NEXSTOCK-BLUEPRINT-v1.1.md)
+- [Blueprint mestre v1.1](NEXSTOCK-BLUEPRINT-v1.1.md)
+- [Continuação oficial v1.2](NEXSTOCK-BLUEPRINT-v1.2.md)
 
 ![Cena institucional do NexStock com a mascote organizando unidades de estoque](assets/brand/scenes/nexstock-brand-scene-16x9.jpg)
 
@@ -29,6 +31,40 @@ Versão estável: `1.0.0`. Fases 0 a 24 do blueprint concluídas.
 - Perfis para tecnologia, cosméticos, moda, alimentos e operações personalizadas.
 - Módulos de serial, validade, variações, kits, compatibilidade e substitutos.
 - Interface em Português do Brasil, inglês dos Estados Unidos e espanhol.
+- NexDesign 2.0 com tokens formais, superfícies próprias por tema, iconografia
+  controlada e tabelas adaptáveis com ordenação acessível.
+- NexMotion com movimentos curtos para rotas, abas, diálogos, navegação,
+  estados e feedback, removidos quando movimento reduzido está ativo.
+- NexCopy com explicações e exemplos visíveis em campos importantes, ações
+  específicas e mensagens que informam o ocorrido, a causa e a recuperação.
+- NexCopy contextual com modos guiado e compacto, exemplos adaptados aos cinco
+  perfis e glossário pesquisável nos três idiomas.
+- NexSettings com nove seções acessíveis por link direto, navegação lateral no
+  desktop e seletor de seção no mobile.
+- Settings Summary com estados centrais, atalhos, preferências seguras salvas
+  imediatamente e confirmação para restauração de dados.
+- Import Center para CSV com seleção ou arrastar e soltar, mapeamento de
+  colunas, prévia editável, validação por linha, duplicatas e confirmação
+  explícita antes da gravação.
+- Export Center para produtos, movimentações, lotes, auditoria e workspace,
+- NexBackup para cópia completa do workspace, prévia validada e restauração
+  transacional após confirmação explícita,
+- snapshots locais antes de importações e restaurações, com histórico
+  preservado e exclusão sempre confirmada,
+  com filtros revisáveis, prévia, CSV seguro, JSON e impressão.
+- Command Center 2.0: `Ctrl+K` entende ações direcionadas como “entrada
+  Quantum”, “abrir Quantum SSD” e “simular Quantum”, sem tirar as mãos do
+  teclado.
+- NexQuery converte consultas controladas como “sem estoque”, “produtos
+  arquivados” e “buscar Quantum SSD” em filtros locais, visíveis e revisáveis.
+- Product Media permite imagem opcional em cada produto, com descrição para
+  leitores de tela, thumbnail, Blob local, funcionamento offline e backup.
+- NexScan localiza produtos por NexCode, nome completo ou câmera compatível e
+  inicia abertura, entrada ou saída, sempre com fallback manual.
+- NexLabels gera e imprime etiquetas locais para produto, lote, localização e
+  unidade serializada; seus códigos são resolvidos pelo NexScan.
+- Mobile Operations 2.0 entrega navegação inferior, ações rápidas, busca e
+  scanner próprios para telas pequenas.
 
 ## Arquitetura
 
@@ -41,7 +77,8 @@ Fluxo principal: `interface → serviços de domínio → DataProvider → banco
 
 Consulte a [visão de arquitetura](docs/architecture/overview.md), a
 [persistência](docs/architecture/persistence.md) e a
-[integração Supabase](docs/architecture/supabase.md).
+[integração Supabase](docs/architecture/supabase.md). Os contratos de mobilidade
+estão em [mobilidade de dados](docs/architecture/data-mobility.md).
 
 ## Acessibilidade
 
@@ -83,7 +120,7 @@ descritos em texto e operáveis sem depender delas.
 
 ## Executar localmente
 
-Pré-requisito: Node.js 20 ou superior.
+Pré-requisito: Node.js 20.11 ou superior.
 
 ```bash
 npm start
@@ -99,6 +136,9 @@ npm run validate
 npm run build:pages
 npm run validate:pages
 ```
+
+`npm run validate` inclui testes unitários e E2E em Chromium real com
+Playwright, axe, IndexedDB, offline, teclado, temas e os três idiomas.
 
 Consulte o [guia de testes](docs/testing.md) para entender cada gate.
 

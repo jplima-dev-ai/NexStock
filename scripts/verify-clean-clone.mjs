@@ -18,13 +18,16 @@ try {
     recursive: true,
     filter: (source) => {
       const name = basename(source);
-      return ![".git", "_site", "node_modules", "NexStock.zip"].includes(name) && !name.startsWith("NexStock-v");
+      return ![".git", ".playwright-runtime", "_site", "node_modules", "playwright-report", "test-results", "NexStock.zip"].includes(name)
+        && !name.startsWith(".tmp-browser")
+        && !name.startsWith("NexStock-v");
     },
   });
   run("git", ["init", "--initial-branch=main"], SOURCE);
   run("git", ["add", "."], SOURCE);
   run("git", ["-c", "user.name=NexStock QA", "-c", "user.email=qa@nexstock.invalid", "commit", "-m", "clean snapshot"], SOURCE);
   run("git", ["clone", "--quiet", SOURCE, CLONE], TEMP);
+  run("npm", ["ci", "--silent"], CLONE);
   run("npm", ["run", "validate", "--silent"], CLONE);
   run("npm", ["run", "build:pages", "--silent"], CLONE);
   run("npm", ["run", "validate:pages", "--silent"], CLONE);

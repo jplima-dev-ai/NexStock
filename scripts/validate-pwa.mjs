@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { join, relative, sep } from "node:path";
 
 const root = process.cwd();
 const manifest = JSON.parse(readFileSync(join(root, "manifest.webmanifest"), "utf8"));
@@ -18,6 +18,17 @@ for (const contract of ["nexstock-shell-v", "cache.addAll", "SKIP_WAITING", "cac
 }
 if (/indexedDB\.deleteDatabase/u.test(worker)) throw new Error("Atualização PWA não pode apagar IndexedDB.");
 
+const listJavaScriptFiles = (directory) => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const path = join(directory, entry.name);
+  if (entry.isDirectory()) return listJavaScriptFiles(path);
+  return entry.isFile() && entry.name.endsWith(".js") ? [path] : [];
+});
+const runtimeModules = listJavaScriptFiles(join(root, "js"));
+for (const path of runtimeModules) {
+  const resource = `./${relative(root, path).split(sep).join("/")}`;
+  if (!worker.includes(`"${resource}"`)) throw new Error(`Módulo ausente do precache offline: ${resource}`);
+}
+
 const index = readFileSync(join(root, "index.html"), "utf8");
 if (!index.includes('rel="manifest" href="./manifest.webmanifest"')) throw new Error("Manifest não conectado ao HTML.");
-process.stdout.write("PWA: manifest, cache versionado, offline, atualização e drafts aprovados.\n");
+process.stdout.write(`PWA: manifest, ${runtimeModules.length} módulos em precache, offline, atualização e drafts aprovados.\n`);

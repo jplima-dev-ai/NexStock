@@ -29,6 +29,7 @@ export function calculateForecast(product, movements, now = new Date()) {
     ? 0
     : Math.min(FORECAST_WINDOW_DAYS, Math.floor((now.getTime() - dateValue(outputs[0].createdAt)) / DAY_MS) + 1);
   const confidence = calculateConfidence(outputs.length, historyDays);
+  const dataSufficiency = outputs.length === 0 ? "insufficient" : (outputs.length < 5 || historyDays < 14 ? "limited" : "sufficient");
   const limitations = [];
   if (outputs.length === 0) limitations.push("NO_OUTPUT_EVENTS");
   if (outputs.length < 5) limitations.push("FEW_EVENTS");
@@ -47,6 +48,7 @@ export function calculateForecast(product, movements, now = new Date()) {
     eventCount: outputs.length,
     historyDays,
     confidence,
+    dataSufficiency,
     limitations: Object.freeze(limitations),
   });
 }

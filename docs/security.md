@@ -20,9 +20,11 @@ e configuração do provider.
 
 ## Shield Test Mode
 
-A rota `#/shield-test` executa cinco testes em memória: estoque negativo,
-NexCode duplicado, serial duplicado, HTML não confiável e URL perigosa. O modo
-não recebe o DataProvider e não grava no espaço de trabalho real.
+A rota `#/shield-test` executa dez testes em memória: estoque negativo, NexCode
+e serial duplicados, HTML não confiável, URL perigosa, importação inválida,
+restauração no espaço errado, dados entre espaços, backup corrompido e mídia
+inválida. O modo não recebe o DataProvider e não grava no espaço de trabalho
+real.
 
 ## Segredos
 

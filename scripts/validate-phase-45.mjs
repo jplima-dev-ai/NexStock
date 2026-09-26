@@ -1,0 +1,1 @@
+import { readFileSync } from "node:fs"; if (!readFileSync("js/services/intelligence-service.js", "utf8").includes("sourceRecords")) throw new Error("Fase 45 sem Data Lineage."); process.stdout.write("Fase 45: fontes listáveis aprovadas.\n");

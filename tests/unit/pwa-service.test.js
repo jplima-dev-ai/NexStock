@@ -24,6 +24,22 @@ test("atualização só é aplicada por ação explícita", () => {
   assert.deepEqual(message, { type: "SKIP_WAITING" });
 });
 
+test("primeira instalação não recarrega, mas atualização confirmada recarrega", async () => {
+  let reloads = 0;
+  const registration = eventTarget({ waiting: { postMessage() {} }, installing: null });
+  const serviceWorker = eventTarget({ controller: null, register: async () => registration });
+  const windowObject = eventTarget({ location: { reload: () => { reloads += 1; } } });
+  const service = new PwaService({ navigatorObject: { onLine: true, serviceWorker }, windowObject });
+
+  await service.start();
+  serviceWorker.emit("controllerchange");
+  assert.equal(reloads, 0);
+
+  assert.equal(service.applyUpdate(), true);
+  serviceWorker.emit("controllerchange");
+  assert.equal(reloads, 1);
+});
+
 test("mudanças online e offline são anunciadas", async () => {
   const states = [];
   const windowObject = eventTarget({ location: { reload() {} } });

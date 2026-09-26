@@ -1,18 +1,39 @@
 import { buildNexCode } from "./product-service.js";
 import { calculateMovementImpact, MOVEMENT_TYPES } from "./movement-service.js";
+import { analyzeImportRows } from "./import-service.js";
+import { APP_VERSION } from "../core/version.js";
+import { BACKUP_SCHEMA, BACKUP_STORES, parseBackupText, validateBackup } from "./backup-service.js";
+import { validateImageFile } from "./media-service.js";
 import { assertSafeUrl, untrustedText } from "../utils/security.js";
 export { assertSafeUrl, untrustedText } from "../utils/security.js";
 
 function result(id, passed, detail) { return Object.freeze({ id, passed: Boolean(passed), detail }); }
 
+function shieldBackup({ workspaceId = "shield-workspace", mutate = () => {} } = {}) {
+  const data = Object.fromEntries(BACKUP_STORES.map((storeName) => [storeName, []]));
+  data.workspaces = [{ id: workspaceId, name: "NexShield test workspace", updatedAt: "2026-09-26T00:00:00.000Z" }];
+  data.products = [{ id: "shield-product", workspaceId, name: "Shield product", nexCode: "NX-SHD-0001", currentQuantity: 10 }];
+  mutate(data);
+  return { schema: BACKUP_SCHEMA, appVersion: APP_VERSION, workspaceId, data, media: { included: false, records: [] } };
+}
+
+function blocked(callback) {
+  try { callback(); return false; } catch { return true; }
+}
+
 export function runShieldTests() {
   const results = [];
-  try { calculateMovementImpact({ type: MOVEMENT_TYPES.OUT, quantity: 11, currentQuantity: 10, minimumStock: 2 }); results.push(result("negativeStock", false, "accepted")); } catch { results.push(result("negativeStock", true, "blocked")); }
+  results.push(result("negativeStock", blocked(() => calculateMovementImpact({ type: MOVEMENT_TYPES.OUT, quantity: 11, currentQuantity: 10, minimumStock: 2 })), "blocked"));
   const code = buildNexCode({ prefix: "NX", categoryCode: "TEST", sequence: 1 });
-  const codes = new Set([code]); results.push(result("duplicateNexCode", codes.has(code), "blocked"));
-  const serials = new Set(["SERIAL-001"]); results.push(result("duplicateSerial", serials.has("SERIAL-001"), "blocked"));
+  results.push(result("duplicateNexCode", blocked(() => validateBackup(shieldBackup({ mutate: (data) => { data.products[0].nexCode = code; data.products.push({ id: "shield-product-2", workspaceId: "shield-workspace", name: "Duplicate code", nexCode: code }); } }))), "blocked"));
+  results.push(result("duplicateSerial", blocked(() => validateBackup(shieldBackup({ mutate: (data) => { data.productUnits.push({ id: "shield-unit-1", workspaceId: "shield-workspace", productId: "shield-product", serialNumber: "SERIAL-001" }, { id: "shield-unit-2", workspaceId: "shield-workspace", productId: "shield-product", serialNumber: "SERIAL-001" }); } }))), "blocked"));
   const html = untrustedText('<img src=x onerror="alert(1)">'); results.push(result("html", html.insertionMode === "textContent" && html.value.includes("<img"), "rendered-as-text"));
-  try { assertSafeUrl("javascript:alert(1)"); results.push(result("dangerousUrl", false, "accepted")); } catch { results.push(result("dangerousUrl", true, "blocked")); }
+  results.push(result("dangerousUrl", blocked(() => assertSafeUrl("javascript:alert(1)")), "blocked"));
+  results.push(result("invalidImport", !analyzeImportRows([{ sourceRow: 2, name: "Unsafe import", currentQuantity: "-1", minimumStock: "1" }]).ready, "blocked"));
+  results.push(result("restoreBoundary", blocked(() => validateBackup(shieldBackup(), { expectedWorkspaceId: "another-workspace" })), "blocked"));
+  results.push(result("crossWorkspace", blocked(() => validateBackup(shieldBackup({ mutate: (data) => { data.products[0].workspaceId = "another-workspace"; } }))), "blocked"));
+  results.push(result("corruptData", blocked(() => parseBackupText("{not-json")), "blocked"));
+  results.push(result("invalidMedia", blocked(() => validateImageFile({ type: "image/svg+xml", size: 1 })), "blocked"));
   return Object.freeze({ isolated: true, passed: results.every((item) => item.passed), results: Object.freeze(results) });
 }
 

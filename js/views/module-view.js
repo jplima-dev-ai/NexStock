@@ -1,5 +1,6 @@
 import { createButton } from "../components/button.js";
 import { createCard } from "../components/card.js";
+import { createContentStatus } from "../components/content-state.js";
 import { createAlert } from "../components/feedback.js";
 import { createField } from "../components/field.js";
 import { findSmartSubstitutes } from "../services/module-service.js";
@@ -31,7 +32,7 @@ export function createModuleView({ title, description, t, workspace, service }) 
   const heading = text("h1", title); heading.id = "route-title"; heading.tabIndex = -1;
   section.append(heading, text("p", description));
   if (!workspace) { section.append(createAlert({ title: t("moduleCore.workspaceRequiredTitle"), message: t("moduleCore.workspaceRequiredMessage"), tone: "warning" })); return { element: section, focusTarget: heading }; }
-  const content = text("p", t("moduleCore.loading")); content.setAttribute("role", "status"); section.append(content);
+  const content = createContentStatus({ message: t("moduleCore.loading") }); section.append(content);
   service.getWorkspaceSnapshot(workspace.id).then((snapshot) => {
     const enabled = new Set(snapshot.modules);
     const intro = createAlert({ title: t("moduleCore.activeTitle"), message: snapshot.modules.length ? t("moduleCore.activeMessage", { modules: snapshot.modules.map((key) => t(`modules.${key}`)).join(", ") }) : t("moduleCore.noneActive"), tone: "info" });

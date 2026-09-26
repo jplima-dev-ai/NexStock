@@ -1,0 +1,13 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd();
+const service = readFileSync(join(root, "js/services/reversal-service.js"), "utf8");
+const indexedDb = readFileSync(join(root, "js/storage/indexeddb-provider.js"), "utf8");
+const audit = readFileSync(join(root, "js/services/audit-service.js"), "utf8");
+const tests = readFileSync(join(root, "tests/unit/reversal-service.test.js"), "utf8");
+const cycle = readFileSync(join(root, "docs/project/cycle-060-phase-60.md"), "utf8");
+for (const contract of ["applyStockReversal", "reversalOfMovementId", "confirmation-required", "negative-stock", "STOCK_MOVEMENT_REVERSED"]) if (!service.includes(contract)) throw new Error(`Contrato de reversão ausente: ${contract}`);
+for (const contract of ["applyStockReversal", "already been reversed", "transaction.objectStore(\"auditLogs\").put"]) if (!indexedDb.includes(contract)) throw new Error(`Atomicidade IndexedDB ausente: ${contract}`);
+if (!audit.includes("stockMovementReversed") || !tests.includes("compensating movement")) throw new Error("Auditoria ou regressão de reversão ausente.");
+if (!/reversões preservam auditoria/u.test(cycle)) throw new Error("Gate da Fase 60 não documentado.");
+process.stdout.write("Fase 60: reversões compensatórias preservam auditoria.\n");

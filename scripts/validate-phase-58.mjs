@@ -1,0 +1,10 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd();
+const service = readFileSync(join(root, "js/services/health-service.js"), "utf8");
+const view = readFileSync(join(root, "js/views/health-view.js"), "utf8");
+const cycle = readFileSync(join(root, "docs/project/cycle-058-phase-58.md"), "utf8");
+for (const control of ["orphanProductCategory", "duplicateNexCode", "impossibleProductState", "inconsistentBatch", "orphanMedia", "brokenRelation", "diagnose(workspaceId)"]) if (!service.includes(control)) throw new Error(`Diagnóstico NexHealth ausente: ${control}`);
+for (const control of ["aria-live", "reviewMessage", "service.diagnose"]) if (!view.includes(control)) throw new Error(`Interface NexHealth incompleta: ${control}`);
+if (!/inconsistências detectáveis não são silenciosas/u.test(cycle)) throw new Error("Gate da Fase 58 não documentado.");
+process.stdout.write("Fase 58: inconsistências detectáveis são visíveis no NexHealth.\n");

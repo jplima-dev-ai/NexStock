@@ -1,0 +1,7 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { buildLabelCode, LabelService } from "../../js/services/label-service.js";
+import { NexScanService } from "../../js/services/scanner-service.js";
+function provider() { const data = { products: [{ id: "p1", workspaceId: "w1", name: "Quantum SSD", nexCode: "NX-COMP-0002", location: "A-01", archivedAt: null }], batches: [{ id: "b1", workspaceId: "w1", productId: "p1", batchNumber: "L-9", archivedAt: null }], productUnits: [{ id: "u1", workspaceId: "w1", productId: "p1", serialNumber: "S-9", archivedAt: null }] }; return { async getAll(store) { return data[store]; } }; }
+test("NexLabels gera código estável para todos os tipos", async () => { const service = new LabelService({ provider: provider() }); assert.equal(buildLabelCode("NX-COMP-0002"), "NXL|NX-COMP-0002"); for (const [type, target] of [["product", "p1"], ["batch", "b1"], ["location", "A-01"], ["unit", "u1"]]) { const labels = await service.prepare("w1", { type, target }); assert.equal(labels[0].productId, "p1"); assert.equal(labels[0].code, "NXL|NX-COMP-0002"); } });
+test("o código NexLabels resolve o produto pelo NexScan", async () => { const scanner = new NexScanService({ productService: { async search() { return [{ id: "p1", nexCode: "NX-COMP-0002" }]; } }, navigatorRef: {} }); assert.equal((await scanner.findProduct("w1", "NXL|NX-COMP-0002")).id, "p1"); });

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeRoute, resolveRoute, ROUTES, Router } from "../../js/core/router.js";
+import { normalizeRoute, resolveRoute, ROUTES, Router, shouldMoveInitialFocus } from "../../js/core/router.js";
 
 test("normaliza hash vazio para a rota inicial", () => {
   assert.equal(normalizeRoute(""), "/welcome");
@@ -16,8 +16,10 @@ test("resolve todas as rotas estáticas exigidas pelo blueprint", () => {
   const expected = [
     "/welcome", "/tour", "/onboarding", "/dashboard", "/products", "/products/new",
     "/movements", "/radar", "/insights", "/time-machine", "/scenario",
-    "/kits", "/about", "/settings", "/settings/profiles",
-    "/settings/security", "/shield-test",
+    "/kits", "/about", "/glossary", "/settings", "/settings/general",
+    "/settings/appearance", "/settings/inventory", "/settings/profiles",
+    "/settings/data", "/settings/data/import", "/settings/data/export", "/settings/security", "/settings/pwa", "/settings/advanced",
+    "/shield-test",
   ];
   for (const route of expected) assert.ok(resolveRoute(route), `Rota ausente: ${route}`);
   assert.ok(ROUTES.length >= expected.length);
@@ -49,4 +51,12 @@ test("refresh preserva a rota e encaminha o contrato de foco", () => {
   } finally {
     globalThis.window = originalWindow;
   }
+});
+
+test("foco inicial só é movido quando a página ainda está neutra", () => {
+  const body = {};
+  const documentElement = {};
+  assert.equal(shouldMoveInitialFocus({ activeElement: body, body, documentElement }), true);
+  assert.equal(shouldMoveInitialFocus({ activeElement: documentElement, body, documentElement }), true);
+  assert.equal(shouldMoveInitialFocus({ activeElement: { id: "skip-link" }, body, documentElement }), false);
 });

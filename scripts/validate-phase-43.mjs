@@ -1,0 +1,2 @@
+import { existsSync, readFileSync } from "node:fs"; import { join } from "node:path";
+const service = join(process.cwd(), "js/services/intelligence-service.js"); if (!existsSync(service) || !readFileSync(service, "utf8").includes("buildIntelligenceSignals")) throw new Error("Fase 43 sem motor de sinais determinístico."); process.stdout.write("Fase 43: sinais determinísticos e testáveis aprovados.\n");

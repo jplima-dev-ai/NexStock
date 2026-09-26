@@ -40,6 +40,7 @@ export class WorkspaceService {
       currency: preferences.currency ?? seed.workspace.currency ?? "BRL",
       timezone: preferences.timezone ?? seed.workspace.timezone ?? "America/Sao_Paulo",
       experienceMode: preferences.experienceMode ?? "guided",
+      theme: preferences.theme ?? "light",
       createdAt: timestamp,
       updatedAt: timestamp,
     };
@@ -134,6 +135,7 @@ export class WorkspaceService {
       currency: current.currency,
       timezone: current.timezone,
       experienceMode: current.experienceMode,
+      theme: current.theme ?? "light",
       profileSettings: profileSetting?.value,
       customFieldDefinitions: customFieldDefinitions.map((field) => ({
         key: field.key,

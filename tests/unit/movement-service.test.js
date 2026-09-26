@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateMovementImpact, InsufficientStockError, MovementService } from "../../js/services/movement-service.js";
+import { buildConsequencePreview, calculateMovementImpact, InsufficientStockError, MovementService } from "../../js/services/movement-service.js";
 
 class MovementTestProvider {
   constructor() {
@@ -38,6 +38,17 @@ test("impact preview calculates entry, withdrawal, adjustment, and resulting sta
   const adjustment = calculateMovementImpact({ type: "ADJUSTMENT", quantity: 2, currentQuantity: 10, minimumStock: 5 });
   assert.equal(adjustment.quantity, 8);
   assert.equal(adjustment.afterQuantity, 2);
+});
+
+test("Consequence Preview mostra antes e depois, inclusive previsão ou insuficiência", () => {
+  const product = { id: "product-1", currentQuantity: 10, minimumStock: 5 };
+  const movements = [{ id: "out-1", productId: product.id, type: "OUT", quantity: 30, createdAt: "2026-09-18T12:00:00.000Z" }];
+  const preview = buildConsequencePreview({ product, movements, input: { type: "OUT", quantity: 6 }, now: "2026-09-19T12:00:00.000Z" });
+  assert.equal(preview.persisted, false);
+  assert.deepEqual(preview.before, { quantity: 10, status: "healthy", forecast: { available: true, daysRemaining: 10, dataSufficiency: "limited" } });
+  assert.deepEqual(preview.after, { quantity: 4, status: "critical", forecast: { available: true, daysRemaining: 4, dataSufficiency: "limited" } });
+  assert.deepEqual(preview.impact, { quantityDelta: -6, statusChanged: true });
+  assert.equal(product.currentQuantity, 10);
 });
 
 test("invalid withdrawal creates no movement, product update, or audit", async () => {

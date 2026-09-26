@@ -22,6 +22,8 @@ test("NexPulse redistribui o peso indisponível e mantém texto apoiado por prio
   const snapshot = buildDashboardSnapshot({ products, movements: [], now: NOW });
   assert.equal(snapshot.pulse.forecastAvailable, false);
   assert.equal(snapshot.pulse.score, 56);
+  assert.ok(snapshot.actionCenter.every((action) => action.execution === "REVIEW_ONLY" && action.action));
+  assert.ok(snapshot.signals.every((signal) => signal.explanation && signal.lineage.sourceRecords.length > 0));
   assert.deepEqual(snapshot.pulse.rates, { availability: 75, minimumCompliance: 50, freshness: 25 });
   assert.deepEqual(snapshot.counts, { out: 1, critical: 1, attention: 1, healthy: 1, stopped: 3 });
   assert.deepEqual(snapshot.priorities.map(({ type }) => type), ["out", "critical", "attention", "stopped"]);
@@ -54,6 +56,7 @@ test("DashboardService mantém isolamento por workspace", async () => {
 test("snapshot vazio não inventa uma pontuação", () => {
   const snapshot = buildDashboardSnapshot({ products: [], movements: [], now: NOW });
   assert.equal(snapshot.pulse.score, null);
+  assert.equal(snapshot.pulse.context, null);
   assert.equal(snapshot.priorities.length, 0);
 });
 

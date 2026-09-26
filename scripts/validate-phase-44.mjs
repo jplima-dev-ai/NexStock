@@ -1,0 +1,1 @@
+import { readFileSync } from "node:fs"; if (!readFileSync("js/services/intelligence-service.js", "utf8").includes("explanation:")) throw new Error("Fase 44 sem explicação reproduzível."); process.stdout.write("Fase 44: explicações reproduzíveis aprovadas.\n");

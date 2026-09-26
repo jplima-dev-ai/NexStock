@@ -1,5 +1,7 @@
 import { getInventoryStatus } from "./product-service.js";
 import { calculateForecast } from "./insight-service.js";
+import { buildIntelligenceSignals } from "./intelligence-service.js";
+import { buildActionCenter } from "./actions-service.js";
 
 const DAY_MS = 86_400_000;
 const PULSE_WEIGHTS = Object.freeze({ availability: 35, minimumCompliance: 30, freshness: 15, forecast: 20 });
@@ -12,6 +14,16 @@ function percentage(part, total) {
 function dateValue(value) {
   const parsed = new Date(value).getTime();
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function rounded(value) { return Math.round(value); }
+
+function buildPulseContext({ totalProducts, rates, forecasts, usableWeights }) {
+  const limitations = ["SCORE_IS_SUPPORTING_SUMMARY", "HISTORY_REFLECTS_AVAILABLE_LOCAL_RECORDS"];
+  if (forecasts.length === 0) limitations.unshift("FORECAST_UNAVAILABLE");
+  else if (forecasts.length < totalProducts) limitations.unshift("FORECAST_PARTIAL_COVERAGE");
+  const totalWeight = usableWeights.reduce((sum, [, weight]) => sum + weight, 0);
+  return Object.freeze({ summary: Object.freeze({ activeProducts: totalProducts }), dimensions: Object.freeze(usableWeights.map(([id, baseWeight]) => Object.freeze({ id, value: rounded(rates[id]), baseWeight, normalizedWeight: rounded((baseWeight / totalWeight) * 100) }))), dataAvailability: Object.freeze({ forecastCoverage: Object.freeze({ calculated: forecasts.length, total: totalProducts }) }), limitations: Object.freeze(limitations) });
 }
 
 export function isStoppedProduct(product, movements, now = new Date()) {
@@ -67,6 +79,7 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
     (sum, [key, weight]) => sum + ((rates[key] ?? 0) * (Object.hasOwn(rates, key) ? weight : 0) / usableWeight),
     0,
   );
+  const pulseContext = totalProducts === 0 ? null : buildPulseContext({ totalProducts, rates, forecasts, usableWeights });
 
   const priorities = enriched.flatMap((product) => {
     if (product.status !== "healthy") return [{ type: product.status, product }];
@@ -77,6 +90,7 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
     || first.product.name.localeCompare(second.product.name)
   ));
 
+  const signals = buildIntelligenceSignals({ products: activeProducts, movements: workspaceMovements, now });
   return Object.freeze({
     generatedAt: now.toISOString(),
     pulse: Object.freeze({
@@ -84,6 +98,7 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
       rates: Object.freeze(Object.fromEntries(Object.entries(rates).map(([key, value]) => [key, Math.round(value)]))),
       forecastAvailable: forecasts.length > 0,
       forecastCoverage: Object.freeze({ calculated: forecasts.length, total: totalProducts }),
+      context: pulseContext,
     }),
     counts: Object.freeze({ ...counts, stopped: stoppedIds.size }),
     priorities: Object.freeze(priorities),
@@ -96,6 +111,8 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
     recentMovements: Object.freeze(workspaceMovements.slice(0, 5)),
     lowestForecast: lowestForecast ? Object.freeze(lowestForecast) : null,
     products: Object.freeze(enriched),
+    signals,
+    actionCenter: buildActionCenter(signals),
   });
 }
 

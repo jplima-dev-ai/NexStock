@@ -17,6 +17,13 @@ export class StockConflictError extends Error {
   }
 }
 
+export class WorkspaceConflictError extends Error {
+  constructor(message = "Workspace changed after the backup preview.") {
+    super(message);
+    this.name = "WorkspaceConflictError";
+  }
+}
+
 function requestToPromise(request) {
   return new Promise((resolve, reject) => {
     request.onsuccess = () => resolve(request.result);
@@ -193,6 +200,28 @@ export class IndexedDBProvider extends DataProvider {
     }
   }
 
+  async applyStockReversal({ workspaceId, productId, originalMovementId, expectedBeforeQuantity, afterQuantity, movement, audit }) {
+    if (!workspaceId || !productId || !originalMovementId || !movement?.id || !audit?.id) throw new TypeError("A complete stock reversal transaction is required.");
+    if (!Number.isFinite(afterQuantity) || afterQuantity < 0) throw new RangeError("Stock cannot be negative.");
+    const transaction = this.#requireDatabase().transaction(["products", "movements", "auditLogs"], "readwrite");
+    const completion = transactionToPromise(transaction);
+    try {
+      const products = transaction.objectStore("products");
+      const current = await requestToPromise(products.get(productId));
+      const original = await requestToPromise(transaction.objectStore("movements").get(originalMovementId));
+      if (!current || current.workspaceId !== workspaceId || current.archivedAt || !original || original.workspaceId !== workspaceId || original.productId !== productId) throw new RangeError("Movement or active product not found in this workspace.");
+      if (!new Set(["IN", "OUT"]).has(original.type) || movement.reversalOfMovementId !== originalMovementId) throw new RangeError("Movement is not eligible for reversal.");
+      const movements = await requestToPromise(transaction.objectStore("movements").index("workspaceId").getAll(workspaceId));
+      if (movements.some((item) => item.reversalOfMovementId === originalMovementId)) throw new RangeError("Movement has already been reversed.");
+      if (Number(current.currentQuantity) !== Number(expectedBeforeQuantity)) throw new StockConflictError();
+      const product = { ...current, currentQuantity: afterQuantity, updatedAt: movement.createdAt };
+      const storedMovement = { ...movement, workspaceId, productId, beforeQuantity: Number(current.currentQuantity), afterQuantity };
+      const storedAudit = { ...audit, workspaceId, entityType: "product", entityId: productId, beforeData: current, afterData: product };
+      products.put(product); transaction.objectStore("movements").put(storedMovement); transaction.objectStore("auditLogs").put(storedAudit);
+      await completion; return { product, movement: storedMovement, audit: storedAudit };
+    } catch (error) { try { transaction.abort(); } catch {} await completion.catch(() => {}); throw error; }
+  }
+
   async delete(storeName, key) {
     return this.#singleRequest(storeName, "readwrite", (store) => store.delete(key));
   }
@@ -215,5 +244,43 @@ export class IndexedDBProvider extends DataProvider {
       };
     }
     await completion;
+  }
+
+  async replaceWorkspaceData({ workspaceId, expectedUpdatedAt, collections }) {
+    if (!workspaceId || !collections?.workspaces?.length) {
+      throw new TypeError("A complete workspace backup is required.");
+    }
+    const storeNames = Object.keys(collections).map(assertStoreName);
+    const transaction = this.#requireDatabase().transaction(storeNames, "readwrite");
+    const completion = transactionToPromise(transaction);
+
+    try {
+      const current = await requestToPromise(transaction.objectStore("workspaces").get(workspaceId));
+      if (!current || (expectedUpdatedAt && current.updatedAt !== expectedUpdatedAt)) {
+        throw new WorkspaceConflictError();
+      }
+
+      await Promise.all(storeNames.filter((name) => name !== "workspaces").map((storeName) => new Promise((resolve, reject) => {
+        const store = transaction.objectStore(storeName);
+        const request = store.index("workspaceId").openCursor(globalThis.IDBKeyRange?.only(workspaceId) ?? workspaceId);
+        request.onerror = () => reject(request.error ?? new Error("Workspace cleanup failed."));
+        request.onsuccess = () => {
+          const cursor = request.result;
+          if (!cursor) { resolve(); return; }
+          cursor.delete();
+          cursor.continue();
+        };
+      })));
+
+      for (const [storeName, records] of Object.entries(collections)) {
+        const store = transaction.objectStore(storeName);
+        for (const record of records) store.put(record);
+      }
+      await completion;
+    } catch (error) {
+      try { transaction.abort(); } catch { /* The transaction may already be inactive. */ }
+      await completion.catch(() => {});
+      throw error;
+    }
   }
 }

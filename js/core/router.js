@@ -10,16 +10,32 @@ export const ROUTES = Object.freeze([
   { pattern: "/products/:id/edit", messageKey: "productEdit" },
   { pattern: "/products/:id", messageKey: "productDetail" },
   { pattern: "/movements", messageKey: "movements" },
+  { pattern: "/scan", messageKey: "scan" },
+  { pattern: "/labels", messageKey: "labels" },
   { pattern: "/radar", messageKey: "radar" },
   { pattern: "/insights", messageKey: "insights" },
   { pattern: "/time-machine", messageKey: "timeMachine" },
   { pattern: "/scenario", messageKey: "scenario" },
+  { pattern: "/digital-twin", messageKey: "digitalTwin" },
   { pattern: "/kits", messageKey: "kits" },
   { pattern: "/about", messageKey: "about" },
+  { pattern: "/glossary", messageKey: "glossary" },
   { pattern: "/settings", messageKey: "settings" },
+  { pattern: "/settings/general", messageKey: "settingsGeneral" },
+  { pattern: "/settings/appearance", messageKey: "settingsAppearance" },
+  { pattern: "/settings/inventory", messageKey: "settingsInventory" },
   { pattern: "/settings/profiles", messageKey: "profiles" },
+  { pattern: "/settings/data", messageKey: "settingsData" },
+  { pattern: "/settings/data/import", messageKey: "importCenter" },
+  { pattern: "/settings/data/export", messageKey: "exportCenter" },
+  { pattern: "/settings/data/backup", messageKey: "backupCenter" },
+  { pattern: "/settings/data/snapshots", messageKey: "snapshotCenter" },
   { pattern: "/settings/security", messageKey: "security" },
+  { pattern: "/settings/pwa", messageKey: "settingsPwa" },
+  { pattern: "/settings/advanced", messageKey: "settingsAdvanced" },
   { pattern: "/shield-test", messageKey: "shieldTest" },
+  { pattern: "/health", messageKey: "health" },
+  { pattern: "/audit", messageKey: "audit" },
 ]);
 
 export function normalizeRoute(hash = "") {
@@ -60,6 +76,11 @@ export function resolveRoute(route) {
   return null;
 }
 
+export function shouldMoveInitialFocus(documentRef = globalThis.document) {
+  const active = documentRef?.activeElement;
+  return !active || active === documentRef.body || active === documentRef.documentElement;
+}
+
 export class Router {
   constructor({ onRouteChange, onNotFound }) {
     this.onRouteChange = onRouteChange;
@@ -67,9 +88,9 @@ export class Router {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  start() {
+  start(initialContext = { moveFocus: true }) {
     window.addEventListener("hashchange", this.handleChange);
-    this.handleChange();
+    this.refresh(initialContext);
   }
 
   stop() {

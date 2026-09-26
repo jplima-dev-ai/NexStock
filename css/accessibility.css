@@ -41,4 +41,78 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  .ns-route-enter,
+  .primary-nav[data-open="true"],
+  .ns-card,
+  .ns-tab-panel--active,
+  .ns-dialog,
+  .ns-status,
+  .ns-metric__value,
+  .ns-alert,
+  .ns-toast {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ns-route-enter,
+  .primary-nav[data-open="true"],
+  .ns-card,
+  .ns-tab-panel--active,
+  .ns-dialog,
+  .ns-status,
+  .ns-metric__value,
+  .ns-alert,
+  .ns-toast {
+    transform: none !important;
+  }
+}
+
+@media print {
+  .is-export-print .skip-link,
+  .is-export-print .sidebar,
+  .is-export-print .app-header,
+  .is-export-print .pwa-status-layer,
+  .is-export-print .toast-layer,
+  .is-export-print .settings-shell > h1,
+  .is-export-print .settings-shell > p,
+  .is-export-print .settings-picker,
+  .is-export-print .settings-nav,
+  .is-export-print .settings-panel > h2,
+  .is-export-print .settings-panel > p,
+  .is-export-print .export-center > h3,
+  .is-export-print .export-center > p,
+  .is-export-print .export-controls,
+  .is-export-print .export-actions,
+  .is-export-print .export-preview > [role="alert"] {
+    display: none !important;
+  }
+
+  .is-export-print .app-shell,
+  .is-export-print .workspace,
+  .is-export-print .settings-layout,
+  .is-export-print .settings-panel,
+  .is-export-print .export-center,
+  .is-export-print .export-preview,
+  .is-export-print .ns-table-wrapper {
+    display: block;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .is-export-print .ns-table {
+    font-size: 9pt;
+  }
+
+  .is-export-print .ns-table th,
+  .is-export-print .ns-table td {
+    color: #000;
+    background: #fff;
+    break-inside: avoid;
+  }
 }

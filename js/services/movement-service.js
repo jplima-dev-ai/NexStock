@@ -1,4 +1,5 @@
 import { getInventoryStatus } from "./product-service.js";
+import { calculateForecast } from "./insight-service.js";
 
 export const MOVEMENT_TYPES = Object.freeze({
   IN: "IN",
@@ -60,6 +61,31 @@ export function calculateMovementImpact({ type, quantity, currentQuantity, minim
   });
 }
 
+function consequenceState(product, movements, now) {
+  const referenceDate = new Date(now);
+  if (!Number.isFinite(referenceDate.getTime())) throw new RangeError("Preview date is invalid.");
+  const forecast = calculateForecast(product, movements, referenceDate);
+  return Object.freeze({
+    quantity: Number(product.currentQuantity),
+    status: getInventoryStatus(product.currentQuantity, product.minimumStock),
+    forecast: Object.freeze({ available: forecast.available, daysRemaining: forecast.daysRemaining, dataSufficiency: forecast.dataSufficiency }),
+  });
+}
+
+export function buildConsequencePreview({ product, movements = [], input, now = new Date() }) {
+  if (!product?.id) throw new TypeError("A product is required.");
+  const impact = calculateMovementImpact({ ...input, currentQuantity: product.currentQuantity, minimumStock: product.minimumStock });
+  const before = consequenceState(product, movements, now);
+  const afterProduct = { ...product, currentQuantity: impact.afterQuantity };
+  const after = consequenceState(afterProduct, movements, now);
+  return Object.freeze({
+    persisted: false,
+    before,
+    after,
+    impact: Object.freeze({ quantityDelta: impact.afterQuantity - impact.beforeQuantity, statusChanged: before.status !== after.status }),
+  });
+}
+
 export class MovementService {
   constructor({ provider, idFactory = () => globalThis.crypto.randomUUID(), now = () => new Date().toISOString() }) {
     if (!provider) throw new TypeError("MovementService requires a DataProvider.");
@@ -85,7 +111,9 @@ export class MovementService {
       currentQuantity: product.currentQuantity,
       minimumStock: product.minimumStock,
     });
-    return Object.freeze({ ...impact, workspaceId, productId: product.id, productName: product.name, nexCode: product.nexCode });
+    const movements = await this.provider.getAll("movements", { index: "productId", query: product.id });
+    const consequence = buildConsequencePreview({ product, movements: movements.filter((movement) => movement.workspaceId === workspaceId), input, now: this.now() });
+    return Object.freeze({ ...impact, workspaceId, productId: product.id, productName: product.name, nexCode: product.nexCode, consequence });
   }
 
   async commit(workspaceId, input, preview) {

@@ -73,7 +73,7 @@ create table if not exists public.stock_movements (
   product_unit_id uuid references public.product_units(id) on delete restrict,
   batch_id uuid references public.stock_batches(id) on delete restrict,
   type text not null, quantity numeric(18,4) not null, before_quantity numeric(18,4) not null, after_quantity numeric(18,4) not null,
-  reason text not null, notes text not null default '', created_at timestamptz not null
+  reason text not null, notes text not null default '', reversal_of_movement_id uuid references public.stock_movements(id) on delete restrict, created_at timestamptz not null
 );
 
 create table if not exists public.audit_logs (

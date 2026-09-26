@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 
 function waitForServer(server) {
   return new Promise((resolve, reject) => {
@@ -43,7 +44,8 @@ test("serve a aplicação e seus módulos em um subdiretório", async (context) 
   assert.equal(manifestResponse.status, 200);
   assert.equal((await manifestResponse.json()).display, "standalone");
   assert.equal(workerResponse.status, 200);
-  assert.match(await workerResponse.text(), /nexstock-shell-v1\.0\.0/u);
+  const version = JSON.parse(readFileSync("package.json", "utf8")).version.replaceAll(".", "\\.");
+  assert.match(await workerResponse.text(), new RegExp(`nexstock-shell-v${version}`, "u"));
 
   const brandAssets = [
     "assets/brand/logos/nexstock-main-logo-16x9.png",

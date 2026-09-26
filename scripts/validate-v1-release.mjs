@@ -44,7 +44,8 @@ const evidence = [
 for (const [criterion, file, fragment] of evidence) {
   if (!existsSync(join(root, file)) || !read(file).includes(fragment)) throw new Error(`Release 1.0 sem evidência para ${criterion}: ${file}`);
 }
-if (JSON.parse(read("package.json")).version !== "1.0.0") throw new Error("Release final precisa usar a versão 1.0.0.");
+const currentVersion = JSON.parse(read("package.json")).version;
+if (!/^1\.(?:0|[1-9]\d*)\.\d+$/u.test(currentVersion)) throw new Error("A baseline 1.0 só pode ser validada dentro da linha principal 1.x.");
 if (evidence.length !== 35) throw new Error(`Matriz da Release 1.0 deve conter 35 critérios; recebeu ${evidence.length}.`);
 
-process.stdout.write("Release 1.0: 35 critérios do blueprint possuem evidência verificável.\n");
+process.stdout.write("Baseline 1.0: 35 critérios do blueprint permanecem verificáveis.\n");

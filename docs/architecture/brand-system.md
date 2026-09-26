@@ -32,6 +32,6 @@ shell, preservando legibilidade nos dois temas.
 
 ## Regras de localização
 
-A Brand Scene contém texto em português. Ela só pode aparecer no Welcome quando
-o idioma atual for `pt-BR`. A Fase 4 implementará a troca automática para
-Mascot ou Brand Symbol em inglês e espanhol.
+A Brand Scene contém texto em português. Ela só aparece no Welcome quando o
+idioma atual é `pt-BR`. A implementação usa a mascote em `en-US` e o símbolo da
+marca em `es`, ambos sem texto gravado.

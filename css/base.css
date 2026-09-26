@@ -3,8 +3,8 @@ body {
   min-height: 100dvh;
   background: var(--ns-color-background);
   color: var(--ns-color-text);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--ns-font-size-body);
+  line-height: var(--ns-line-height-body);
 }
 
 a {
@@ -14,8 +14,9 @@ a {
 
 h1 {
   max-width: 24ch;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  line-height: 1.15;
+  font-size: var(--ns-font-size-heading-xl);
+  line-height: var(--ns-line-height-tight);
+  font-weight: var(--ns-font-weight-heavy);
 }
 
 h1,
@@ -31,8 +32,16 @@ a {
 
 h2 {
   margin: 0;
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  line-height: 1.25;
+  font-size: var(--ns-font-size-heading-l);
+  line-height: var(--ns-line-height-heading);
+  font-weight: var(--ns-font-weight-bold);
+}
+
+h3,
+.ns-type-heading-m {
+  font-size: var(--ns-font-size-heading-m);
+  line-height: var(--ns-line-height-heading);
+  font-weight: var(--ns-font-weight-bold);
 }
 
 p {
@@ -41,4 +50,35 @@ p {
 
 button {
   color: inherit;
+}
+
+.ns-type-display {
+  font-size: var(--ns-font-size-display);
+  line-height: var(--ns-line-height-tight);
+  font-weight: var(--ns-font-weight-heavy);
+}
+
+.ns-type-body-small,
+.ns-type-label {
+  font-size: var(--ns-font-size-body-small);
+}
+
+.ns-type-label {
+  font-weight: var(--ns-font-weight-bold);
+}
+
+.ns-type-data,
+code,
+kbd,
+samp {
+  font-family: var(--ns-font-family-data);
+  font-size: var(--ns-font-size-data);
+}
+
+.ns-numeric,
+time,
+.ns-metric__value,
+.movement-preview__details dd,
+.ns-table td {
+  font-variant-numeric: tabular-nums;
 }

@@ -1,0 +1,3 @@
+import test from "node:test"; import assert from "node:assert/strict"; import { AuditService, createAuditTimeline } from "../../js/services/audit-service.js";
+test("timeline traduz ações técnicas, ordena e preserva histórico",()=>{const result=createAuditTimeline([{id:"a",action:"PRODUCT_CREATED",createdAt:"2026-01-01"},{id:"b",action:"UNKNOWN",createdAt:"2026-02-01"}]);assert.deepEqual(result.map(x=>x.action),["recordChanged","productCreated"]);});
+test("Audit Explorer lê somente logs do espaço ativo",async()=>{const calls=[];const service=new AuditService({provider:{async getAll(...x){calls.push(x);return [];}}});assert.deepEqual(await service.list("w1"),[]);assert.deepEqual(calls,[["auditLogs",{index:"workspaceId",query:"w1"}]]);});

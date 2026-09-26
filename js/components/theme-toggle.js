@@ -1,3 +1,5 @@
+import { createIcon } from "./icon.js";
+
 export function getThemeToggleKey(theme) {
   return theme === "dark" ? "theme.useLight" : "theme.useDark";
 }
@@ -7,7 +9,13 @@ export function bindThemeToggle({ button, store, translate }) {
     const darkModeActive = theme === "dark";
     button.setAttribute("aria-pressed", String(darkModeActive));
     button.setAttribute("aria-label", translate("theme.label"));
-    button.textContent = translate(getThemeToggleKey(theme));
+    const label = translate(getThemeToggleKey(theme));
+    button.textContent = label;
+    if (typeof document !== "undefined" && typeof button.replaceChildren === "function") {
+      const text = document.createElement("span");
+      text.textContent = label;
+      button.replaceChildren(createIcon(darkModeActive ? "sun" : "moon"), text);
+    }
   }
 
   function handleClick() {

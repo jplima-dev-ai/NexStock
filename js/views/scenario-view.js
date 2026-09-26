@@ -101,7 +101,7 @@ export function createScenarioView({ title, description, t, locale, workspace, p
     const product = createField({ id: "scenario-product", label: t("scenarioCore.product"), ...copy.field({ helpKey: "scenarioCore.productHelp" }), type: "select", value: products.some(({ id }) => id === initialProductId) ? initialProductId : undefined, options: products.map((item) => ({ value: item.id, label: `${item.name} · ${item.nexCode}` })) });
     const type = createField({ id: "scenario-type", label: t("scenarioCore.type"), ...copy.field({ helpKey: "scenarioCore.typeHelp" }), type: "select", options: Object.values(SCENARIO_TYPES).map((value) => ({ value, label: t(`scenarioCore.types.${value}`) })) });
     const value = createField({ id: "scenario-value", label: t("scenarioCore.value"), ...copy.field({ helpKey: "scenarioCore.valueHelp", exampleKey: "scenarioCore.valueExample" }), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" });
-    const comparisonValues = ["A", "B", "C"].map((id) => createField({ id: `scenario-comparison-${id.toLowerCase()}`, label: t("scenarioCore.comparisonValue", { id }), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" }));
+    const comparisonValues = ["A", "B", "C"].map((id) => createField({ id: `scenario-comparison-${id.toLowerCase()}`, label: t("scenarioCore.comparisonValue", { id }), type: "number", min: 0, step: "any", inputMode: "decimal" }));
     const feedback = document.createElement("div");
     feedback.setAttribute("aria-live", "polite");
     const comparison = document.createElement("fieldset");
@@ -178,94 +178,3 @@ function historicalResult(snapshot, t, locale) {
   return content;
 }
 
-export function createTimeMachineView({ title, description, t, locale, workspace, productService, movementService }) {
-  const { section, heading } = baseView(title, description);
-  if (!workspace) {
-    section.append(createAlert({ title: t("timeMachineCore.workspaceRequiredTitle"), message: t("timeMachineCore.workspaceRequiredMessage"), tone: "warning" }));
-    return { element: section, focusTarget: heading };
-  }
-  const content = createContentStatus({ message: t("timeMachineCore.loading") });
-  section.append(content);
-  Promise.all([productService.listByWorkspace(workspace.id), movementService.listByWorkspace(workspace.id)]).then(([products, movements]) => {
-    if (!products.length) {
-      content.replaceChildren(createEmptyState({ title: t("timeMachineCore.emptyTitle"), description: t("timeMachineCore.emptyMessage"), kind: "insufficient-data" }));
-      return;
-    }
-    const form = document.createElement("form");
-    form.className = "movement-form";
-    const date = createField({ id: "time-machine-date", label: t("timeMachineCore.date"), helpText: t("timeMachineCore.dateHelp"), type: "date", max: new Date().toISOString().slice(0, 10), required: true, requiredText: t("forms.required") });
-    const feedback = document.createElement("div");
-    feedback.setAttribute("aria-live", "polite");
-    form.append(date.element, createButton({ text: t("timeMachineCore.reconstruct"), type: "submit" }), feedback);
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      try {
-        const selectedAt = new Date(`${date.control.value}T23:59:59.999Z`);
-        const snapshot = reconstructHistoricalSnapshot({ products, movements, at: selectedAt });
-        feedback.replaceChildren(historicalResult(snapshot, t, locale));
-      } catch {
-        feedback.replaceChildren(createAlert({ message: t("timeMachineCore.invalidDate"), tone: "danger" }));
-      }
-    });
-    content.replaceChildren(createAlert({ title: t("timeMachineCore.estimateTitle"), message: t("timeMachineCore.estimateMessage"), tone: "info" }), form);
-  }).catch(() => content.replaceChildren(createAlert({ message: t("timeMachineCore.loadError"), tone: "danger" })));
-  return { element: section, focusTarget: heading };
-}
-
-function digitalTwinResult(twin, t, locale) {
-  const number = (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value);
-  const content = document.createElement("div");
-  content.className = "insight-list";
-  content.append(createCard({ title: t("digitalTwinCore.snapshotTitle"), description: t("digitalTwinCore.snapshotDescription"), content: definitionList([
-    [t("digitalTwinCore.products"), number(twin.snapshot.metrics.products)],
-    [t("digitalTwinCore.units"), number(twin.snapshot.metrics.totalUnits)],
-    [t("digitalTwinCore.status"), t("digitalTwinCore.virtualOnly")],
-  ]), headingLevel: 2 }));
-  const products = document.createElement("div");
-  products.className = "insight-list";
-  for (const product of twin.products) {
-    products.append(createCard({ title: `${product.name} · ${product.nexCode}`, content: definitionList([
-      [t("digitalTwinCore.quantity"), number(product.currentQuantity)],
-      [t("digitalTwinCore.minimum"), number(product.minimumStock)],
-      [t("digitalTwinCore.productStatus"), t(`statuses.${getInventoryStatus(product.currentQuantity, product.minimumStock)}`)],
-    ]), headingLevel: 3 }));
-  }
-  content.append(createCard({ title: t("digitalTwinCore.productsTitle"), content: products, headingLevel: 2 }));
-  return content;
-}
-
-export function createDigitalTwinView({ title, description, t, locale, workspace, productService, movementService }) {
-  const { section, heading } = baseView(title, description);
-  if (!workspace) {
-    section.append(createAlert({ title: t("digitalTwinCore.workspaceRequiredTitle"), message: t("digitalTwinCore.workspaceRequiredMessage"), tone: "warning" }));
-    return { element: section, focusTarget: heading };
-  }
-  const content = createContentStatus({ message: t("digitalTwinCore.loading") });
-  section.append(content);
-  Promise.all([productService.listByWorkspace(workspace.id), movementService.listByWorkspace(workspace.id)]).then(([products, movements]) => {
-    if (!products.length) {
-      content.replaceChildren(createEmptyState({ title: t("digitalTwinCore.emptyTitle"), description: t("digitalTwinCore.emptyMessage"), kind: "insufficient-data" }));
-      return;
-    }
-    let twin = createDigitalTwin({ products, movements });
-    const form = document.createElement("form");
-    form.className = "movement-form";
-    const product = createField({ id: "digital-twin-product", label: t("digitalTwinCore.product"), type: "select", options: products.map((item) => ({ value: item.id, label: `${item.name} · ${item.nexCode}` })) });
-    const type = createField({ id: "digital-twin-type", label: t("digitalTwinCore.type"), type: "select", options: Object.values(SCENARIO_TYPES).map((item) => ({ value: item, label: t(`scenarioCore.types.${item}`) })) });
-    const value = createField({ id: "digital-twin-value", label: t("digitalTwinCore.value"), type: "number", min: 0, step: "any", required: true, requiredText: t("forms.required"), inputMode: "decimal" });
-    const feedback = document.createElement("div");
-    feedback.setAttribute("aria-live", "polite");
-    form.append(product.element, type.element, value.element, createButton({ text: t("digitalTwinCore.apply"), type: "submit" }), feedback);
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      try {
-        twin = applyTwinScenario({ twin, productId: product.control.value, changes: [{ type: type.control.value, value: value.control.value }] });
-        feedback.replaceChildren(createAlert({ title: t("digitalTwinCore.updatedTitle"), message: t("digitalTwinCore.updatedMessage"), tone: "success" }), digitalTwinResult(twin, t, locale));
-      } catch {
-        feedback.replaceChildren(createAlert({ message: t("digitalTwinCore.invalid"), tone: "danger" }));
-      }
-    });
-    content.replaceChildren(createAlert({ title: t("digitalTwinCore.noticeTitle"), message: t("digitalTwinCore.noticeMessage"), tone: "info" }), digitalTwinResult(twin, t, locale), form);
-  }).catch(() => content.replaceChildren(createAlert({ message: t("digitalTwinCore.loadError"), tone: "danger" })));
-  return { element: section, focusTarget: heading };
-}

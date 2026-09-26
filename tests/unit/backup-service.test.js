@@ -62,14 +62,28 @@ test("prévia rejeita backup de outro workspace antes de qualquer escrita", asyn
   assert.equal(provider.replacements, 0);
 });
 
-test("validação recusa referências quebradas e manifesto de mídia inconsistente", async () => {
+test("validação aceita uma coleção de mídia vazia e recusa manifesto inconsistente", async () => {
   const { service } = fixture();
   const broken = JSON.parse((await service.create("w1")).content);
   broken.data.movements[0].productId = "missing";
   assert.throws(() => validateBackup(broken), /unknown reference/u);
   broken.data.movements[0].productId = "p1";
   broken.media.included = true;
-  assert.throws(() => parseBackupText(JSON.stringify(broken)), /embedded media/u);
+  assert.doesNotThrow(() => parseBackupText(JSON.stringify(broken)));
+  broken.media.included = false;
+  broken.media.records = [{ id: "media-1" }];
+  assert.throws(() => parseBackupText(JSON.stringify(broken)), /Media records require/u);
+});
+
+test("NexBackup com serviço de mídia e nenhum arquivo mantém o manifesto restaurável", async () => {
+  const { provider } = fixture();
+  const mediaService = { async listByWorkspace() { return []; } };
+  const service = new BackupService({ provider, mediaService, now: () => new Date("2026-09-25T12:00:00.000Z") });
+  const backup = await service.create("w1");
+  const parsed = JSON.parse(backup.content);
+  assert.equal(parsed.media.included, true);
+  assert.deepEqual(parsed.media.records, []);
+  assert.doesNotThrow(() => parseBackupText(backup.content));
 });
 
 test("NexBackup serializa e restaura mídia sem Base64 no produto", async () => {

@@ -6,7 +6,7 @@ test("axe não encontra violações sérias ou críticas nas superfícies centra
   await page.goto(appRoute("/welcome"));
   await expectNoSeriousAxeViolations(page);
   await createTechnologyWorkspace(page, "Estoque Axe");
-  for (const route of ["/dashboard", "/products", "/movements", "/insights", "/glossary", "/settings", "/settings/appearance", "/settings/data/import", "/settings/data/export", "/settings/data/backup", "/settings/data/snapshots", "/settings/security", "/shield-test", "/health"] ) {
+  for (const route of ["/dashboard", "/products", "/movements", "/insights", "/glossary", "/settings", "/settings/appearance", "/settings/data/import", "/settings/data/export", "/settings/data/backup", "/settings/data/snapshots", "/settings/data/privacy", "/settings/security", "/shield-test", "/health"] ) {
     await page.goto(appRoute(route));
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoSeriousAxeViolations(page);

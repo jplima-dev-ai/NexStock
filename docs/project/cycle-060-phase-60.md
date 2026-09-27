@@ -17,7 +17,7 @@ em pt-BR, en-US e es.
 
 ## Gate
 
-APROVADO. A suíte direcionada confirmou confirmação explícita, bloqueio de
+APROVADO. O gate “reversões preservam auditoria” foi validado. A suíte direcionada confirmou confirmação explícita, bloqueio de
 duplicidade, isolamento de workspace e preservação do movimento e AuditLog
 originais. A suíte completa do GitHub Actions aprovou teclado, foco, semântica,
 contraste, zoom, reduced motion, i18n, PWA/offline e GitHub Pages.

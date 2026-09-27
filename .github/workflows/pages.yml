@@ -27,6 +27,8 @@ jobs:
         run: npm ci
       - name: Validate application
         run: npm run validate
+      - name: Validate Trust Layer
+        run: npm run validate:phase-60 && npm run validate:phase-61
       - name: Build static artifact
         run: npm run build:pages
       - name: Validate static artifact

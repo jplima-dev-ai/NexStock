@@ -33,6 +33,7 @@ import { LabelService } from "./services/label-service.js";
 import { HealthService } from "./services/health-service.js";
 import { AuditService } from "./services/audit-service.js";
 import { ReversalService } from "./services/reversal-service.js";
+import { PrivacyDataCenterService } from "./services/privacy-data-center-service.js";
 import { APP_VERSION } from "./core/version.js";
 import { WorkspaceService } from "./services/workspace-service.js";
 import { createDataProvider, readProviderConfig } from "./storage/provider-factory.js";
@@ -83,6 +84,7 @@ let labelService;
 let healthService;
 let auditService;
 let reversalService;
+let privacyDataCenterService;
 let pwaStatus;
 let mobileNavigation;
 let mobileOperations;
@@ -155,6 +157,7 @@ function renderRoute(definition, { moveFocus = true } = {}) {
     healthService,
     auditService,
     reversalService,
+    privacyDataCenterService,
     draftService,
     movementProductId,
     movementType,
@@ -279,6 +282,7 @@ async function initializePersistence(toastManager) {
   healthService = new HealthService({ provider: dataProvider });
   auditService = new AuditService({ provider: dataProvider });
   reversalService = new ReversalService({ provider: dataProvider });
+  privacyDataCenterService = new PrivacyDataCenterService({ providerType: providerConfig.type });
   mediaService = new MediaService({ mediaProvider: createMediaProvider({ provider: dataProvider, type: providerConfig.type }) });
   movementService = new MovementService({ provider: dataProvider });
   dashboardService = new DashboardService({ provider: dataProvider });

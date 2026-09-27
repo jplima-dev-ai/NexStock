@@ -30,6 +30,7 @@ export const ROUTES = Object.freeze([
   { pattern: "/settings/data/export", messageKey: "exportCenter" },
   { pattern: "/settings/data/backup", messageKey: "backupCenter" },
   { pattern: "/settings/data/snapshots", messageKey: "snapshotCenter" },
+  { pattern: "/settings/data/privacy", messageKey: "privacyDataCenter" },
   { pattern: "/settings/security", messageKey: "security" },
   { pattern: "/settings/pwa", messageKey: "settingsPwa" },
   { pattern: "/settings/advanced", messageKey: "settingsAdvanced" },

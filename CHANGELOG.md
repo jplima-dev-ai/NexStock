@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — v1.8.0 Local-first Excellence
+
+- Adiciona Offline Experience 2.0, com estados textuais de conectividade,
+  persistência local, sincronização e atenção necessária na área PWA.
+- Adiciona Central de atualização PWA, com versão, instalação, cache e bloqueio
+  explícito para preservar operações críticas.
+- Adiciona NexMigrate, certificação visível de schema e testes de preservação
+  de registros em upgrades locais.
+- Corrige o Command Center para que `Enter` aguarde o resultado da consulta
+  atual, preservando a ação correta durante busca assíncrona por teclado.
+
 ## 1.7.0 — 2026-09-27 — Trust & Integrity
 
 - Adiciona NexForecast 2 com suficiência de dados separada da confiança.

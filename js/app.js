@@ -1,6 +1,6 @@
 import { APP_CONFIG } from "./core/config.js";
 import { eventBus } from "./core/events.js";
-import { Router, shouldMoveInitialFocus } from "./core/router.js";
+import { Router, normalizeRoute, shouldMoveInitialFocus } from "./core/router.js";
 import { store } from "./core/store.js";
 import { createToastManager } from "./components/feedback.js";
 import { createCommandPalette } from "./components/command-palette.js";
@@ -158,6 +158,7 @@ function renderRoute(definition, { moveFocus = true } = {}) {
     auditService,
     reversalService,
     privacyDataCenterService,
+    pwaService,
     draftService,
     movementProductId,
     movementType,
@@ -399,11 +400,16 @@ async function bootstrap() {
       store.setState({ connection });
       pwaStatus.renderConnection(connection);
       eventBus.emit(`connection:${connection}`);
+      if (normalizeRoute(window.location.hash) === "/settings/pwa") router.refresh({ moveFocus: false });
     },
     onUpdateAvailable: () => {
       store.setState({ pwa: { ...store.getState().pwa, updateAvailable: true } });
       pwaStatus.showUpdate();
       eventBus.emit("app:updateAvailable");
+    },
+    onInstallAvailable: () => {
+      store.setState({ pwa: { ...store.getState().pwa, installAvailable: true } });
+      if (normalizeRoute(window.location.hash) === "/settings/pwa") router.refresh({ moveFocus: false });
     },
   });
 

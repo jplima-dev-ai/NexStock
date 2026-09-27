@@ -1,9 +1,17 @@
+export function getPwaUpdateFacts({ appVersion = "unknown", updateAvailable = false, criticalOperation = false, installAvailable = false } = {}) {
+  return Object.freeze({
+    version: String(appVersion), cache: "serviceWorkerCache", installation: installAvailable ? "available" : "browserControlled",
+    update: updateAvailable ? (criticalOperation ? "deferred" : "available") : "current",
+  });
+}
+
 export class PwaService {
-  constructor({ navigatorObject = globalThis.navigator, windowObject = globalThis.window, onUpdateAvailable = () => {}, onConnectionChange = () => {} } = {}) {
+  constructor({ navigatorObject = globalThis.navigator, windowObject = globalThis.window, onUpdateAvailable = () => {}, onConnectionChange = () => {}, onInstallAvailable = () => {} } = {}) {
     this.navigator = navigatorObject;
     this.window = windowObject;
     this.onUpdateAvailable = onUpdateAvailable;
     this.onConnectionChange = onConnectionChange;
+    this.onInstallAvailable = onInstallAvailable;
     this.registration = null;
     this.installPrompt = null;
     this.updateRequested = false;
@@ -13,7 +21,7 @@ export class PwaService {
     this.onConnectionChange(this.navigator.onLine === false ? "offline" : "online");
     this.window?.addEventListener("online", () => this.onConnectionChange("online"));
     this.window?.addEventListener("offline", () => this.onConnectionChange("offline"));
-    this.window?.addEventListener("beforeinstallprompt", (event) => { event.preventDefault(); this.installPrompt = event; });
+    this.window?.addEventListener("beforeinstallprompt", (event) => { event.preventDefault(); this.installPrompt = event; this.onInstallAvailable(); });
     if (!this.navigator.serviceWorker) return null;
     this.registration = await this.navigator.serviceWorker.register("./service-worker.js");
     if (this.registration.waiting) this.onUpdateAvailable(this.registration);
@@ -42,4 +50,6 @@ export class PwaService {
     this.installPrompt = null;
     return true;
   }
+
+  getUpdateFacts(options) { return getPwaUpdateFacts({ ...options, installAvailable: Boolean(this.installPrompt) }); }
 }

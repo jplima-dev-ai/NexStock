@@ -4,6 +4,7 @@ import { DATA_STORES } from "../../js/storage/data-provider.js";
 import { migrateToVersion1, STORE_DEFINITIONS } from "../../js/storage/migrations/001-initial-schema.js";
 import { migrateToVersion2 } from "../../js/storage/migrations/002-product-workspace-code.js";
 import { migrateToVersion3 } from "../../js/storage/migrations/003-module-integrity.js";
+import { runMigrations } from "../../js/storage/migrations/index.js";
 
 function createNameList(values = []) {
   const names = new Set(values);
@@ -73,4 +74,14 @@ test("migração três cria unicidade de serial e lote", () => {
     ["productUnits", "workspaceSerial", ["workspaceId", "serialNumber"], { unique: true }],
     ["batches", "productBatch", ["productId", "batchNumber"], { unique: true }],
   ]);
+});
+
+test("migrações antigas para a versão atual não alteram registros existentes", () => {
+  const schema = createFakeSchema();
+  migrateToVersion1(schema.database, schema.transaction);
+  const record = Object.freeze({ id: "historic-product", workspaceId: "historic-workspace", name: "Produto histórico", currentQuantity: 7 });
+  const before = JSON.stringify(record);
+  runMigrations({ database: schema.database, transaction: schema.transaction, oldVersion: 1 });
+  assert.equal(JSON.stringify(record), before);
+  assert.equal(schema.stores.has("media"), true);
 });

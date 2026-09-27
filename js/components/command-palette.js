@@ -19,7 +19,7 @@ export function createCommandPalette({ layer, trigger, translate, getActions, se
   content.append(search.element, status, list);
   const dialog = createDialog({ id: "command-palette", title: translate("commandPalette.title"), description: translate("commandPalette.description"), content, closeLabel: translate("commandPalette.close") });
   layer.append(dialog.element);
-  let results = []; let activeIndex = -1; let renderToken = 0;
+  let results = []; let activeIndex = -1; let renderToken = 0; let renderedQuery = "";
 
   function setActive(index) {
     if (!results.length) { activeIndex = -1; search.control.removeAttribute("aria-activedescendant"); return; }
@@ -34,9 +34,10 @@ export function createCommandPalette({ layer, trigger, translate, getActions, se
     const token = ++renderToken; const query = search.control.value;
     const actions = filterGlobalItems(query, getActions());
     const products = await searchProducts(query);
-    if (token !== renderToken) return;
+    if (token !== renderToken) return false;
     results = [...actions, ...products]; list.replaceChildren();
-    if (!results.length) { const empty = document.createElement("p"); empty.textContent = translate("commandPalette.empty"); list.append(empty); status.textContent = translate("commandPalette.resultCount", { count: 0 }); setActive(-1); return; }
+    renderedQuery = query;
+    if (!results.length) { const empty = document.createElement("p"); empty.textContent = translate("commandPalette.empty"); list.append(empty); status.textContent = translate("commandPalette.resultCount", { count: 0 }); setActive(-1); return true; }
     results.forEach((item, index) => {
       const option = document.createElement("button"); option.type = "button"; option.id = `command-option-${index}`; option.className = "command-palette__option"; option.setAttribute("role", "option"); option.setAttribute("aria-selected", "false");
       option.disabled = Boolean(item.disabled);
@@ -45,14 +46,21 @@ export function createCommandPalette({ layer, trigger, translate, getActions, se
       if (item.description) { const description = document.createElement("span"); description.className = "route-meta"; description.textContent = item.description; option.append(description); }
       option.addEventListener("click", () => choose(item)); list.append(option);
     });
-    status.textContent = translate("commandPalette.resultCount", { count: results.length }); setActive(0);
+    status.textContent = translate("commandPalette.resultCount", { count: results.length }); setActive(0); return true;
   }
 
   search.control.addEventListener("input", render);
   search.control.addEventListener("keydown", (event) => {
     if (event.key === "ArrowDown") { event.preventDefault(); setActive(activeIndex + 1); }
     else if (event.key === "ArrowUp") { event.preventDefault(); setActive(activeIndex - 1); }
-    else if (event.key === "Enter" && activeIndex >= 0) { event.preventDefault(); choose(results[activeIndex]); }
+    else if (event.key === "Enter") {
+      event.preventDefault();
+      const query = search.control.value;
+      if (renderedQuery === query && activeIndex >= 0) { choose(results[activeIndex]); return; }
+      render().then((completed) => {
+        if (completed && search.control.value === query && activeIndex >= 0) choose(results[activeIndex]);
+      });
+    }
   });
   const openFromTrigger = () => { search.control.value = ""; search.control.setAttribute("aria-expanded", "true"); dialog.open(trigger); render(); queueMicrotask(() => search.control.focus()); };
   const unbindTrigger = bindCommandPaletteTrigger({ trigger, onOpen: openFromTrigger });

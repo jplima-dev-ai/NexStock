@@ -10,6 +10,9 @@ import { createExportCenterView } from "./export-view.js";
 import { createBackupCenterView } from "./backup-view.js";
 import { createSnapshotCenterView } from "./snapshot-view.js";
 import { createPrivacyDataCenterView } from "./privacy-data-center-view.js";
+import { createOfflineExperienceView } from "./offline-experience-view.js";
+import { createPwaUpdateCenterView } from "./pwa-update-center-view.js";
+import { createMigrationView } from "./migration-view.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -242,7 +245,7 @@ function createResetPanel({ t, workspace, persistenceReady, onReset }) {
 }
 
 export function createSettingsPanel({
-  section, route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, onBackupRestored,
+  section, route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
 }) {
   const panel = document.createElement("section");
   panel.className = "settings-panel route-stack";
@@ -268,6 +271,14 @@ export function createSettingsPanel({
       title: "", description: "", t, service: securityService, embedded: true,
     });
     panel.append(view.element);
+    return panel;
+  }
+  if (section.id === "pwa") {
+    panel.append(createOfflineExperienceView({ t, appState }).element, createPwaUpdateCenterView({ t, appState, service: pwaService, onApplyUpdate }).element);
+    return panel;
+  }
+  if (section.id === "advanced") {
+    panel.append(createMigrationView({ t }).element);
     return panel;
   }
 
@@ -311,7 +322,7 @@ export function createSettingsPanel({
 }
 
 export function createSettingsView({
-  route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, onBackupRestored,
+  route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
 }) {
   const activeSection = getSettingsSection(route);
   const section = document.createElement("section");
@@ -328,7 +339,7 @@ export function createSettingsView({
   layout.append(
     createSettingsNav({ activeRoute: activeSection.route, t }),
     createSettingsPanel({
-      section: activeSection, route, t, locale, workspace, persistenceReady, onReset, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, onBackupRestored,
+      section: activeSection, route, t, locale, workspace, persistenceReady, onReset, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
       appState, onSave,
     }),
   );

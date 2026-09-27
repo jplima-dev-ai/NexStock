@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { PwaService } from "../../js/services/pwa-service.js";
+import { getPwaUpdateFacts, PwaService } from "../../js/services/pwa-service.js";
 
 function eventTarget(extra = {}) {
   const listeners = new Map();
@@ -48,4 +48,10 @@ test("mudanças online e offline são anunciadas", async () => {
   windowObject.emit("online");
   windowObject.emit("offline");
   assert.deepEqual(states, ["offline", "online", "offline"]);
+});
+
+test("Central PWA adia atualização durante operação crítica", () => {
+  assert.deepEqual(getPwaUpdateFacts({ appVersion: "1.7.0", updateAvailable: true, criticalOperation: true }), {
+    version: "1.7.0", cache: "serviceWorkerCache", installation: "browserControlled", update: "deferred",
+  });
 });

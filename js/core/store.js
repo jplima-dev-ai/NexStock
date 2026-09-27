@@ -6,7 +6,7 @@ const INITIAL_STATE = Object.freeze({
   connection: "online",
   provider: "indexeddb",
   persistence: "starting",
-  pwa: Object.freeze({ updateAvailable: false, criticalOperation: false }),
+  pwa: Object.freeze({ updateAvailable: false, criticalOperation: false, syncState: "notConfigured" }),
 });
 
 export class Store {

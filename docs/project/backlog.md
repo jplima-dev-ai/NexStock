@@ -4,12 +4,15 @@
 
 - NexStock `1.4.0 — Intelligence Foundation` concluído sobre as releases reproduzíveis
   `1.0.0` e `1.1.0`.
-- Fases 0 a 60 aprovadas; o gate “reversões preservam auditoria” foi validado.
+- Fases 0 a 61 aprovadas; os gates “reversões preservam auditoria” e
+  “localização dos dados é compreensível” foram validados.
 - NexStock `1.6.0 — Decision Lab` formalizado.
+- NexStock `1.7.0 — Trust & Integrity` formalizado.
 
 ## Próximas entregas
 
-1. Fase 61: Privacy & Data Center, tornando a localização dos dados compreensível.
+1. Fase 62: NexCloud Sync, conforme blueprint v1.2 e somente após decisão
+   explícita sobre sincronização opcional.
 
 ## Roadmap pós-1.0
 

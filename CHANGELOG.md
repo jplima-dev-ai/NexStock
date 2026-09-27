@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — v1.5.0 Proactive Inventory
+## 1.7.0 — 2026-09-27 — Trust & Integrity
 
 - Adiciona NexForecast 2 com suficiência de dados separada da confiança.
 - Adiciona NexAnomaly determinístico para saídas incomumente grandes, com razão e movimentação-fonte explícitas.
@@ -18,6 +18,9 @@
 - Adiciona Reversal System: entrada ou saída pode gerar uma movimentação compensatória vinculada, sem editar ou apagar o registro original.
 - Bloqueia reversão duplicada, ajustes manuais, movimentações de outro espaço e compensações que deixariam o estoque negativo.
 - Adiciona confirmação textual acessível de reversão em pt-BR, en-US e es.
+- Adiciona Privacy & Data Center, com localização clara de dados, provider,
+  backup, snapshots, conexão e status de sincronização.
+- Mantém URL e chave de provider fora da interface e do relatório de privacidade.
 
 ## 1.6.0 — 2026-09-26 — Decision Lab
 

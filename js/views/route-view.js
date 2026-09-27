@@ -150,6 +150,7 @@ export function createRouteView({
   healthService,
   auditService,
   reversalService,
+  privacyDataCenterService,
   draftService,
   onScanProduct,
   onCriticalOperationChange,
@@ -193,7 +194,7 @@ export function createRouteView({
   if (route === "/shield-test") return createShieldTestView({ title, description, t, service: securityService });
   if (route === "/health") return createHealthView({ title, description, t, workspace: currentWorkspace, service: healthService });
   if (route === "/audit") return createAuditView({ title, description, t, workspace: currentWorkspace, service: auditService, reversalService, onReversed: onMovementSaved });
-  if (route.startsWith("/settings")) return createSettingsView({ route, t, locale, workspace: currentWorkspace, persistenceReady, appState: settingsState, onReset: onResetWorkspace, onSave: onSaveSettings, customFieldService, securityService, importService, exportService, backupService, snapshotService, onBackupRestored });
+  if (route.startsWith("/settings")) return createSettingsView({ route, t, locale, workspace: currentWorkspace, persistenceReady, appState: settingsState, onReset: onResetWorkspace, onSave: onSaveSettings, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, onBackupRestored });
 
   const section = document.createElement("section");
   section.className = "route-panel";

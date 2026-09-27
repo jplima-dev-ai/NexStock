@@ -26,6 +26,7 @@ para mudanças posteriores à Fase 25.
 | NexHealth | `HealthService`, `evaluateHealth` | leitura isolada das coleções do workspace, sem escrita | `health-service.test.js`, `validate-phase-58.mjs` | `health-view.js`, `#/health` |
 | Audit Explorer | `AuditService`, `createAuditTimeline` | leitura do AuditLog por workspace, sem escrita | `audit-service.test.js`, `validate-phase-59.mjs` | `audit-view.js`, `#/audit` |
 | Reversal System | `ReversalService` | transação do provider em produto, compensação e AuditLog; vínculo `reversalOfMovementId` | `reversal-service.test.js`, `validate-phase-60.mjs` | confirmação textual no Audit Explorer |
+| Privacy & Data Center | `PrivacyDataCenterService` | fatos derivados do provider ativo; sem escrita, migração, URL ou chave | `privacy-data-center-service.test.js`, `privacy-data-center.spec.js`, `validate-phase-61.mjs` | `privacy-data-center-view.js`, `#/settings/data/privacy` |
 | PWA e rascunhos | `PwaService`, `DraftService` | Cache Storage e `localStorage`; IndexedDB permanece separado | `pwa-service.test.js`, `accessibility-offline.spec.js`, `validate-pwa.mjs` | status global e formulários |
 | Internacionalização | `I18n` | catálogos `locales/*.json` | `i18n.test.js`, `validate-locales.mjs`, `validate-copy.mjs` | shell e todas as rotas |
 | Tema e responsividade | `theme-toggle`, `mobile-navigation` | Store em memória; preferência de tema | testes de componentes, contraste e `validate-responsive.mjs` | shell e todas as rotas |

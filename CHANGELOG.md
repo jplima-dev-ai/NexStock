@@ -8,6 +8,7 @@
   filtros utilizáveis em coleções extensas.
 - Consolida a auditoria final de acessibilidade, com gate explícito de ausência
   de blockers conhecidos nos fluxos principais.
+- Adiciona baselines verificáveis para estados visuais críticos da aplicação.
 
 ## 1.8.0 — 2026-09-28 — Local-first Excellence
 

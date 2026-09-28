@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "states": [
+    { "id": "welcome-light", "route": "/welcome", "theme": "light", "heading": "Boas-vindas" },
+    { "id": "products-light", "route": "/products", "theme": "light", "heading": "Produtos" },
+    { "id": "products-dark", "route": "/products", "theme": "dark", "heading": "Produtos" },
+    { "id": "product-form", "route": "/products/new", "theme": "light", "heading": "Novo produto" },
+    { "id": "settings", "route": "/settings", "theme": "light", "heading": "Configurações" }
+  ]
+}

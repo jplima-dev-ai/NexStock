@@ -1,0 +1,10 @@
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd();
+const read = (file) => readFileSync(join(root, file), "utf8");
+for (const file of ["tests/visual-baselines/critical-states.json", "tests/e2e/visual-regression.spec.js", "docs/project/cycle-069-phase-69.md"]) if (!existsSync(join(root, file))) throw new Error(`Baseline visual ausente: ${file}.`);
+const baseline = JSON.parse(read("tests/visual-baselines/critical-states.json"));
+if (!Array.isArray(baseline.states) || baseline.states.length < 5) throw new Error("Cobertura visual crítica insuficiente.");
+for (const state of baseline.states) if (!state.id || !state.route || !state.theme || !state.heading) throw new Error("Estado visual incompleto.");
+if (!/APROVADO/u.test(read("docs/project/cycle-069-phase-69.md"))) throw new Error("Gate da Fase 69 não foi registrado.");
+process.stdout.write("Fase 69: estados visuais críticos possuem baseline verificável.\n");

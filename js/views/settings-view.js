@@ -13,6 +13,7 @@ import { createPrivacyDataCenterView } from "./privacy-data-center-view.js";
 import { createOfflineExperienceView } from "./offline-experience-view.js";
 import { createPwaUpdateCenterView } from "./pwa-update-center-view.js";
 import { createMigrationView } from "./migration-view.js";
+import { createStorageLifecycleView } from "./storage-lifecycle-view.js";
 
 function text(tag, value, className) {
   const element = document.createElement(tag);
@@ -245,7 +246,7 @@ function createResetPanel({ t, workspace, persistenceReady, onReset }) {
 }
 
 export function createSettingsPanel({
-  section, route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
+  section, route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, storageLifecycleService, pwaService, onApplyUpdate, onBackupRestored,
 }) {
   const panel = document.createElement("section");
   panel.className = "settings-panel route-stack";
@@ -303,6 +304,10 @@ export function createSettingsPanel({
     panel.append(createPrivacyDataCenterView({ t, service: privacyDataCenterService }).element);
     return panel;
   }
+  if (route === "/settings/data/storage") {
+    panel.append(createStorageLifecycleView({ t, workspace, service: storageLifecycleService }).element);
+    return panel;
+  }
 
   if (["general", "appearance"].includes(section.id)) {
     panel.append(createSafeSettingsForm({ sectionId: section.id, workspace, onSave, t }));
@@ -316,13 +321,14 @@ export function createSettingsPanel({
     panel.append(createButton({ text: t("backupCenter.openFromData"), href: "#/settings/data/backup" }));
     panel.append(createButton({ text: t("snapshotCenter.openFromData"), href: "#/settings/data/snapshots" }));
     panel.append(createButton({ text: t("privacyDataCenter.openFromData"), href: "#/settings/data/privacy" }));
+    panel.append(createButton({ text: t("storageLifecycle.openFromData"), href: "#/settings/data/storage" }));
     panel.append(createResetPanel({ t, workspace, persistenceReady, onReset }));
   }
   return panel;
 }
 
 export function createSettingsView({
-  route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
+  route, t, locale, workspace, persistenceReady, appState, onReset, onSave, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, storageLifecycleService, pwaService, onApplyUpdate, onBackupRestored,
 }) {
   const activeSection = getSettingsSection(route);
   const section = document.createElement("section");
@@ -339,7 +345,7 @@ export function createSettingsView({
   layout.append(
     createSettingsNav({ activeRoute: activeSection.route, t }),
     createSettingsPanel({
-      section: activeSection, route, t, locale, workspace, persistenceReady, onReset, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, pwaService, onApplyUpdate, onBackupRestored,
+      section: activeSection, route, t, locale, workspace, persistenceReady, onReset, customFieldService, securityService, importService, exportService, backupService, snapshotService, privacyDataCenterService, storageLifecycleService, pwaService, onApplyUpdate, onBackupRestored,
       appState, onSave,
     }),
   );

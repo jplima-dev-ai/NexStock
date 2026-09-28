@@ -21,5 +21,6 @@ test("seção ativa deriva da rota e usa resumo como fallback seguro", () => {
   assert.equal(getSettingsSection("/settings/security").id, "security");
   assert.equal(getSettingsSection("/settings/data/import").id, "data");
   assert.equal(getSettingsSection("/settings/data/export").id, "data");
+  assert.equal(getSettingsSection("/settings/data/storage").id, "data");
   assert.equal(getSettingsSection("/settings/unknown").id, "summary");
 });

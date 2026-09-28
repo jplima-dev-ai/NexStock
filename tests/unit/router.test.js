@@ -18,7 +18,7 @@ test("resolve todas as rotas estáticas exigidas pelo blueprint", () => {
     "/movements", "/radar", "/insights", "/time-machine", "/scenario",
     "/kits", "/about", "/glossary", "/settings", "/settings/general",
     "/settings/appearance", "/settings/inventory", "/settings/profiles",
-    "/settings/data", "/settings/data/import", "/settings/data/export", "/settings/security", "/settings/pwa", "/settings/advanced",
+    "/settings/data", "/settings/data/import", "/settings/data/export", "/settings/data/storage", "/settings/security", "/settings/pwa", "/settings/advanced",
     "/shield-test",
   ];
   for (const route of expected) assert.ok(resolveRoute(route), `Rota ausente: ${route}`);

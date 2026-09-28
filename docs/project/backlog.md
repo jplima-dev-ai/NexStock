@@ -4,7 +4,7 @@
 
 - NexStock `1.4.0 — Intelligence Foundation` concluído sobre as releases reproduzíveis
   `1.0.0` e `1.1.0`.
-- Fases 0 a 64 aprovadas; os gates “reversões preservam auditoria”,
+- Fases 0 a 64 aprovadas; a Fase 65 está em validação. Os gates “reversões preservam auditoria”,
   “localização dos dados é compreensível” e “migrações preservam dados” foram
   validados.
 - NexStock `1.6.0 — Decision Lab` formalizado.
@@ -12,8 +12,9 @@
 
 ## Próximas entregas
 
-1. Fase 65: Storage Lifecycle, definindo uma política coerente para cache,
-   dados, mídia, backup e snapshots.
+1. Concluir o gate da Fase 65: confirmar política coerente para cache, dados,
+   mídia, backup e snapshots.
+2. Formalizar a release v1.8.0 somente após a aprovação da Fase 65.
 
 ## Roadmap pós-1.0
 

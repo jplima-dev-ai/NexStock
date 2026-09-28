@@ -34,6 +34,7 @@ import { HealthService } from "./services/health-service.js";
 import { AuditService } from "./services/audit-service.js";
 import { ReversalService } from "./services/reversal-service.js";
 import { PrivacyDataCenterService } from "./services/privacy-data-center-service.js";
+import { StorageLifecycleService } from "./services/storage-lifecycle-service.js";
 import { APP_VERSION } from "./core/version.js";
 import { WorkspaceService } from "./services/workspace-service.js";
 import { createDataProvider, readProviderConfig } from "./storage/provider-factory.js";
@@ -85,6 +86,7 @@ let healthService;
 let auditService;
 let reversalService;
 let privacyDataCenterService;
+let storageLifecycleService;
 let pwaStatus;
 let mobileNavigation;
 let mobileOperations;
@@ -158,6 +160,7 @@ function renderRoute(definition, { moveFocus = true } = {}) {
     auditService,
     reversalService,
     privacyDataCenterService,
+    storageLifecycleService,
     pwaService,
     draftService,
     movementProductId,
@@ -297,6 +300,7 @@ async function initializePersistence(toastManager) {
   exportService = new ExportService({ provider: dataProvider });
   backupService = new BackupService({ provider: dataProvider, mediaService });
   snapshotService = new SnapshotService({ provider: dataProvider, backupService });
+  storageLifecycleService = new StorageLifecycleService({ mediaService, snapshotService });
   importService = new ImportService({ provider: dataProvider, snapshotService });
 
   try {

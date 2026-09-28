@@ -10,6 +10,10 @@
   de registros em upgrades locais.
 - Corrige o Command Center para que `Enter` aguarde o resultado da consulta
   atual, preservando a ação correta durante busca assíncrona por teclado.
+- Adiciona Storage Lifecycle: política visível de retenção para cache, dados,
+  mídia Blob, NexBackup e snapshots, sem exclusão automática de inventário.
+- Restringe o cache da PWA ao shell versionado conhecido, evitando crescimento
+  por recursos dinâmicos do mesmo domínio.
 
 ## 1.7.0 — 2026-09-27 — Trust & Integrity
 

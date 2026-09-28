@@ -1,0 +1,11 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd(); const read = (path) => readFileSync(join(root, path), "utf8");
+for (const file of ["js/services/storage-lifecycle-service.js", "js/views/storage-lifecycle-view.js", "tests/unit/storage-lifecycle-service.test.js", "tests/e2e/storage-lifecycle.spec.js", "docs/project/cycle-065-phase-65.md"]) read(file);
+for (const locale of ["pt-BR", "en-US", "es"]) if (!read(`locales/${locale}.json`).includes('"storageLifecycle"')) throw new Error(`Copy Storage Lifecycle ausente em ${locale}.`);
+if (!read("js/core/router.js").includes("/settings/data/storage") || !read("js/views/route-view.js").includes("storageLifecycleService")) throw new Error("Rota Storage Lifecycle ausente.");
+const worker = read("service-worker.js");
+for (const contract of ["SHELL_URLS", "storage-lifecycle-service.js", "storage-lifecycle-view.js"]) if (!worker.includes(contract)) throw new Error(`Política de cache ausente: ${contract}.`);
+if (/cache\.put\(/u.test(worker)) throw new Error("Cache runtime sem limite não é permitido na Fase 65.");
+if (!/cache, dados, mídia, backup e snapshots possuem política coerente/u.test(read("docs/project/cycle-065-phase-65.md"))) throw new Error("Gate da Fase 65 ausente.");
+process.stdout.write("Fase 65: ciclo de armazenamento coerente e sem exclusão automática.\n");

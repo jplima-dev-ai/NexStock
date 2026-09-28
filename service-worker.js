@@ -1,5 +1,5 @@
 const APP_VERSION = "1.7.0";
-const CACHE_NAME = "nexstock-shell-v1.7.0-trust-layer-phase42-phase53-phase54-phase55-phase56-phase57-phase58-phase59-phase60-phase61";
+const CACHE_NAME = "nexstock-shell-v1.7.0-trust-layer-phase42-phase53-phase54-phase55-phase56-phase57-phase58-phase59-phase60-phase61-phase65";
 const SHELL_RESOURCES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/tokens.css", "./css/reset.css", "./css/base.css", "./css/accessibility.css", "./css/components.css", "./css/layout.css", "./css/responsive.css",
@@ -11,12 +11,13 @@ const SHELL_RESOURCES = [
   "./js/storage/data-provider.js", "./js/storage/indexeddb-provider.js", "./js/storage/media-provider.js", "./js/storage/migrations/001-initial-schema.js", "./js/storage/migrations/002-product-workspace-code.js", "./js/storage/migrations/003-module-integrity.js", "./js/storage/migrations/004-product-media.js", "./js/storage/migrations/index.js", "./js/storage/provider-factory.js", "./js/storage/supabase-provider.js",
   "./js/utils/component-id.js", "./js/utils/security.js",
   "./js/views/backup-view.js", "./js/views/custom-field-view.js", "./js/views/dashboard-view.js", "./js/views/export-view.js", "./js/views/glossary-view.js", "./js/views/health-view.js", "./js/views/import-view.js", "./js/views/insight-view.js", "./js/views/labels-view.js", "./js/views/module-view.js", "./js/views/movement-view.js", "./js/views/onboarding-model.js", "./js/views/onboarding-view.js", "./js/views/product-view.js", "./js/views/route-view.js", "./js/views/scan-view.js", "./js/views/scenario-view.js", "./js/views/security-view.js", "./js/views/settings-view.js", "./js/views/snapshot-view.js", "./js/views/tour-view.js",
-  "./js/services/audit-service.js", "./js/services/reversal-service.js", "./js/services/privacy-data-center-service.js", "./js/services/offline-experience-service.js", "./js/services/migration-service.js", "./js/views/audit-view.js", "./js/views/privacy-data-center-view.js", "./js/views/offline-experience-view.js", "./js/views/pwa-update-center-view.js", "./js/views/migration-view.js",
+  "./js/services/audit-service.js", "./js/services/reversal-service.js", "./js/services/privacy-data-center-service.js", "./js/services/offline-experience-service.js", "./js/services/migration-service.js", "./js/services/storage-lifecycle-service.js", "./js/views/audit-view.js", "./js/views/privacy-data-center-view.js", "./js/views/offline-experience-view.js", "./js/views/pwa-update-center-view.js", "./js/views/migration-view.js", "./js/views/storage-lifecycle-view.js",
   "./locales/pt-BR.json", "./locales/en-US.json", "./locales/es.json",
   "./demo/technology.json", "./demo/cosmetics.json", "./demo/fashion.json", "./demo/food.json", "./demo/custom.json",
   "./assets/brand/logos/nexstock-main-logo-16x9.png", "./assets/brand/logos/nexstock-stacked-logo-4x3.png", "./assets/brand/mascot/nexstock-mascot-full-body-3x4.png", "./assets/brand/scenes/nexstock-brand-scene-16x9.jpg", "./assets/brand/symbols/nexstock-app-icon-1x1.png", "./assets/brand/symbols/nexstock-brand-symbol-1x1.png",
   "./assets/icons/pwa/icon-192x192.png", "./assets/icons/pwa/icon-512x512.png", "./assets/icons/pwa/icon-maskable-512x512.png"
 ];
+const SHELL_URLS = new Set(SHELL_RESOURCES.map((resource) => new URL(resource, self.registration.scope).href));
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_RESOURCES)));
@@ -32,13 +33,9 @@ self.addEventListener("message", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET" || new URL(event.request.url).origin !== self.location.origin) return;
+  if (event.request.mode !== "navigate" && !SHELL_URLS.has(event.request.url)) return;
   event.respondWith(caches.match(event.request).then((cached) => {
     if (cached) return cached;
-    return fetch(event.request).then((response) => {
-      if (!response || !response.ok) return response;
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-      return response;
-    }).catch(() => event.request.mode === "navigate" ? caches.match("./index.html") : Response.error());
+    return fetch(event.request).catch(() => event.request.mode === "navigate" ? caches.match("./index.html") : Response.error());
   }));
 });

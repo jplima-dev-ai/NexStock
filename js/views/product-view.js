@@ -49,6 +49,32 @@ function createMediaPreview(media, t, { thumbnail = false } = {}) {
   return figure;
 }
 
+function createValidationSummary({ form, controls, t }) {
+  const invalidControls = controls.filter((control) => !control.validity.valid);
+  if (invalidControls.length === 0) return null;
+  const summary = document.createElement("section");
+  summary.className = "ns-alert ns-alert--danger";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  const heading = text("h2", t("productCore.saveError"), "ns-alert__title");
+  const list = document.createElement("ul");
+  for (const control of invalidControls) {
+    const label = form.querySelector(`label[for="${control.id}"]`);
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#${control.id}`;
+    link.textContent = label?.textContent?.trim() || control.name;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      control.focus();
+    });
+    item.append(link);
+    list.append(item);
+  }
+  summary.append(heading, list);
+  return summary;
+}
+
 function createListView({ title, description, t, locale, workspace, service, initialFilters = {} }) {
   const section = document.createElement("section");
   section.className = "route-stack";
@@ -148,6 +174,7 @@ function createProductFormView({ title, description, t, workspace, service, medi
     if (productId && !product) throw new Error("not-found");
     const form = document.createElement("form");
     form.className = "product-form";
+    form.noValidate = true;
     const copy = createCopyContext({ translate: t, workspace });
     const nameCopy = copy.field({ helpKey: "productCore.nameHelp", exampleKey: "productCore.nameExample", profileExample: "productName" });
     const trackingCopy = copy.field({ helpKey: "productCore.trackingHelp" });
@@ -224,12 +251,32 @@ function createProductFormView({ title, description, t, workspace, service, medi
       draftStatus.textContent = t("pwa.draftSaved");
     });
     form.addEventListener("submit", async (event) => {
-      event.preventDefault(); save.disabled = true; errorArea.replaceChildren();
+      event.preventDefault();
+      errorArea.replaceChildren();
+      const validationSummary = createValidationSummary({ form, controls: [...form.elements].filter((control) => typeof control.checkValidity === "function"), t });
+      if (validationSummary) {
+        errorArea.append(validationSummary);
+        validationSummary.focus();
+        return;
+      }
+      save.disabled = true;
       try {
         const file = mediaFile.control.files?.[0];
         if (file) {
-          validateImageFile(file);
-          if (!mediaAlt.control.value.trim()) throw new TypeError("Image description is required.");
+          try {
+            validateImageFile(file);
+          } catch {
+            mediaFile.setError(t("productMedia.saveError"));
+            mediaFile.control.focus();
+            save.disabled = false;
+            return;
+          }
+          if (!mediaAlt.control.value.trim()) {
+            mediaAlt.setError(t("productMedia.saveError"));
+            mediaAlt.control.focus();
+            save.disabled = false;
+            return;
+          }
         }
         const customData = Object.fromEntries(customControls.map(({ definition, control }) => [definition.key, control.type === "checkbox" ? control.checked : (definition.type === "multiselect" ? [...control.selectedOptions].map(({ value }) => value) : control.value)]));
         const input = Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.control.value]));
@@ -240,7 +287,7 @@ function createProductFormView({ title, description, t, workspace, service, medi
         draftService?.remove(workspace.id, draftId);
         onSaved(saved);
       } catch {
-        errorArea.append(createAlert({ message: t("productMedia.saveError"), tone: "danger", urgent: true })); save.disabled = false;
+        errorArea.append(createAlert({ message: t("productCore.saveError"), tone: "danger", urgent: true })); save.disabled = false;
       }
     });
     content.replaceChildren(form);

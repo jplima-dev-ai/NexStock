@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — v1.9.0 Professional Polish
+## 1.9.0 — 2026-09-28 — Professional Polish
 
 - Otimiza cálculos locais de painel, insights e sinais ao indexar movimentações
   por produto durante a leitura, sem alterar registros, auditoria ou interface.
@@ -11,6 +11,9 @@
 - Adiciona baselines verificáveis para estados visuais críticos da aplicação.
 - Consolida a auditoria final de NexCopy, com contrato de terminologia crítica
   e verificação renderizada dos fluxos de produto em pt-BR, en-US e es.
+- Remove atrito no cadastro de produto: erros de campos agora recebem resumo
+  focável e links por teclado; falhas de produto não são anunciadas como erro
+  de imagem.
 
 ## 1.8.0 — 2026-09-28 — Local-first Excellence
 

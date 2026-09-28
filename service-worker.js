@@ -1,5 +1,5 @@
 const APP_VERSION = "1.8.0";
-const CACHE_NAME = "nexstock-shell-v1.8.0-local-first-excellence-phase65";
+const CACHE_NAME = "nexstock-shell-v1.8.0-local-first-excellence-phase42-phase53-phase54-phase55-phase56-phase57-phase58-phase59-phase60-phase61-phase65";
 const SHELL_RESOURCES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/tokens.css", "./css/reset.css", "./css/base.css", "./css/accessibility.css", "./css/components.css", "./css/layout.css", "./css/responsive.css",

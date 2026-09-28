@@ -105,10 +105,10 @@ function createListView({ title, description, t, locale, workspace, service, ini
       pagination.className = "product-pagination";
       pagination.setAttribute("aria-label", t("productCore.paginationLabel"));
       const previous = createButton({ text: t("productCore.previousPage"), variant: "secondary", disabled: result.page <= 1, onClick: () => renderResults({ page: result.page - 1, focus: true }) });
-      const status = text("p", t("productCore.pageStatus", { page: result.page, total: result.pageCount }), "product-pagination__status");
-      status.setAttribute("aria-live", "polite");
+      const pageStatus = text("p", t("productCore.pageStatus", { page: result.page, total: result.pageCount }), "product-pagination__status");
+      pageStatus.setAttribute("aria-live", "polite");
       const next = createButton({ text: t("productCore.nextPage"), variant: "secondary", disabled: result.page >= result.pageCount, onClick: () => renderResults({ page: result.page + 1, focus: true }) });
-      pagination.append(previous, status, next);
+      pagination.append(previous, pageStatus, next);
       results.replaceChildren(summary, createTable({ caption: t("productCore.tableCaption"), columns, rows: result.items, emptyMessage: t("productCore.emptyDescription") }), pagination);
       if (focus) (result.page > 1 ? previous : next).focus();
     }

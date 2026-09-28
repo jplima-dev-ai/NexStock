@@ -1,5 +1,5 @@
 const APP_VERSION = "1.9.0";
-const CACHE_NAME = "nexstock-shell-v1.9.0-professional-polish-phase71";
+const CACHE_NAME = "nexstock-shell-v1.9.0-professional-polish-phase42-phase71";
 const SHELL_RESOURCES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/tokens.css", "./css/reset.css", "./css/base.css", "./css/accessibility.css", "./css/components.css", "./css/layout.css", "./css/responsive.css",

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — v2.0.0 Calm Intelligence
+
+- Adiciona fluxo integrado que confirma Core, Intelligence, Decision Lab,
+  dados, PWA e NexShield no mesmo workspace local.
+
 ## 1.9.0 — 2026-09-28 — Professional Polish
 
 - Otimiza cálculos locais de painel, insights e sinais ao indexar movimentações

@@ -4,7 +4,7 @@ import { indexRecordsBy, indexedRecords } from "./performance-service.js";
 
 function freeze(value) { return Object.freeze(value); }
 
-function reorderRecommendation(product, productMovements, now) {
+function reorderRecommendation(product, movements, now) {
   const cutoff = now.getTime() - (30 * 86_400_000);
   const outputs = movements.filter((movement) => movement.productId === product.id && movement.type === "OUT" && new Date(movement.createdAt).getTime() >= cutoff);
   const totalOut = outputs.reduce((sum, movement) => sum + Number(movement.quantity), 0);

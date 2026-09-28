@@ -13,6 +13,7 @@ API do navegador apenas quando ela estiver disponível.
 
 ## Gate
 
-EM VALIDAÇÃO — cache, dados, mídia, backup e snapshots possuem política coerente.
-Testes unitários verificam a política e a leitura sem escrita; E2E valida a
-explicação acessível da retenção e a suíte axe inclui a nova rota.
+APROVADO — cache, dados, mídia, backup e snapshots possuem política coerente.
+Os testes unitários verificam a política e a leitura sem escrita; E2E valida a
+explicação acessível da retenção e a suíte axe inclui a nova rota. Em
+2026-09-28, o GitHub Actions aprovou 194 testes unitários e 36 cenários E2E.

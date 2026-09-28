@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — v1.8.0 Local-first Excellence
+## 1.8.0 — 2026-09-28 — Local-first Excellence
 
 - Adiciona Offline Experience 2.0, com estados textuais de conectividade,
   persistência local, sincronização e atenção necessária na área PWA.

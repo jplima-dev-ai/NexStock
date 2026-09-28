@@ -796,6 +796,19 @@ textarea.ns-field__control {
   gap: var(--ns-space-4);
 }
 
+.product-results__summary,
+.product-pagination__status {
+  margin: 0;
+  color: var(--ns-color-text-muted);
+}
+
+.product-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ns-space-3);
+  align-items: center;
+}
+
 .product-detail {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));

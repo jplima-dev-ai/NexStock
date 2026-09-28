@@ -4,6 +4,8 @@
 
 - Otimiza cálculos locais de painel, insights e sinais ao indexar movimentações
   por produto durante a leitura, sem alterar registros, auditoria ou interface.
+- Adiciona paginação local acessível à lista de produtos, mantendo busca e
+  filtros utilizáveis em coleções extensas.
 
 ## 1.8.0 — 2026-09-28 — Local-first Excellence
 

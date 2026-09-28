@@ -1,6 +1,7 @@
 import { assertSafeUrl } from "../utils/security.js";
 
 const TRACKING_MODES = new Set(["bulk", "batch", "serialized"]);
+export const PRODUCT_PAGE_SIZE = 25;
 
 function requireText(value, field, maxLength = 120) {
   const normalized = String(value ?? "").trim();
@@ -25,6 +26,17 @@ export function getInventoryStatus(currentQuantity, minimumStock) {
   if (quantity <= minimum) return "critical";
   const attentionThreshold = Math.max(minimum + 1, Math.ceil(minimum * 1.5));
   return quantity <= attentionThreshold ? "attention" : "healthy";
+}
+
+export function paginateProducts(products, { page = 1, pageSize = PRODUCT_PAGE_SIZE } = {}) {
+  if (!Array.isArray(products)) throw new TypeError("Products must be an array.");
+  if (!Number.isInteger(pageSize) || pageSize < 1 || pageSize > 100) throw new RangeError("Page size is invalid.");
+  const total = products.length;
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  const currentPage = Math.min(Math.max(1, Number.parseInt(page, 10) || 1), pageCount);
+  const from = total === 0 ? 0 : ((currentPage - 1) * pageSize) + 1;
+  const to = Math.min(total, currentPage * pageSize);
+  return Object.freeze({ items: Object.freeze(products.slice(from - 1, to)), total, page: currentPage, pageCount, from, to, pageSize });
 }
 
 export function buildNexCode({ prefix, categoryCode, sequence }) {
@@ -172,5 +184,9 @@ export class ProductService {
         const moduleMatch = !filters.module || (["serial", "lifecycle"].includes(filters.module) && product.trackingMode === "serialized") || (filters.module === "expiry" && product.trackingMode === "batch") || (filters.module === "variants" && ["color", "size", "shade", "volume"].some((key) => product.customData?.[key] !== undefined));
         return archiveMatch && moduleMatch && (!filters.categoryId || product.categoryId === filters.categoryId) && (!filters.supplierId || product.supplierId === filters.supplierId) && (!filters.status || product.status === filters.status) && (!query || values.some((value) => normalizeSearchText(value).includes(query)));
       }).sort((first, second) => first.name.localeCompare(second.name));
+  }
+
+  async searchPage(workspaceId, filters = {}, pagination = {}) {
+    return paginateProducts(await this.search(workspaceId, filters), pagination);
   }
 }

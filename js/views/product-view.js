@@ -79,10 +79,12 @@ function createListView({ title, description, t, locale, workspace, service, ini
     ] });
     const results = document.createElement("div");
     results.className = "product-results";
+    let currentPage = 1;
 
-    async function renderResults() {
-      const products = await service.search(workspace.id, { query: search.control.value, categoryId: category.control.value, supplierId: supplier.control.value, status: status.control.value, module: module.control.value, archived: archived.control.value });
-      if (products.length === 0) {
+    async function renderResults({ page = currentPage, focus = false } = {}) {
+      const result = await service.searchPage(workspace.id, { query: search.control.value, categoryId: category.control.value, supplierId: supplier.control.value, status: status.control.value, module: module.control.value, archived: archived.control.value }, { page });
+      currentPage = result.page;
+      if (result.total === 0) {
         results.replaceChildren(createEmptyState({ title: t("productCore.emptyTitle"), description: t("productCore.emptyDescription"), action: createButton({ text: t("productCore.newProduct"), href: "#/products/new" }), kind: "filtered" }));
         return;
       }
@@ -96,22 +98,35 @@ function createListView({ title, description, t, locale, workspace, service, ini
         { key: "location", label: t("productCore.location"), sortable: true },
         { key: "actions", label: t("productCore.actions"), render: (product) => createButton({ text: t("productCore.view"), href: `#/products/${encodeURIComponent(product.id)}`, variant: "quiet" }) },
       ];
-      results.replaceChildren(createTable({ caption: t("productCore.tableCaption"), columns, rows: products, emptyMessage: t("productCore.emptyDescription") }));
+      const summary = text("p", t("productCore.resultsSummary", result), "product-results__summary");
+      summary.setAttribute("role", "status");
+      summary.setAttribute("aria-live", "polite");
+      const pagination = document.createElement("nav");
+      pagination.className = "product-pagination";
+      pagination.setAttribute("aria-label", t("productCore.paginationLabel"));
+      const previous = createButton({ text: t("productCore.previousPage"), variant: "secondary", disabled: result.page <= 1, onClick: () => renderResults({ page: result.page - 1, focus: true }) });
+      const status = text("p", t("productCore.pageStatus", { page: result.page, total: result.pageCount }), "product-pagination__status");
+      status.setAttribute("aria-live", "polite");
+      const next = createButton({ text: t("productCore.nextPage"), variant: "secondary", disabled: result.page >= result.pageCount, onClick: () => renderResults({ page: result.page + 1, focus: true }) });
+      pagination.append(previous, status, next);
+      results.replaceChildren(summary, createTable({ caption: t("productCore.tableCaption"), columns, rows: result.items, emptyMessage: t("productCore.emptyDescription") }), pagination);
+      if (focus) (result.page > 1 ? previous : next).focus();
     }
-    toolbar.addEventListener("submit", (event) => { event.preventDefault(); renderResults(); });
-    for (const control of [category.control, supplier.control, status.control, module.control, archived.control]) control.addEventListener("change", renderResults);
+    const applyFilters = () => renderResults({ page: 1 });
+    toolbar.addEventListener("submit", (event) => { event.preventDefault(); applyFilters(); });
+    for (const control of [category.control, supplier.control, status.control, module.control, archived.control]) control.addEventListener("change", applyFilters);
     const buttons = document.createElement("div");
     buttons.className = "product-toolbar__actions";
     buttons.append(
       createButton({ text: t("productCore.applyFilters"), type: "submit" }),
       createButton({ text: t("productCore.clearFilters"), variant: "secondary", onClick: () => {
-        search.control.value = ""; category.control.value = ""; supplier.control.value = ""; status.control.value = ""; module.control.value = ""; archived.control.value = "active"; renderResults();
+        search.control.value = ""; category.control.value = ""; supplier.control.value = ""; status.control.value = ""; module.control.value = ""; archived.control.value = "active"; applyFilters();
       } }),
       createButton({ text: t("productCore.newProduct"), href: "#/products/new" }),
     );
     toolbar.append(search.element, category.element, supplier.element, status.element, module.element, archived.element, buttons);
     content.replaceChildren(toolbar, results);
-    await renderResults();
+    await applyFilters();
   })().catch(() => content.replaceChildren(createAlert({ message: t("productCore.loadError"), tone: "danger" })));
   return { element: section, focusTarget: header.heading };
 }

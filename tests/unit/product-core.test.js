@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildNexCode, getInventoryStatus, normalizeSearchText, ProductService } from "../../js/services/product-service.js";
+import { buildNexCode, getInventoryStatus, normalizeSearchText, paginateProducts, ProductService } from "../../js/services/product-service.js";
 
 class ProductTestProvider {
   constructor() {
@@ -64,6 +64,16 @@ test("busca ignora caixa e acentos e filtros podem incluir arquivados", async ()
   await service.archive("workspace-1", created.id);
   assert.equal((await service.search("workspace-1", { archived: "active" })).length, 0);
   assert.equal((await service.search("workspace-1", { archived: "archived" })).length, 1);
+});
+
+test("paginação limita a lista, preserva a ordem e ajusta página fora do intervalo", () => {
+  const products = Array.from({ length: 60 }, (_, index) => ({ id: `product-${index + 1}` }));
+  const first = paginateProducts(products);
+  const last = paginateProducts(products, { page: 99 });
+  assert.equal(first.items.length, 25);
+  assert.deepEqual(first.items.map(({ id }) => id).slice(0, 2), ["product-1", "product-2"]);
+  assert.deepEqual({ page: last.page, pageCount: last.pageCount, from: last.from, to: last.to }, { page: 3, pageCount: 3, from: 51, to: 60 });
+  assert.equal(products.length, 60);
 });
 
 test("integridade rejeita estoque negativo e relações de outro workspace", async () => {

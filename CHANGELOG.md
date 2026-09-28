@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — v1.9.0 Professional Polish
+
+- Otimiza cálculos locais de painel, insights e sinais ao indexar movimentações
+  por produto durante a leitura, sem alterar registros, auditoria ou interface.
+
 ## 1.8.0 — 2026-09-28 — Local-first Excellence
 
 - Adiciona Offline Experience 2.0, com estados textuais de conectividade,

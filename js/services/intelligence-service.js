@@ -1,9 +1,10 @@
 import { getInventoryStatus } from "./product-service.js";
 import { isStoppedProduct } from "./dashboard-service.js";
+import { indexRecordsBy, indexedRecords } from "./performance-service.js";
 
 function freeze(value) { return Object.freeze(value); }
 
-function reorderRecommendation(product, movements, now) {
+function reorderRecommendation(product, productMovements, now) {
   const cutoff = now.getTime() - (30 * 86_400_000);
   const outputs = movements.filter((movement) => movement.productId === product.id && movement.type === "OUT" && new Date(movement.createdAt).getTime() >= cutoff);
   const totalOut = outputs.reduce((sum, movement) => sum + Number(movement.quantity), 0);
@@ -37,16 +38,18 @@ function signal({ id, type, severity, product, summary, evidence, explanation, c
   });
 }
 
-export function buildIntelligenceSignals({ products, movements, now = new Date() }) {
+export function buildIntelligenceSignals({ products, movements, movementIndex, now = new Date() }) {
   const active = products.filter((product) => !product.archivedAt);
+  const movementsByProduct = movementIndex ?? indexRecordsBy(movements);
   const result = [];
   for (const product of active) {
     const status = getInventoryStatus(product.currentQuantity, product.minimumStock);
-    const sources = [{ entityType: "product", id: product.id }, ...movements.filter((movement) => movement.productId === product.id).map(({ id }) => ({ entityType: "movement", id }))];
+    const productMovements = indexedRecords(movementsByProduct, product.id);
+    const sources = [{ entityType: "product", id: product.id }, ...productMovements.map(({ id }) => ({ entityType: "movement", id }))];
     if (status === "out") result.push(signal({ id: product.id, type: "risk", severity: "critical", product, summary: "OUT_OF_STOCK", evidence: { currentQuantity: Number(product.currentQuantity), minimumStock: Number(product.minimumStock) }, explanation: "currentQuantity is zero", consequence: "Sales or operations may be blocked.", suggestedActions: ["REPLENISH_PRODUCT"], sourceRecords: sources, now }));
     else if (status === "critical") result.push(signal({ id: product.id, type: "risk", severity: "high", product, summary: "AT_OR_BELOW_MINIMUM", evidence: { currentQuantity: Number(product.currentQuantity), minimumStock: Number(product.minimumStock) }, explanation: "currentQuantity is at or below minimumStock", consequence: "A new withdrawal can cause a stockout.", suggestedActions: ["PLAN_REPLENISHMENT"], sourceRecords: sources, now }));
-    else if (isStoppedProduct(product, movements, now)) result.push(signal({ id: product.id, type: "inactivity", severity: "medium", product, summary: "NO_OUTPUT_IN_30_DAYS", evidence: { currentQuantity: Number(product.currentQuantity), windowDays: 30 }, explanation: "positive stock and no OUT movement in the last 30 days", consequence: "Capital may remain tied to idle stock.", suggestedActions: ["REVIEW_DEMAND"], sourceRecords: sources, now }));
-    const unusualOutput = movements.filter((movement) => movement.productId === product.id && movement.type === "OUT").sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))[0];
+    else if (isStoppedProduct(product, movementsByProduct, now)) result.push(signal({ id: product.id, type: "inactivity", severity: "medium", product, summary: "NO_OUTPUT_IN_30_DAYS", evidence: { currentQuantity: Number(product.currentQuantity), windowDays: 30 }, explanation: "positive stock and no OUT movement in the last 30 days", consequence: "Capital may remain tied to idle stock.", suggestedActions: ["REVIEW_DEMAND"], sourceRecords: sources, now }));
+    const unusualOutput = productMovements.filter((movement) => movement.type === "OUT").sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))[0];
     if (unusualOutput && Number(unusualOutput.quantity) >= Math.max(1, Number(product.minimumStock) * 2)) result.push(signal({ id: product.id, type: "anomaly", severity: "medium", product, summary: "UNUSUALLY_LARGE_OUTPUT", evidence: { outputQuantity: Number(unusualOutput.quantity), threshold: Math.max(1, Number(product.minimumStock) * 2), movementId: unusualOutput.id }, explanation: "latest OUT quantity is at least twice the configured minimum stock", consequence: "The withdrawal may require verification or replenishment planning.", suggestedActions: ["VERIFY_MOVEMENT", "REVIEW_REPLENISHMENT"], sourceRecords: sources, now }));
     const reorder = reorderRecommendation(product, movements, now);
     if (reorder) result.push(signal({ id: product.id, type: "reorder", severity: "medium", product, summary: "CONSIDER_REPLENISHMENT", evidence: reorder, explanation: "current quantity is at or below demand during lead time plus safety stock", consequence: "Stock can reach its safety level before the next replenishment.", suggestedActions: ["REVIEW_REORDER_SUGGESTION"], sourceRecords: [{ entityType: "product", id: product.id }, ...reorder.sourceIds.map((id) => ({ entityType: "movement", id }))], now }));

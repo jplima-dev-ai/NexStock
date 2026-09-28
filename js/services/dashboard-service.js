@@ -2,6 +2,7 @@ import { getInventoryStatus } from "./product-service.js";
 import { calculateForecast } from "./insight-service.js";
 import { buildIntelligenceSignals } from "./intelligence-service.js";
 import { buildActionCenter } from "./actions-service.js";
+import { indexRecordsBy, indexedRecords } from "./performance-service.js";
 
 const DAY_MS = 86_400_000;
 const PULSE_WEIGHTS = Object.freeze({ availability: 35, minimumCompliance: 30, freshness: 15, forecast: 20 });
@@ -30,7 +31,8 @@ export function isStoppedProduct(product, movements, now = new Date()) {
   if (Number(product.currentQuantity) <= 0) return false;
   const cutoff = now.getTime() - (30 * DAY_MS);
   if (dateValue(product.createdAt) > cutoff) return false;
-  return !movements.some((movement) => (
+  const related = movements instanceof Map ? indexedRecords(movements, product.id) : movements;
+  return !related.some((movement) => (
     movement.productId === product.id
     && movement.type === "OUT"
     && dateValue(movement.createdAt) >= cutoff
@@ -43,10 +45,11 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
   const workspaceMovements = movements
     .filter((movement) => productIds.has(movement.productId))
     .sort((first, second) => dateValue(second.createdAt) - dateValue(first.createdAt));
+  const movementsByProduct = indexRecordsBy(workspaceMovements);
   const totalProducts = activeProducts.length;
   const cutoff = now.getTime() - (30 * DAY_MS);
   const stoppedIds = new Set(activeProducts
-    .filter((product) => isStoppedProduct(product, workspaceMovements, now))
+    .filter((product) => isStoppedProduct(product, movementsByProduct, now))
     .map(({ id }) => id));
 
   const enriched = activeProducts.map((product) => ({
@@ -66,7 +69,7 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
     minimumCompliance: percentage(compliant, totalProducts),
     freshness: percentage(fresh, totalProducts),
   };
-  const forecasts = enriched.map((product) => calculateForecast(product, workspaceMovements, now)).filter(({ available }) => available);
+  const forecasts = enriched.map((product) => calculateForecast(product, movementsByProduct, now)).filter(({ available }) => available);
   const lowestForecast = forecasts
     .map((forecast) => ({ ...forecast, productName: enriched.find(({ id }) => id === forecast.productId)?.name }))
     .sort((first, second) => first.daysRemaining - second.daysRemaining)[0] ?? null;
@@ -90,7 +93,7 @@ export function buildDashboardSnapshot({ products, movements, now = new Date() }
     || first.product.name.localeCompare(second.product.name)
   ));
 
-  const signals = buildIntelligenceSignals({ products: activeProducts, movements: workspaceMovements, now });
+  const signals = buildIntelligenceSignals({ products: activeProducts, movements: workspaceMovements, movementIndex: movementsByProduct, now });
   return Object.freeze({
     generatedAt: now.toISOString(),
     pulse: Object.freeze({

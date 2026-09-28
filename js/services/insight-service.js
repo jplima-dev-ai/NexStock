@@ -1,3 +1,5 @@
+import { indexRecordsBy, indexedRecords } from "./performance-service.js";
+
 const DAY_MS = 86_400_000;
 export const FORECAST_WINDOW_DAYS = 30;
 
@@ -7,7 +9,8 @@ function dateValue(value) {
 }
 
 function productMovements(productId, movements) {
-  return movements.filter((movement) => movement.productId === productId)
+  const related = movements instanceof Map ? indexedRecords(movements, productId) : movements.filter((movement) => movement.productId === productId);
+  return [...related]
     .sort((first, second) => dateValue(first.createdAt) - dateValue(second.createdAt));
 }
 
@@ -100,8 +103,9 @@ export class InsightService {
       this.provider.getAll("products", { index: "workspaceId", query: workspaceId }),
       this.provider.getAll("movements", { index: "workspaceId", query: workspaceId }),
     ]);
+    const movementIndex = indexRecordsBy(movements);
     return products.filter((product) => !product.archivedAt)
-      .map((product) => buildProductInsight(product, movements, this.now()))
+      .map((product) => buildProductInsight(product, movementIndex, this.now()))
       .sort((first, second) => {
         if (first.forecast.available !== second.forecast.available) return first.forecast.available ? -1 : 1;
         if (first.forecast.available && first.forecast.daysRemaining !== second.forecast.daysRemaining) return first.forecast.daysRemaining - second.forecast.daysRemaining;

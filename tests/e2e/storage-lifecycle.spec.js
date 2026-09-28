@@ -7,5 +7,5 @@ test("Storage Lifecycle explica retenção sem oferecer exclusão automática", 
   const center = page.getByRole("heading", { level: 3, name: "Ciclo de armazenamento" }).locator("..");
   await expect(center).toContainText("Nenhum dado do estoque é apagado automaticamente");
   await expect(center.locator("dl")).toContainText("Dados do estoque");
-  await expect(center.locator("dl")).toContainText("preservados até uma ação explícita");
+  await expect(center.locator("dl")).toContainText("Preservados até uma ação explícita");
 });

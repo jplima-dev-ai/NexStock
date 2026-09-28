@@ -70,6 +70,10 @@ Nas Fases 34 e 35, axe cobre as rotas do Export Center e do NexBackup; os testes
 prévia tabular, downloads e impressão filtrada. A validação manual com NVDA
 continua pendente para a publicação final da release 1.2.0.
 
+Na Fase 68, a auditoria final confirmou por CI que os fluxos principais não
+possuem blockers automatizados conhecidos. A validação manual com NVDA continua
+obrigatória antes de mudanças visuais ou de fluxo relevantes.
+
 ## Limitações conhecidas
 
 - a arte institucional contém texto em português e só é usada no produto com

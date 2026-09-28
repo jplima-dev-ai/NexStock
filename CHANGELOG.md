@@ -6,6 +6,8 @@
   por produto durante a leitura, sem alterar registros, auditoria ou interface.
 - Adiciona paginação local acessível à lista de produtos, mantendo busca e
   filtros utilizáveis em coleções extensas.
+- Consolida a auditoria final de acessibilidade, com gate explícito de ausência
+  de blockers conhecidos nos fluxos principais.
 
 ## 1.8.0 — 2026-09-28 — Local-first Excellence
 

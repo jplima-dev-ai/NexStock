@@ -1,0 +1,11 @@
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+const root = process.cwd();
+const read = (file) => readFileSync(join(root, file), "utf8");
+for (const file of ["docs/project/cycle-068-phase-68.md", "tests/e2e/accessibility-offline.spec.js", "docs/accessibility.md"]) if (!existsSync(join(root, file))) throw new Error(`Evidência da Fase 68 ausente: ${file}.`);
+const e2e = read("tests/e2e/accessibility-offline.spec.js");
+for (const route of ["/products", "/movements", "/insights", "/settings/data/storage", "/settings/security"]) if (!e2e.includes(`"${route}"`)) throw new Error(`Rota principal fora da matriz axe: ${route}.`);
+const statement = read("docs/accessibility.md");
+for (const contract of ["NVDA", "duzentos por cento", "prefers-reduced-motion", "Fase 68"]) if (!statement.includes(contract)) throw new Error(`Declaração incompleta: ${contract}.`);
+if (!/APROVADO/u.test(read("docs/project/cycle-068-phase-68.md"))) throw new Error("Gate da Fase 68 não foi registrado.");
+process.stdout.write("Fase 68: auditoria final sem blockers conhecidos nos fluxos principais.\n");

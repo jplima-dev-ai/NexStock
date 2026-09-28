@@ -4,6 +4,8 @@
 
 - Adiciona fluxo integrado que confirma Core, Intelligence, Decision Lab,
   dados, PWA e NexShield no mesmo workspace local.
+- Adiciona matriz de regressão dos perfis, idiomas, temas, modos e dispositivos
+  suportados pelo fluxo local com IndexedDB.
 
 ## 1.9.0 — 2026-09-28 — Professional Polish
 

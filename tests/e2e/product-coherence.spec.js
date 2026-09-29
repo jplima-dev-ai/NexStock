@@ -9,5 +9,6 @@ test("fluxos principais preservam título, foco e linguagem coerentes", async ({
   }
   await page.locator("#locale-select").selectOption("en-US");
   await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
-  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator("#locale-select")).toBeFocused();
 });

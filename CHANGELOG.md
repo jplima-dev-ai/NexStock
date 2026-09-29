@@ -2,6 +2,8 @@
 
 ## Unreleased — v2.0.0 Calm Intelligence
 
+- Consolida auditoria de coerência para rotas, copy, foco, motion, Settings e
+  inteligência explicável.
 - Certifica conteúdo de workspace v1.0.0 contra a estrutura atual e bloqueia
   perda ou alteração silenciosa de registros históricos.
 - Elimina a dependência circular entre Dashboard e Intelligence, extraindo a

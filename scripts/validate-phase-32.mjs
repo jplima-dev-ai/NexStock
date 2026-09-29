@@ -48,7 +48,7 @@ if (cachedPhase < 32 || !worker.includes("settings-service.js")) {
 }
 
 const packageVersion = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")).version;
-if (!/^(?:1\.(?:1|[2-9]\d*)\.\d+|2\.0\.0-rc\.\d+)$/u.test(packageVersion)) throw new Error(`Release Experience Foundation não foi preservada: ${packageVersion}`);
+if (!/^(?:1\.(?:1|[2-9]\d*)\.\d+|2\.0\.0(?:-rc\.\d+)?)$/u.test(packageVersion)) throw new Error(`Release Experience Foundation não foi preservada: ${packageVersion}`);
 
 const backlog = readFileSync(join(ROOT, "docs/project/backlog.md"), "utf8");
 const completedPhase = Number(backlog.match(/Fases 0 a (\d+) aprovadas/)?.[1] ?? 0);

@@ -1,22 +1,51 @@
 # Changelog
 
-## Unreleased — v2.0.0 Calm Intelligence
+## 2.0.0 — 2026-09-29 — Calm Intelligence
 
-- Publica o release candidate `2.0.0-rc.1` e congela novas funcionalidades.
-- Institui política verificável: somente bug, segurança, acessibilidade,
-  performance, regressão ou copy podem alterar o candidato antes da Fase 78.
+### Added
+
+- Formaliza o NexStock 2.0 após checklist executável dos 40 critérios do
+  blueprint v1.2, incluindo GitHub Pages, PWA, dados, inteligência, cenários,
+  integridade, idiomas e acessibilidade.
 - Consolida auditoria de coerência para rotas, copy, foco, motion, Settings e
-  inteligência explicável.
-- Certifica conteúdo de workspace v1.0.0 contra a estrutura atual e bloqueia
-  perda ou alteração silenciosa de registros históricos.
-- Elimina a dependência circular entre Dashboard e Intelligence, extraindo a
-  regra pura de atividade de estoque para um serviço compartilhado.
-- Adiciona auditoria automatizada de ciclos de módulos, fronteiras de camadas e
-  dependências de runtime.
-- Adiciona fluxo integrado que confirma Core, Intelligence, Decision Lab,
-  dados, PWA e NexShield no mesmo workspace local.
-- Adiciona matriz de regressão dos perfis, idiomas, temas, modos e dispositivos
-  suportados pelo fluxo local com IndexedDB.
+  inteligência explicável; inclui certificação de upgrade v1.0.0 e matriz de
+  regressão dos perfis, idiomas, temas, modos e viewports.
+
+### Improved
+
+- Elimina a dependência circular entre Dashboard e Intelligence ao extrair a
+  atividade de estoque para serviço compartilhado e auditável.
+- Versiona o shell PWA final para impedir a reutilização do cache do RC.
+
+### Changed
+
+- Promove `2.0.0-rc.1` para `2.0.0`; o produto segue local-first, com IndexedDB
+  como provider padrão e Supabase estritamente opcional.
+
+### Accessibility
+
+- Mantém os gates de teclado, foco, semântica, contraste, zoom, reduced motion,
+  axe e fluxos principais documentados para NVDA.
+
+### Security
+
+- Mantém NexShield, NexHealth, Audit Explorer, reversões compensatórias e
+  validação de backup/restauração sem exclusão silenciosa de histórico.
+
+### Performance
+
+- Preserva os índices locais de leitura e a paginação acessível para catálogos
+  extensos, sem adicionar dependência de runtime.
+
+### Technical
+
+- Adiciona gate de release que exige 40 evidências e é executado pela CI antes
+  de construir e publicar o artefato estático.
+
+### Fixed
+
+- Corrige validadores históricos para reconhecer a versão estável 2.0.0 sem
+  enfraquecer os contratos das releases anteriores.
 
 ## 1.9.0 — 2026-09-28 — Professional Polish
 

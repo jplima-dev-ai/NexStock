@@ -2,6 +2,8 @@
 
 ## Unreleased — v2.0.0 Calm Intelligence
 
+- Certifica conteúdo de workspace v1.0.0 contra a estrutura atual e bloqueia
+  perda ou alteração silenciosa de registros históricos.
 - Elimina a dependência circular entre Dashboard e Intelligence, extraindo a
   regra pura de atividade de estoque para um serviço compartilhado.
 - Adiciona auditoria automatizada de ciclos de módulos, fronteiras de camadas e

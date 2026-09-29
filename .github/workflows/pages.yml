@@ -30,7 +30,7 @@ jobs:
       - name: Validate Trust Layer
         run: npm run validate:phase-60 && npm run validate:phase-61
       - name: Validate Local-first Excellence and Professional Polish
-        run: npm run validate:phase-62 && npm run validate:phase-63 && npm run validate:phase-64 && npm run validate:phase-65 && npm run validate:phase-66 && npm run validate:phase-67 && npm run validate:phase-68 && npm run validate:phase-69 && npm run validate:phase-70 && npm run validate:phase-71 && npm run validate:phase-72 && npm run validate:phase-73 && npm run validate:phase-74
+        run: npm run validate:phase-62 && npm run validate:phase-63 && npm run validate:phase-64 && npm run validate:phase-65 && npm run validate:phase-66 && npm run validate:phase-67 && npm run validate:phase-68 && npm run validate:phase-69 && npm run validate:phase-70 && npm run validate:phase-71 && npm run validate:phase-72 && npm run validate:phase-73 && npm run validate:phase-74 && npm run validate:phase-75
       - name: Build static artifact
         run: npm run build:pages
       - name: Validate static artifact

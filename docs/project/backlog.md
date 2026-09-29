@@ -4,7 +4,7 @@
 
 - NexStock `1.4.0 — Intelligence Foundation` concluído sobre as releases reproduzíveis
   `1.0.0` e `1.1.0`.
-- Fases 0 a 74 aprovadas. Os gates “reversões preservam auditoria”,
+- Fases 0 a 75 aprovadas. Os gates “reversões preservam auditoria”,
   “localização dos dados é compreensível”, “migrações preservam dados” e
   “ciclo de armazenamento coerente”, “otimizações preservam correção e
   acessibilidade”, “listas extensas permanecem utilizáveis” e “zero blockers
@@ -21,7 +21,7 @@
 
 ## Próximas entregas
 
-1. Iniciar a Fase 75 — Data Upgrade Certification.
+1. Iniciar a Fase 76 — Product Coherence Audit.
 
 ## Roadmap pós-1.0
 

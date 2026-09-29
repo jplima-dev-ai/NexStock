@@ -1,0 +1,19 @@
+{
+  "schema": "nexstock-backup-v1",
+  "appVersion": "1.0.0",
+  "generatedAt": "2026-01-10T12:00:00.000Z",
+  "workspaceId": "workspace-v1",
+  "workspaceName": "Estoque histórico",
+  "data": {
+    "workspaces": [{ "id": "workspace-v1", "name": "Estoque histórico", "profileKey": "technology", "createdAt": "2026-01-01T00:00:00.000Z", "updatedAt": "2026-01-10T12:00:00.000Z" }],
+    "categories": [{ "id": "category-v1", "workspaceId": "workspace-v1", "name": "Periféricos" }],
+    "suppliers": [{ "id": "supplier-v1", "workspaceId": "workspace-v1", "name": "Fornecedor histórico" }],
+    "products": [{ "id": "product-v1", "workspaceId": "workspace-v1", "name": "Teclado", "nexCode": "NX-TEC-0001", "currentQuantity": 12, "minimumStock": 3, "categoryId": "category-v1", "supplierId": "supplier-v1", "createdAt": "2026-01-01T00:00:00.000Z", "updatedAt": "2026-01-10T12:00:00.000Z" }],
+    "productUnits": [], "batches": [],
+    "movements": [{ "id": "movement-v1", "workspaceId": "workspace-v1", "productId": "product-v1", "type": "IN", "quantity": 12, "beforeQuantity": 0, "afterQuantity": 12, "createdAt": "2026-01-10T12:00:00.000Z" }],
+    "auditLogs": [{ "id": "audit-v1", "workspaceId": "workspace-v1", "entityId": "product-v1", "action": "PRODUCT_CREATED", "createdAt": "2026-01-10T12:00:00.000Z" }],
+    "productRelations": [], "kits": [], "kitItems": [], "customFieldDefinitions": [],
+    "settings": [{ "id": "setting-v1", "workspaceId": "workspace-v1", "key": "experienceMode", "value": "guided" }]
+  },
+  "media": { "included": false, "records": [] }
+}

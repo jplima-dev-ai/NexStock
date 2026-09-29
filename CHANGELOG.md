@@ -2,6 +2,9 @@
 
 ## Unreleased — v2.0.0 Calm Intelligence
 
+- Publica o release candidate `2.0.0-rc.1` e congela novas funcionalidades.
+- Institui política verificável: somente bug, segurança, acessibilidade,
+  performance, regressão ou copy podem alterar o candidato antes da Fase 78.
 - Consolida auditoria de coerência para rotas, copy, foco, motion, Settings e
   inteligência explicável.
 - Certifica conteúdo de workspace v1.0.0 contra a estrutura atual e bloqueia

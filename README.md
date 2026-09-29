@@ -6,9 +6,10 @@ NexStock é uma PWA local-first que transforma registros de estoque em uma
 leitura compreensível: situação atual, prioridades, histórico, estimativas
 explicáveis e simulações que não alteram os dados reais.
 
-Versão estável: `1.9.0 — Professional Polish`. Fases 0 a 73 concluídas; a
-próxima entrega é a Fase 74, Architecture Audit, da release alvo
-`2.0.0 — Calm Intelligence`.
+Release candidate atual: `2.0.0-rc.1 — Calm Intelligence`. Fases 0 a 77
+concluídas; funcionalidades estão congeladas. Até a Fase 78, a única entrega
+permitida é correção de bug, segurança, acessibilidade, performance, regressão
+ou copy. A versão final `2.0.0` ainda não foi formalizada.
 
 ## Links
 

@@ -14,7 +14,7 @@ const packageVersion = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8
 const coreVersion = readFileSync(join(ROOT, "js/core/version.js"), "utf8").match(/APP_VERSION\s*=\s*["']([^"']+)/u)?.[1];
 const worker = readFileSync(join(ROOT, "service-worker.js"), "utf8");
 const workerVersion = worker.match(/APP_VERSION\s*=\s*["']([^"']+)/u)?.[1];
-const cacheVersion = worker.match(/nexstock-shell-v([\d.]+)/u)?.[1];
+const cacheVersion = worker.match(/nexstock-shell-v([\w.-]+)-calm-intelligence/u)?.[1];
 if (![coreVersion, workerVersion, cacheVersion].every((version) => version === packageVersion)) {
   throw new Error(`Versões divergentes: package=${packageVersion}; core=${coreVersion}; worker=${workerVersion}; cache=${cacheVersion}`);
 }

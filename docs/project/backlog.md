@@ -4,7 +4,7 @@
 
 - NexStock `1.4.0 — Intelligence Foundation` concluído sobre as releases reproduzíveis
   `1.0.0` e `1.1.0`.
-- Fases 0 a 76 aprovadas. Os gates “reversões preservam auditoria”,
+- Fases 0 a 77 aprovadas. Os gates “reversões preservam auditoria”,
   “localização dos dados é compreensível”, “migrações preservam dados” e
   “ciclo de armazenamento coerente”, “otimizações preservam correção e
   acessibilidade”, “listas extensas permanecem utilizáveis” e “zero blockers
@@ -14,6 +14,9 @@
   principais foram confirmadas. A auditoria de arquitetura eliminou o único
   ciclo crítico de serviços e automatizou a proteção contra ciclos e violações
   de camadas.
+- O release candidate `2.0.0-rc.1 — Calm Intelligence` congela funcionalidades;
+  somente bugs, segurança, acessibilidade, performance, regressão e copy são
+  aceitos até a formalização final.
 - NexStock `1.6.0 — Decision Lab` formalizado.
 - NexStock `1.7.0 — Trust & Integrity` formalizado.
 - NexStock `1.8.0 — Local-first Excellence` formalizado.
@@ -21,7 +24,8 @@
 
 ## Próximas entregas
 
-1. Iniciar a Fase 77 — 2.0 Release Candidate.
+1. Executar a Fase 78 — NexStock 2.0 Release, somente após todos os 40 itens
+   obrigatórios do blueprint v1.2 serem revalidados.
 
 ## Roadmap pós-1.0
 

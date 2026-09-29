@@ -7,7 +7,7 @@ for (const file of ["docs/releases/v1.2.0.md", "docs/project/cycle-033-phase-33.
   if (!existsSync(join(ROOT, file))) throw new Error(`Release 1.2 sem evidência: ${file}`);
 }
 const [major, minor] = JSON.parse(read("package.json")).version.split(".").map(Number);
-if (major !== 1 || minor < 2) throw new Error("A release Data Mobility exige a linha de versão 1.2.0 ou posterior.");
+if (major < 1 || (major === 1 && minor < 2)) throw new Error("A release Data Mobility exige a linha de versão 1.2.0 ou posterior.");
 const release = read("docs/releases/v1.2.0.md");
 for (const capability of ["Import Center", "Export Center", "NexBackup", "snapshots", "Integridade"]) {
   if (!release.includes(capability)) throw new Error(`Release 1.2 sem capacidade: ${capability}`);

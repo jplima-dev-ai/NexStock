@@ -14,6 +14,8 @@ movimentação, auditoria, backup/restauração, Blob de mídia, cache ou interf
 O validador da fase percorre os módulos locais, bloqueia ciclos de imports,
 impede que serviços dependam de views/componentes e que providers dependam de
 serviços/interface. Também exige que não haja dependências de runtime novas.
+O novo módulo foi incluído no precache explícito, preservando o funcionamento
+offline após a atualização da aplicação.
 O DataProvider continua sendo a fronteira de persistência; IndexedDB permanece
 o padrão local-first e Supabase é opcional. O Store conserva somente estado
 global e o EventBus mantém eventos de integração sem transportar regras

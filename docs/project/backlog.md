@@ -4,14 +4,16 @@
 
 - NexStock `1.4.0 — Intelligence Foundation` concluído sobre as releases reproduzíveis
   `1.0.0` e `1.1.0`.
-- Fases 0 a 73 aprovadas. Os gates “reversões preservam auditoria”,
+- Fases 0 a 74 aprovadas. Os gates “reversões preservam auditoria”,
   “localização dos dados é compreensível”, “migrações preservam dados” e
   “ciclo de armazenamento coerente”, “otimizações preservam correção e
   acessibilidade”, “listas extensas permanecem utilizáveis” e “zero blockers
   conhecidos”, “estados visuais críticos possuem baseline” e “PT/EN/ES
   consistentes” e “nenhum fluxo central possui atrito grave conhecido” foram
   validados. A integração entre módulos centrais e a matriz das combinações
-  principais foram confirmadas.
+  principais foram confirmadas. A auditoria de arquitetura eliminou o único
+  ciclo crítico de serviços e automatizou a proteção contra ciclos e violações
+  de camadas.
 - NexStock `1.6.0 — Decision Lab` formalizado.
 - NexStock `1.7.0 — Trust & Integrity` formalizado.
 - NexStock `1.8.0 — Local-first Excellence` formalizado.
@@ -19,7 +21,7 @@
 
 ## Próximas entregas
 
-1. Iniciar a Fase 74 — Architecture Audit.
+1. Iniciar a Fase 75 — Data Upgrade Certification.
 
 ## Roadmap pós-1.0
 

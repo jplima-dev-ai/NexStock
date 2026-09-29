@@ -35,3 +35,11 @@ produto controlados em navegação com contexto, sem adicionar um parser aberto.
 
 A rastreabilidade entre funcionalidades, serviços, providers, testes e
 interfaces está em [Matriz de rastreabilidade](feature-traceability.md).
+
+## Auditoria de arquitetura da Fase 74
+
+O ciclo entre Dashboard e Intelligence foi removido: a regra de atividade de
+estoque é um módulo puro compartilhado, sem persistência ou interface. O gate
+automatizado verifica ciclos de imports, impede inversões entre serviços,
+providers e interface, e confirma que não há dependências de runtime. A decisão
+está registrada no ADR 0003.

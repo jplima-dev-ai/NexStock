@@ -2,7 +2,8 @@ import { getInventoryStatus } from "./product-service.js";
 import { calculateForecast } from "./insight-service.js";
 import { buildIntelligenceSignals } from "./intelligence-service.js";
 import { buildActionCenter } from "./actions-service.js";
-import { indexRecordsBy, indexedRecords } from "./performance-service.js";
+import { indexRecordsBy } from "./performance-service.js";
+import { isStoppedProduct } from "./inventory-activity-service.js";
 
 const DAY_MS = 86_400_000;
 const PULSE_WEIGHTS = Object.freeze({ availability: 35, minimumCompliance: 30, freshness: 15, forecast: 20 });
@@ -25,18 +26,6 @@ function buildPulseContext({ totalProducts, rates, forecasts, usableWeights }) {
   else if (forecasts.length < totalProducts) limitations.unshift("FORECAST_PARTIAL_COVERAGE");
   const totalWeight = usableWeights.reduce((sum, [, weight]) => sum + weight, 0);
   return Object.freeze({ summary: Object.freeze({ activeProducts: totalProducts }), dimensions: Object.freeze(usableWeights.map(([id, baseWeight]) => Object.freeze({ id, value: rounded(rates[id]), baseWeight, normalizedWeight: rounded((baseWeight / totalWeight) * 100) }))), dataAvailability: Object.freeze({ forecastCoverage: Object.freeze({ calculated: forecasts.length, total: totalProducts }) }), limitations: Object.freeze(limitations) });
-}
-
-export function isStoppedProduct(product, movements, now = new Date()) {
-  if (Number(product.currentQuantity) <= 0) return false;
-  const cutoff = now.getTime() - (30 * DAY_MS);
-  if (dateValue(product.createdAt) > cutoff) return false;
-  const related = movements instanceof Map ? indexedRecords(movements, product.id) : movements;
-  return !related.some((movement) => (
-    movement.productId === product.id
-    && movement.type === "OUT"
-    && dateValue(movement.createdAt) >= cutoff
-  ));
 }
 
 export function buildDashboardSnapshot({ products, movements, now = new Date() }) {

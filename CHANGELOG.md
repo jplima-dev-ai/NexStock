@@ -2,6 +2,10 @@
 
 ## Unreleased — v2.0.0 Calm Intelligence
 
+- Elimina a dependência circular entre Dashboard e Intelligence, extraindo a
+  regra pura de atividade de estoque para um serviço compartilhado.
+- Adiciona auditoria automatizada de ciclos de módulos, fronteiras de camadas e
+  dependências de runtime.
 - Adiciona fluxo integrado que confirma Core, Intelligence, Decision Lab,
   dados, PWA e NexShield no mesmo workspace local.
 - Adiciona matriz de regressão dos perfis, idiomas, temas, modos e dispositivos

@@ -1,12 +1,12 @@
 import { getInventoryStatus } from "./product-service.js";
-import { isStoppedProduct } from "./dashboard-service.js";
 import { indexRecordsBy, indexedRecords } from "./performance-service.js";
+import { isStoppedProduct } from "./inventory-activity-service.js";
 
 function freeze(value) { return Object.freeze(value); }
 
 function reorderRecommendation(product, movements, now) {
   const cutoff = now.getTime() - (30 * 86_400_000);
-  const outputs = movements.filter((movement) => movement.productId === product.id && movement.type === "OUT" && new Date(movement.createdAt).getTime() >= cutoff);
+  const outputs = movements.filter((movement) => movement.type === "OUT" && new Date(movement.createdAt).getTime() >= cutoff);
   const totalOut = outputs.reduce((sum, movement) => sum + Number(movement.quantity), 0);
   if (totalOut <= 0) return null;
   const averageDailyOut = totalOut / 30;
@@ -51,7 +51,7 @@ export function buildIntelligenceSignals({ products, movements, movementIndex, n
     else if (isStoppedProduct(product, movementsByProduct, now)) result.push(signal({ id: product.id, type: "inactivity", severity: "medium", product, summary: "NO_OUTPUT_IN_30_DAYS", evidence: { currentQuantity: Number(product.currentQuantity), windowDays: 30 }, explanation: "positive stock and no OUT movement in the last 30 days", consequence: "Capital may remain tied to idle stock.", suggestedActions: ["REVIEW_DEMAND"], sourceRecords: sources, now }));
     const unusualOutput = productMovements.filter((movement) => movement.type === "OUT").sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))[0];
     if (unusualOutput && Number(unusualOutput.quantity) >= Math.max(1, Number(product.minimumStock) * 2)) result.push(signal({ id: product.id, type: "anomaly", severity: "medium", product, summary: "UNUSUALLY_LARGE_OUTPUT", evidence: { outputQuantity: Number(unusualOutput.quantity), threshold: Math.max(1, Number(product.minimumStock) * 2), movementId: unusualOutput.id }, explanation: "latest OUT quantity is at least twice the configured minimum stock", consequence: "The withdrawal may require verification or replenishment planning.", suggestedActions: ["VERIFY_MOVEMENT", "REVIEW_REPLENISHMENT"], sourceRecords: sources, now }));
-    const reorder = reorderRecommendation(product, movements, now);
+    const reorder = reorderRecommendation(product, productMovements, now);
     if (reorder) result.push(signal({ id: product.id, type: "reorder", severity: "medium", product, summary: "CONSIDER_REPLENISHMENT", evidence: reorder, explanation: "current quantity is at or below demand during lead time plus safety stock", consequence: "Stock can reach its safety level before the next replenishment.", suggestedActions: ["REVIEW_REORDER_SUGGESTION"], sourceRecords: [{ entityType: "product", id: product.id }, ...reorder.sourceIds.map((id) => ({ entityType: "movement", id }))], now }));
   }
   return freeze(result.sort((a, b) => a.id.localeCompare(b.id)));

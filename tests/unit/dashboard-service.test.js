@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildDashboardSnapshot, DashboardService, isStoppedProduct } from "../../js/services/dashboard-service.js";
+import { buildDashboardSnapshot, DashboardService } from "../../js/services/dashboard-service.js";
+import { isStoppedProduct } from "../../js/services/inventory-activity-service.js";
 
 const NOW = new Date("2026-09-19T12:00:00.000Z");
 const OLD = "2026-07-01T12:00:00.000Z";

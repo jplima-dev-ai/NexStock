@@ -9,8 +9,8 @@ Pages.
 
 ## Fontes canônicas
 
-1. `NEXSTOCK-BLUEPRINT-v1.2.md`, com precedência para a evolução pós-1.0.
-2. `NEXSTOCK-BLUEPRINT-v1.1.md`, preservado para requisitos não alterados.
+1. Blueprint v1.2 externo, com precedência para a evolução pós-1.0.
+2. Blueprint v1.1 externo, preservado para requisitos não alterados.
 3. ADRs, CHANGELOG, testes e documentação técnica do repositório.
 
 ## Reprodução local
@@ -37,7 +37,8 @@ gera o artefato estático e valida o pacote de GitHub Pages.
 - clone limpo reproduzível aprovado;
 - versões de `package.json`, núcleo, service worker e cache alinhadas em
   `1.0.0`;
-- ambos os blueprints presentes no repositório.
+- a governança registrava ambos os blueprints como referências externas; eles
+  não integram a distribuição atual do projeto.
 
 ## Limitações da evidência
 

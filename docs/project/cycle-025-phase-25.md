@@ -8,7 +8,8 @@
 - Gate anterior: Fase 24 aprovada no código-fonte e no artefato estático.
 - Objetivo: tornar a baseline reproduzível e remover divergências críticas
   entre documentação e implementação.
-- Dependências: blueprints v1.1 e v1.2, suíte da versão 1.0.0 e pipeline Pages.
+- Referências de governança: blueprints externos v1.1 e v1.2, suíte da versão
+  1.0.0 e pipeline Pages.
 - Dados e migrações: sem alteração de schema ou registros.
 - i18n e acessibilidade: sem mudança de interface; evidências e limites
   documentados sem afirmar teste de leitor de tela não executado.
@@ -17,9 +18,9 @@
 
 ## Divergências encontradas e correções
 
-1. O pacote não continha `NEXSTOCK-BLUEPRINT-v1.1.md`, embora o validador e o
-   README o exigissem. Os dois blueprints canônicos passaram a integrar o
-   repositório, e o gate exige ambos.
+1. O pacote não continha o blueprint v1.1. A correção histórica do período foi
+   substituída: os blueprints permanecem externos e não são exigidos pelo
+   repositório, pelo gate ou pela distribuição atual.
 2. O backlog ainda apontava as Fases 11 e 12 como futuras. Agora registra a
    Fase 26 como próxima entrega válida.
 3. Documentos canônicos de arquitetura descreviam i18n, PWA, módulos e

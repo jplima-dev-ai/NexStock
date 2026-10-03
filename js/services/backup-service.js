@@ -16,6 +16,14 @@ export class BackupValidationError extends Error {
   }
 }
 
+export class BackupRestoreError extends Error {
+  constructor(code, message, options) {
+    super(message, options);
+    this.name = "BackupRestoreError";
+    this.code = code;
+  }
+}
+
 function invalid(code, message) {
   throw new BackupValidationError(code, message);
 }
@@ -39,6 +47,17 @@ function base64ToBlob(value, mimeType) {
   const binary = globalThis.atob(value);
   const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
   return new Blob([bytes], { type: mimeType });
+}
+
+function backupMediaToRecord(record) {
+  return {
+    id: record.id,
+    workspaceId: record.workspaceId,
+    productId: record.productId,
+    altText: record.altText,
+    mimeType: record.mimeType,
+    blob: base64ToBlob(record.contentBase64, record.mimeType),
+  };
 }
 
 async function serializeMedia(records) {
@@ -195,18 +214,41 @@ export class BackupService {
         ? [...validation.backup.data[name].map((record) => structuredClone(record)), ...localSnapshots.map((record) => structuredClone(record))]
         : validation.backup.data[name].map((record) => structuredClone(record)),
     ]));
-    await this.provider.replaceWorkspaceData({
-      workspaceId,
-      expectedUpdatedAt: inspection.expectedUpdatedAt,
-      collections,
-    });
-    if (this.mediaService && validation.backup.media.included) {
-      const currentMedia = await this.mediaService.listByWorkspace(workspaceId);
-      await Promise.all(currentMedia.map(({ productId }) => this.mediaService.remove(workspaceId, productId)));
-      for (const record of validation.backup.media.records) {
-        await this.mediaService.setImage({ workspaceId, productId: record.productId, file: base64ToBlob(record.contentBase64, record.mimeType), altText: record.altText });
+    const mediaRecords = validation.backup.media.included ? validation.backup.media.records.map(backupMediaToRecord) : null;
+    if (mediaRecords && this.provider.supportsAtomicMediaRestore) {
+      try {
+        await this.provider.replaceWorkspaceBackup({ workspaceId, expectedUpdatedAt: inspection.expectedUpdatedAt, collections, mediaRecords });
+      } catch (error) {
+        throw new BackupRestoreError("media-restore-failed", "Backup restore failed before commit. Previous data and media remain unchanged.", { cause: error });
       }
+    } else {
+      await this.#restoreWithCompensation({ workspaceId, expectedUpdatedAt: inspection.expectedUpdatedAt, collections, mediaRecords });
     }
     return structuredClone(validation.workspace);
+  }
+
+  async #restoreWithCompensation({ workspaceId, expectedUpdatedAt, collections, mediaRecords }) {
+    if (!mediaRecords || !this.mediaService) {
+      await this.provider.replaceWorkspaceData({ workspaceId, expectedUpdatedAt, collections });
+      return;
+    }
+    const previousMedia = await this.mediaService.listByWorkspace(workspaceId);
+    const restorePreviousMedia = async () => {
+      const current = await this.mediaService.listByWorkspace(workspaceId);
+      for (const record of current) await this.mediaService.remove(workspaceId, record.productId);
+      for (const record of previousMedia) await this.mediaService.setImage({ workspaceId, productId: record.productId, file: record.blob, altText: record.altText });
+    };
+    try {
+      for (const record of previousMedia) await this.mediaService.remove(workspaceId, record.productId);
+      for (const record of mediaRecords) await this.mediaService.setImage({ workspaceId, productId: record.productId, file: record.blob, altText: record.altText });
+      await this.provider.replaceWorkspaceData({ workspaceId, expectedUpdatedAt, collections });
+    } catch (error) {
+      try {
+        await restorePreviousMedia();
+      } catch (rollbackError) {
+        throw new BackupRestoreError("media-rollback-failed", "Backup restore failed and previous media could not be recovered.", { cause: rollbackError });
+      }
+      throw new BackupRestoreError("media-restore-failed", "Backup restore was cancelled and previous media was recovered.", { cause: error });
+    }
   }
 }

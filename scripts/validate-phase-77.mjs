@@ -18,8 +18,8 @@ const worker = readFileSync(join(root, "service-worker.js"), "utf8");
 const policy = readFileSync(join(root, "docs/project/release-candidate-policy.md"), "utf8");
 const cycle = readFileSync(join(root, "docs/project/cycle-077-phase-77.md"), "utf8");
 
-const finalRelease = packageVersion === "2.0.0" && existsSync(join(root, "scripts/validate-phase-78.mjs"));
-if (packageVersion !== "2.0.0-rc.1" && !finalRelease) throw new Error(`RC esperado 2.0.0-rc.1 ou release final auditada; package.json contém ${packageVersion}.`);
+const finalRelease = /^2\.0\.\d+$/u.test(packageVersion) && existsSync(join(root, "scripts/validate-phase-78.mjs"));
+if (packageVersion !== "2.0.0-rc.1" && !finalRelease) throw new Error(`RC esperado 2.0.0-rc.1 ou manutenção 2.0.x auditada; package.json contém ${packageVersion}.`);
 if (!core.includes(`APP_VERSION = \"${packageVersion}\"`)) throw new Error("Versão RC ausente do núcleo.");
 if (!worker.includes(`APP_VERSION = \"${packageVersion}\"`) || !worker.includes(`nexstock-shell-v${packageVersion}-`)) throw new Error("Versão RC ou cache PWA incoerente.");
 

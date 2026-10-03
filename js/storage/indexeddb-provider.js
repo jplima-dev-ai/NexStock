@@ -57,6 +57,7 @@ export class IndexedDBProvider extends DataProvider {
     this.version = version;
     this.onBlocked = onBlocked;
     this.onVersionChange = onVersionChange;
+    this.supportsAtomicMediaRestore = true;
   }
 
   async open() {
@@ -246,11 +247,13 @@ export class IndexedDBProvider extends DataProvider {
     await completion;
   }
 
-  async replaceWorkspaceData({ workspaceId, expectedUpdatedAt, collections }) {
+  async #replaceWorkspace({ workspaceId, expectedUpdatedAt, collections, mediaRecords = null }) {
     if (!workspaceId || !collections?.workspaces?.length) {
       throw new TypeError("A complete workspace backup is required.");
     }
-    const storeNames = Object.keys(collections).map(assertStoreName);
+    if (mediaRecords !== null && !Array.isArray(mediaRecords)) throw new TypeError("Media records must be an array.");
+    const allCollections = mediaRecords === null ? collections : { ...collections, media: mediaRecords };
+    const storeNames = Object.keys(allCollections).map(assertStoreName);
     const transaction = this.#requireDatabase().transaction(storeNames, "readwrite");
     const completion = transactionToPromise(transaction);
 
@@ -272,7 +275,7 @@ export class IndexedDBProvider extends DataProvider {
         };
       })));
 
-      for (const [storeName, records] of Object.entries(collections)) {
+      for (const [storeName, records] of Object.entries(allCollections)) {
         const store = transaction.objectStore(storeName);
         for (const record of records) store.put(record);
       }
@@ -282,5 +285,13 @@ export class IndexedDBProvider extends DataProvider {
       await completion.catch(() => {});
       throw error;
     }
+  }
+
+  async replaceWorkspaceData(options) {
+    return this.#replaceWorkspace(options);
+  }
+
+  async replaceWorkspaceBackup(options) {
+    return this.#replaceWorkspace(options);
   }
 }

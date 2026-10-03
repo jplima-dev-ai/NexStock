@@ -6,7 +6,7 @@ NexStock é uma PWA local-first que transforma registros de estoque em uma
 leitura compreensível: situação atual, prioridades, histórico, estimativas
 explicáveis e simulações que não alteram os dados reais.
 
-Versão atual: `2.0.0 — Calm Intelligence`. Fases 0 a 78 concluídas e os 40
+Versão atual: `2.0.1 — manutenção Calm Intelligence`. Fases 0 a 78 concluídas e os 40
 critérios finais do blueprint v1.2 possuem evidência automatizada. O NexStock
 continua uma PWA local-first, estática, offline e utilizável sem backend.
 
@@ -17,8 +17,8 @@ continua uma PWA local-first, estática, offline e utilizável sem backend.
 - [Guia de início](docs/getting-started.md)
 - [Arquitetura](docs/architecture/overview.md)
 - [Implantação no GitHub Pages](docs/deployment/github-pages.md)
-- [Blueprint mestre v1.1](NEXSTOCK-BLUEPRINT-v1.1.md)
-- [Continuação oficial v1.2](NEXSTOCK-BLUEPRINT-v1.2.md)
+- Os blueprints v1.1 e v1.2 são referências externas de desenvolvimento e não
+  fazem parte do aplicativo nem desta distribuição.
 
 ![Cena institucional do NexStock com a mascote organizando unidades de estoque](assets/brand/scenes/nexstock-brand-scene-16x9.jpg)
 

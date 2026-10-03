@@ -60,6 +60,6 @@ const cycle = read("docs/project/cycle-078-phase-78.md");
 for (const file of ["docs/releases/v2.0.0.md", "tests/unit/release-version.test.js"]) {
   if (!existsSync(join(root, file))) throw new Error(`Evidência final ausente: ${file}.`);
 }
-if (packageVersion !== "2.0.0" || !core.includes('APP_VERSION = "2.0.0"') || !worker.includes("nexstock-shell-v2.0.0-")) throw new Error("Versão final 2.0.0 incoerente.");
+if (!/^2\.0\.\d+$/u.test(packageVersion) || !core.includes(`APP_VERSION = "${packageVersion}"`) || !worker.includes(`nexstock-shell-v${packageVersion}-`)) throw new Error("Versão 2.0.x incoerente.");
 if (!/APROVADO/u.test(cycle)) throw new Error("Gate da Fase 78 não foi registrado.");
 process.stdout.write("Fase 78: 40 critérios de release do NexStock 2.0 comprovados.\n");

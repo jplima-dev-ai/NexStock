@@ -1,5 +1,5 @@
-const APP_VERSION = "2.0.0";
-const CACHE_NAME = "nexstock-shell-v2.0.0-calm-intelligence-release-phase42-phase78";
+const APP_VERSION = "2.0.1";
+const CACHE_NAME = "nexstock-shell-v2.0.1-calm-intelligence-maintenance-phase42-phase78";
 const SHELL_RESOURCES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/tokens.css", "./css/reset.css", "./css/base.css", "./css/accessibility.css", "./css/components.css", "./css/layout.css", "./css/responsive.css",

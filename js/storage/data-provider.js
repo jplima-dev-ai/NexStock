@@ -41,4 +41,5 @@ export class DataProvider {
   async delete() { return notImplemented("delete"); }
   async deleteWorkspace() { return notImplemented("deleteWorkspace"); }
   async replaceWorkspaceData() { return notImplemented("replaceWorkspaceData"); }
+  async replaceWorkspaceBackup() { return notImplemented("replaceWorkspaceBackup"); }
 }

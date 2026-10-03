@@ -26,6 +26,60 @@ class MemoryProvider {
   }
 }
 
+class AtomicMediaProvider extends MemoryProvider {
+  constructor() {
+    super();
+    this.stores.set("media", new Map());
+    this.supportsAtomicMediaRestore = true;
+    this.failMediaAt = 0;
+  }
+
+  async replaceWorkspaceBackup({ workspaceId, expectedUpdatedAt, collections, mediaRecords }) {
+    const before = structuredClone(this.stores);
+    try {
+      const current = await this.get("workspaces", workspaceId);
+      if (current.updatedAt !== expectedUpdatedAt) throw new Error("conflict");
+      let mediaWrites = 0;
+      for (const store of [...stores, "media"]) {
+        if (store === "workspaces") this.stores.get(store).set(workspaceId, structuredClone(collections[store][0]));
+        else {
+          for (const [id, record] of this.stores.get(store)) if (record.workspaceId === workspaceId) this.stores.get(store).delete(id);
+          for (const record of store === "media" ? mediaRecords : collections[store]) {
+            if (store === "media" && this.failMediaAt && ++mediaWrites === this.failMediaAt) throw new Error("media write failed");
+            this.stores.get(store).set(record.id, structuredClone(record));
+          }
+        }
+      }
+      this.replacements += 1;
+    } catch (error) {
+      this.stores = before;
+      throw error;
+    }
+  }
+}
+
+function mediaSummary(provider, workspaceId) {
+  return [...provider.stores.get("media").values()]
+    .filter((record) => record.workspaceId === workspaceId)
+    .map(({ id, workspaceId: recordWorkspaceId, productId, altText, mimeType }) => ({ id, workspaceId: recordWorkspaceId, productId, altText, mimeType }))
+    .sort((left, right) => left.id.localeCompare(right.id));
+}
+
+async function atomicMediaFixture() {
+  const { provider: source } = fixture();
+  const provider = new AtomicMediaProvider();
+  for (const store of stores) provider.seed(store, [...source.stores.get(store).values()]);
+  provider.seed("products", [{ id: "p2", workspaceId: "w1", nexCode: "NX-002", name: "Segundo produto", categoryId: "c1", supplierId: "s1", currentQuantity: 3 }]);
+  provider.seed("media", [
+    { id: "media-1", workspaceId: "w1", productId: "p1", altText: "Imagem original 1", mimeType: "image/png", blob: new Blob(["one"], { type: "image/png" }) },
+    { id: "media-2", workspaceId: "w1", productId: "p2", altText: "Imagem original 2", mimeType: "image/png", blob: new Blob(["two"], { type: "image/png" }) },
+    { id: "media-w2", workspaceId: "w2", productId: "outside", altText: "Outro espaço", mimeType: "image/png", blob: new Blob(["outside"], { type: "image/png" }) },
+  ]);
+  const mediaService = { listByWorkspace: (workspaceId) => provider.getAll("media", { index: "workspaceId", query: workspaceId }) };
+  const service = new BackupService({ provider, mediaService, now: () => new Date("2026-09-25T12:00:00.000Z") });
+  return { provider, service };
+}
+
 function fixture() {
   const provider = new MemoryProvider();
   provider.seed("workspaces", [{ id: "w1", name: "Loja Centro", updatedAt: "2026-09-20T00:00:00.000Z" }, { id: "w2", name: "Outro", updatedAt: "2026-09-20T00:00:00.000Z" }]);
@@ -103,6 +157,32 @@ test("NexBackup serializa e restaura mídia sem Base64 no produto", async () => 
   await service.restore("w1", await service.inspect("w1", backup.content));
   assert.equal(records.get("p1").altText, "SSD visto de frente");
 });
+
+test("restore atômico aplica dados e mídias juntos e isola outro workspace", async () => {
+  const { provider, service } = await atomicMediaFixture();
+  const backup = await service.create("w1");
+  provider.stores.get("products").get("p1").name = "Alterado";
+  provider.stores.get("media").get("media-1").altText = "Mídia alterada";
+  await service.restore("w1", await service.inspect("w1", backup.content));
+  assert.equal((await provider.get("products", "p1")).name, "Produto");
+  assert.deepEqual(mediaSummary(provider, "w1").map((record) => record.altText), ["Imagem original 1", "Imagem original 2"]);
+  assert.deepEqual(mediaSummary(provider, "w2").map((record) => record.altText), ["Outro espaço"]);
+});
+
+for (const failMediaAt of [1, 2]) {
+  test(`restore atômico recupera estado anterior quando a gravação da mídia ${failMediaAt === 1 ? "inicial" : "posterior"} falha`, async () => {
+    const { provider, service } = await atomicMediaFixture();
+    const backup = await service.create("w1");
+    provider.stores.get("products").get("p1").name = "Estado anterior";
+    provider.stores.get("media").get("media-1").altText = "Mídia anterior";
+    const beforeProduct = await provider.get("products", "p1");
+    const beforeMedia = mediaSummary(provider, "w1");
+    provider.failMediaAt = failMediaAt;
+    await assert.rejects(service.restore("w1", await service.inspect("w1", backup.content)), (error) => error.code === "media-restore-failed");
+    assert.deepEqual(await provider.get("products", "p1"), beforeProduct);
+    assert.deepEqual(mediaSummary(provider, "w1"), beforeMedia);
+  });
+}
 
 test("restauração usa a prévia validada e reproduz o estado do backup", async () => {
   const { service, provider } = fixture();

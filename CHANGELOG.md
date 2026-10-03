@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.0.1 — 2026-10-03 — Manutenção corretiva
+
+### Fixed
+
+- Torna a restauração de NexBackup atômica entre dados estruturados e Product
+  Media no IndexedDB. Falhas ao gravar mídia abortam a transação sem apagar a
+  mídia ou os dados anteriores; providers sem transação conjunta usam
+  compensação e informam a recuperação ao usuário.
+- Corrige a cópia e a prévia de backup para informar mídia incluída e falhas de
+  restauração em pt-BR, en-US e es.
+
+### Technical
+
+- Consolida o pipeline canônico: `npm run validate` executa todos os gates das
+  Fases 25 a 78, incluindo a Fase 59, e é reutilizado pela CI e pelo clone
+  limpo.
+- Permite patches 2.0.x nos validadores históricos da release 2.0.0, mantendo
+  as evidências dessa formalização.
+
 ## 2.0.0 — 2026-09-29 — Calm Intelligence
 
 ### Added
@@ -108,7 +127,7 @@
 - Adiciona sinais determinísticos de risco e inatividade, explicações reproduzíveis e linhagem de produto e movimentações-fonte.
 - Evolui NexPulse: texto primeiro; pontuação somente com dimensões, dados disponíveis e limites explícitos.
 
-## Unreleased — v1.3.0 Operational Speed
+## 1.3.0 — Operational Speed
 
 ### Added
 

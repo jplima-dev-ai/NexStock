@@ -9,8 +9,10 @@ npm run validate
 O comando verifica estrutura estática, identidade visual, design system,
 idiomas, persistência, perfis, produtos, movimentações, dashboard, insights,
 narrativa, simulações, campos, módulos, busca, segurança, PWA, responsividade,
-banco de dados, portfólio, as baselines das Fases 25 a 34, testes unitários e
-E2E em Chromium real.
+banco de dados, portfólio, todos os gates das Fases 25 a 78 — inclusive Audit
+Explorer (Fase 59) e as Fases 60 a 73 —, testes unitários e E2E em Chromium
+real. Esta é a cadeia canônica usada localmente, no clone limpo e no GitHub
+Actions; a CI não mantém uma lista paralela de fases.
 
 ## Navegador real e acessibilidade automatizada
 
@@ -49,7 +51,8 @@ navegador já instalado na máquina. Ela cobre:
 - Export Center com isolamento por workspace, filtros, campos permitidos,
 
 - NexBackup com JSON versionado, validação de estrutura e referências,
-  confirmação acessível e restauração transacional por workspace;
+  confirmação acessível e restauração transacional de dados e Product Media por
+  workspace; uma falha de mídia não confirma um estado parcialmente aplicado.
   download CSV e JSON, proteção contra fórmulas e impressão da prévia.
 
 O gate automatizado bloqueia violações axe de impacto sério ou crítico. Isso

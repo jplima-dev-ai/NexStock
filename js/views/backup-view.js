@@ -33,7 +33,7 @@ function createSummary(inspection, t) {
     [t("backupCenter.workspace"), inspection.workspace.name],
     [t("backupCenter.generatedAt"), new Date(inspection.generatedAt).toLocaleString()],
     [t("backupCenter.recordCount"), t("backupCenter.recordCountValue", { count: inspection.totalRecords })],
-    [t("backupCenter.media"), t("backupCenter.mediaUnavailable")],
+    [t("backupCenter.media"), inspection.backup.media.included ? t("backupCenter.mediaIncluded", { count: inspection.backup.media.records.length }) : t("backupCenter.mediaUnavailable")],
   ]) {
     const row = document.createElement("div");
     row.append(text("dt", label), text("dd", value));
@@ -118,9 +118,12 @@ export function createBackupCenterView({ t, workspace, service, snapshotService,
           const restored = await service.restore(workspace.id, inspection);
           result.replaceChildren(createAlert({ title: t("backupCenter.successTitle"), message: t("backupCenter.successMessage", { count: inspection.totalRecords }), tone: "success" }));
           await onRestored(restored);
-        } catch {
+        } catch (error) {
           cancel.disabled = false; confirm.disabled = false;
-          feedback.replaceChildren(createAlert({ message: t("backupCenter.restoreError"), tone: "danger", urgent: true }));
+          const message = error?.code === "media-rollback-failed"
+            ? t("backupCenter.mediaRollbackError")
+            : error?.code === "media-restore-failed" ? t("backupCenter.mediaRestoreError") : t("backupCenter.restoreError");
+          feedback.replaceChildren(createAlert({ message, tone: "danger", urgent: true }));
         }
       } });
       actions.append(cancel, confirm);

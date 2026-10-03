@@ -45,7 +45,7 @@ for (const [criterion, file, fragment] of evidence) {
   if (!existsSync(join(root, file)) || !read(file).includes(fragment)) throw new Error(`Release 1.0 sem evidência para ${criterion}: ${file}`);
 }
 const currentVersion = JSON.parse(read("package.json")).version;
-if (!/^(?:1\.(?:0|[1-9]\d*)\.\d+|2\.0\.0(?:-rc\.\d+)?)$/u.test(currentVersion)) throw new Error("A baseline 1.0 só pode ser validada em uma release compatível ou na versão 2.0.");
+if (!/^(?:1\.(?:0|[1-9]\d*)\.\d+|2\.0\.\d+(?:-rc\.\d+)?)$/u.test(currentVersion)) throw new Error("A baseline 1.0 só pode ser validada em uma release compatível ou na versão 2.0.");
 if (evidence.length !== 35) throw new Error(`Matriz da Release 1.0 deve conter 35 critérios; recebeu ${evidence.length}.`);
 
 process.stdout.write("Baseline 1.0: 35 critérios do blueprint permanecem verificáveis.\n");
